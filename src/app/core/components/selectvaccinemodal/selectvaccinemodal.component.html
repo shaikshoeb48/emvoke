@@ -1,0 +1,17 @@
+<div>
+    <button type="button" class="close close-position" (click)="closeModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <ul style="list-style-type:none;overflow-y: auto;height: 400px;padding:10px;">
+      <li *ngFor="let vaccine of vaccines.options">
+        <input class="checkbox" type="checkbox" (change)="vaccineSelected(vaccine)" value="{{vaccine.option_name}}"><label class="vacci-name">{{vaccine.option_name}}</label>
+        <span [style.color]= "vaccine.option_status == 'Active' ? 'green' : vaccine.option_status == 'Inactive' ? 'red': 'yellow'" class="status">{{vaccine.option_status}}</span>
+       
+      </li>
+    </ul>
+  
+   
+   
+    <button id="add"(click)="giveSelectedVaccine()"class="btn btn-primary">Give</button>
+   
+  </div>

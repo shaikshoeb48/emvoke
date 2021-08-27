@@ -1,0 +1,45 @@
+<app-header [paymentPending]="true"></app-header>
+
+  <div class="row">
+    <div class="col-12 pt-3 px-5">
+      <button class="btn btn-outline-primary float-right" (click)="logout()" type="submit">Logout</button>
+    </div>
+  </div>
+<section class="pricing">
+  <div class="container">
+    <div class="text-center">
+      <h2>Simple Pricing for Everyone</h2>
+      <h6 class="mt-3">Fully operational account starting from Rs-5000/month</h6>
+    </div>
+    <!-- <div class="row justify-content-center m-4">
+      <div class="chip" *ngFor="let doctorsCnt of doctorsCntArray; let i=index" (click)="selectDoctor(doctorsCnt)" [ngClass]="{'doctor-selected': selectedNumDocs == doctorsCnt}">
+        <i class="fa fa-user-circle"></i>
+        {{doctorsCnt}} Doctor
+      </div>
+    </div> -->
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 box-shadow" *ngFor="let plan of plans; let i=index">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">{{plan.plan_name}}</h4>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h2 class="card-title pricing-card-title card-content">₹{{plan.plan_price}}<small class="text-muted">/month</small></h2>
+          <!-- <h2 class="card-title pricing-card-title card-content">$0 <small class="text-muted">/month</small></h2> -->
+          <p>Doctors available: {{plan.min_subscription}}</p>
+          <div>
+            <label>Additional Doctors</label>
+            <input type="text" (input)="addDoctors($event, i)" value="0" />
+            <p  *ngIf="plan.error">Please enter a valid number</p>
+          </div>
+          <button type="button" class="mt-auto btn btn-lg btn-block btn-primary" [disabled]="plan.error" (click)="createOrder(plan)">Get Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div #payCont>
+
+</div>
+
+

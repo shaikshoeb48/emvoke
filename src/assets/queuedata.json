@@ -1,0 +1,158 @@
+[
+  {
+    "title": "Dr.Arun",
+    "id": "arun",
+    "patients": [
+      {
+        "id": "1010",
+        "name": "Anil Kumar",
+        "gender": "Male",
+        "age": "30",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "101",
+        "status": "With-Doctor",
+        "mode": "Walk-in",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "In-consult",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      },
+      {
+        "id": "1010",
+        "name": "Suresh Kumar",
+        "gender": "Male",
+        "age": "30",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "101",
+        "status": "Seen",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "Waiting time",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      },
+      {
+        "id": "1010",
+        "name": "Senthil Kumar",
+        "gender": "Male",
+        "age": "30",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "101",
+        "status": "Queue",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "Waiting time",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      },
+      {
+        "id": "1010",
+        "name": "Pooja",
+        "gender": "Female",
+        "age": "22",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "101",
+        "status": "Cancelled",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "Waiting time",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      },
+      {
+        "id": "1010",
+        "name": "Pooja",
+        "gender": "Female",
+        "age": "22",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "101",
+        "status": "Cancelled",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "Waiting time",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      }
+    ]
+  },
+  {
+    "title": "Dr.Geetha",
+    "id": "lalit",
+    "patients": [
+      {
+        "id": "2010",
+        "name": "Vinay Kumar",
+        "gender": "Male",
+        "age": "30",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "201",
+        "status": "Seen",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "Waiting time",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      }
+    ]
+  },
+  {
+    "title": "Dr.Shwetha",
+    "id": "shwetha",
+    "patients": [
+      {
+        "id": "3010",
+        "name": "Rahul",
+        "gender": "Male",
+        "age": "20",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "301",
+        "status": "With-Doctor",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "In-consult",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      }
+    ]
+  },
+  {
+    "title": "Dr.Vinoth Kumar",
+    "id": "vinoth",
+    "patients": [
+      {
+        "id": "4010",
+        "name": "Anitha",
+        "gender": "Female",
+        "age": "30",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "34324324",
+        "status": "Queue",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "In-consult",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      }
+    ]
+  },
+  {
+    "title": "Dr.Kiran Kumar",
+    "id": "kiran",
+    "patients": [
+      {
+        "id": "4010",
+        "name": "Pavithra",
+        "gender": "Female",
+        "age": "30",
+        "contactNo": "+91-9876543210",
+        "tokenNo": "34324324",
+        "status": "Queue",
+        "mode": "Online",
+        "consultingFee": "Rs.2000",
+        "consultStatus": "In-consult",
+        "inConsult": "20 min",
+        "waitingTime": "10 min"
+      }
+    ]
+  }
+]

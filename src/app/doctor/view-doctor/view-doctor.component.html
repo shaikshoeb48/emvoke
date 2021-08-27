@@ -1,0 +1,588 @@
+<h4 mat-dialog-title>
+    <mat-toolbar role="toolbar" class="task-header">
+        <span class="head-span">Profile</span>
+        <span class="fx-spacer"></span>
+
+        <div *ngIf="role == 'admin' ">
+
+            <mat-slide-toggle [checked]="isActive" (change)="callDoctorClinicAPI($event)"></mat-slide-toggle>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Drag and Drop Menu">
+              <mat-icon class="text-title">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="callDoctorClinicAPI('unlink')">
+            <span>Delete doctor permanently</span>
+          </button>
+            </mat-menu>
+
+        </div>
+
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+    </mat-toolbar>
+</h4>
+
+<div>
+    <div>
+        <div>
+            <div class="edit_profile_m_body">
+                <div class="container" style="padding: 0px;">
+                    <div class="row profile">
+                        <div class="col-md-3 edit_profile_m_sidenav">
+                            <div class="profile-sidebar">
+                                <div class="profile-userpic">
+                                    <span class="edit_profile_dot">
+                    <img class="profile_cam_icon" src="assets/profile_cam_icon.svg" alt="">
+                  </span>
+                                </div>
+                                <!-- END SIDEBAR BUTTONS -->
+                                <!-- SIDEBAR MENU -->
+                                <div class="profile-usermenu">
+                                    <ul class="nav edit_profile_link_side">
+                                        <li [ngClass]="{'active': selectedMenu === 'gen'}" (click)="switchView('gen')">
+                                            <a>
+                        Personal Information </a>
+                                        </li>
+                                        <li [ngClass]="{'active': selectedMenu === 'edu'}" (click)="switchView('edu')">
+                                            <a>
+                        Educational Information </a>
+                                        </li>
+                                        <li [ngClass]="{'active': selectedMenu === 'med'}" (click)="switchView('med')">
+                                            <a>
+                        Medical Practice Details </a>
+                                        </li>
+                                        <li [ngClass]="{'active': selectedMenu === 'sch'}" (click)="switchView('sch')">
+                                            <a>
+                        Scheduling </a>
+                                        </li>
+                                        <li [ngClass]="{'active': selectedMenu === 'leave'}" (click)="switchView('leave')">
+                                            <a>
+                        Out of office </a>
+                                        </li>
+                                        <li [ngClass]="{'active': selectedMenu === 'spec'}" (click)="switchView('spec')">
+                                            <a>
+                        Special Timings </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- END MENU -->
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+
+                            <div class="dialog-content" id="viewDoctor">
+                                <div *ngIf="selectedMenu === 'gen' ">
+                                    <div class="info_div row" style="margin-bottom: 15px;margin-top: 15px;">
+                                        <div class="col-md-1" style="padding: 13px;text-align: center;">
+                                            <div class="icon_div_round">
+                                                <img src="assets/contact.png" alt="icon" class="doc_icon">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11" style="text-align:left;padding:6px;">
+                                            <h6>Personal Information</h6>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-6">First Name</label>
+                                            <span class="col-lg-6 doc_info">{{doctorData?.first_name}}</span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-6">Last Name</label>
+                                            <span class="col-lg-6 doc_info">{{doctorData?.last_name}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                        <!-- <div class="col-lg-6">
+                                            <label class="col-lg-6">Phone Number</label>
+                                            <span class="col-lg-6 doc_info">{{doctorData?.phone_number}}</span>
+                                        </div> -->
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-5">Email</label>
+                                            <span class="col-lg-7 doc_info">{{doctorData?.email}}</span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-6">Date of Birth</label>
+                                            <span class="col-lg-8 doc_info">{{doctorData?.date_of_birth | date: 'dd/MM/yyyy'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-6">Gender</label>
+                                            <span class="col-lg-8 doc_info">{{doctorData?.gender}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 row pl-4" style="margin-top: 10px;margin-bottom: 10px;">
+                                        <h6>Contact Details</h6>
+                                    </div>
+                                    <div>
+                                        <div class="col-lg-12 row" *ngFor="let contact of doctorData?.contact_details" style="margin-top: 10px;margin-bottom: 10px;">
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-6">Phone Type</label>
+                                                <span class="col-lg-8 doc_info">{{contact?.phone_type}}</span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-6">Phone Number</label>
+                                                <span class="col-lg-8 doc_info"><span class="doc_info p-1">{{contact?.country_code}}</span> {{contact?.phone_number}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div *ngIf="selectedMenu === 'edu' ">
+                                    <div class="info_div row" style="margin-top: 15px;margin-bottom: 15px;">
+                                        <div class="col-md-1" style="padding: 13px;text-align: center;">
+                                            <div class="icon_div_round">
+                                                <img src="assets/medal.png" alt="icon" class="doc_icon">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11" style="text-align:left;padding:6px;">
+                                            <h6>Education Details</h6>
+                                        </div>
+                                    </div>
+                                    <div *ngFor="let education of doctorData.education_details">
+                                        <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-4">College</label>
+                                                <span class="col-lg-8 doc_info">{{ education.college }}</span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-4">University</label>
+                                                <span class="col-lg-8 doc_info">{{ education.university }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-4">Degree</label>
+                                                <span class="col-lg-8 doc_info">{{ education.degree }}</span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-8">Year of Completion</label>
+                                                <span class="col-lg-4 doc_info">{{ education.passing_year }}</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                        <div class="col-lg-12">
+                                            <label class="col-lg-4">Years of Experience</label>
+                                            <span class="col-lg-8 doc_info">{{doctorData.years_of_experience}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div *ngIf="selectedMenu === 'med' ">
+                                    <div class="info_div row" style="margin-top: 15px;margin-bottom: 15px;">
+                                        <div class="col-md-1" style="padding: 13px;text-align: center;">
+                                            <div class="icon_div_round">
+                                                <img src="assets/doctor_s.png" alt="icon" class="doc_icon">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11" style="text-align:left;padding:6px;">
+                                            <h6>Medical Practice Details</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-5">Medical No</label>
+                                            <span class="col-lg-7 doc_info"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-4">Year</label>
+                                            <span class="col-lg-8 doc_info"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 row" style="margin-top: 10px;margin-bottom: 10px;">
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-4">Specialization</label>
+                                            <span class="col-lg-8 doc_info">{{doctorData.specialization}}</span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="col-lg-4">Speciality</label>
+                                            <span class="col-lg-8 doc_info">{{doctorData.speciality}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div *ngIf="selectedMenu === 'sch' ">
+
+                                    <div class="schedule_div_head">
+                                        <p style="font-size:18px;">Scheduling</p>
+                                    </div>
+
+                                    <div class="row days_div">
+                                        <div class="col-md-12">
+                                            <ul class="days_list">
+                                                <li class="day" [ngClass]="{'activeDay': activeday == day.short_name}" *ngFor="let day of days" (click)="selectDay(day)" [ngStyle]="day.noOfSch && {'background-color': '#B3D3EA'}">
+                                                    {{day.short_name}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <p>Online Fee:</p>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="tel" #onlineFeeVal [value]="onlineFee" (change)="setFee(onlineFeeVal.value, 'online')">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <p>Offline Fee:</p>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="tel" #offlineFeeVal [value]="offlineFee" (change)="setFee(offlineFeeVal.value, 'offline')">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slot_div">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div style="float:left;width:40%;padding:10px;">
+                                                            <img src="assets/calendar.png" alt="calendar">
+                                                        </div>
+                                                        <div style="float:right;width:60%;padding:12px;">
+                                                            <span>{{ days[day].long_name }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-5" style="margin-top: 3px">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-6 col-form-label">Slot Duration</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="number" #estVal (change)="setEST(estVal.value)" value="{{ est }}" placeholder="Minutes" max="60" class="form-control form-control-sm">
+                                                                <small *ngIf="estMsg" class="text-danger">{{ estMsg }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3" style="margin-top: 3px">
+                                                        <button class="btn btn-sm btn-primary" (click)="addSlot()">Add Slot</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2" style="padding-left:22px;color:#888ea4;">
+                                                <p>Mode</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p style="color: #888ea4;">Start Time</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p style="color: #888ea4;">End Time</p>
+                                            </div>
+                                            <div class="col-md-6"></div>
+                                        </div>
+                                        <p class="text-secondary text-center" *ngIf="!tempSlots.length">No Slots Created.</p>
+                                        <div *ngFor="let slot of tempSlots; let i=index">
+                                            <div class="row slots" *ngIf="day == slot.day" style="margin-bottom:10px;">
+                                                <div class="col-md-2">
+                                                    <!-- <p>Mode</p> -->
+                                                    <select id="units" class="unit_dropdown" (change)="selectMode($event.target.value, i)">
+                            <option *ngFor="let mode of modes" [selected]="slot.mode == mode" [value]="mode"> {{ mode }}</option>
+                          </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control form-control-sm" [ngxTimepicker]="startPicker" placeholder="Start Time" [value]="tempSlots[i].start.time">
+                                                    <ngx-material-timepicker #startPicker (timeSet)="submitTime('start', $event, i)"></ngx-material-timepicker>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control form-control-sm" [ngxTimepicker]="endPicker" placeholder="End Time" [value]="tempSlots[i].end.time">
+                                                    <ngx-material-timepicker #endPicker (timeSet)="submitTime('end', $event, i)"></ngx-material-timepicker>
+                                                </div>
+
+                                                <!--  <material-timepicker color="secondary" #startTime (change)="submitTime('start', $event, i)" [userTime]="tempSlots[i].start" 
+                          revertLabel="Remove" submitLabel="Ok" style="margin-right: 4px ;">
+                          
+                        </material-timepicker>
+                        
+                        <material-timepicker color="secondary" #endTime (change)="submitTime('end', $event, i)" [userTime]="tempSlots[i].end"
+                         revertLabel="Remove" submitLabel="Ok"></material-timepicker>  -->
+                                                <!--  <div class="col-md-2">
+                           <input type="tel" class="form-control form-control-sm" placeholder="Hours">
+                        </div>
+                        <div class="col-md-2">
+                          <input type="tel" class="form-control form-control-sm" placeholder="Min">
+                        </div> -->
+
+                                                <div class="col-md-1">
+
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm p-1 repeat dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Repeat</button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="7" [checked]="customizeOption[i][7]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">All days</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="0" [checked]="customizeOption[i][0]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Sunday</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="1" [checked]="customizeOption[i][1]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Monday</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="2" [checked]="customizeOption[i][2]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Tuesday</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="3" [checked]="customizeOption[i][3]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Wednesday</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="4" [checked]="customizeOption[i][4]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Thursday</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="5" [checked]="customizeOption[i][5]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Friday</label>
+                                                            </div>
+                                                            <div class="form-check ml-1">
+                                                                <input class="form-check-input" type="checkbox" value="6" [checked]="customizeOption[i][6]" (change)="repeatSlot($event.target.value, i)">
+                                                                <label class="form-check-label">Saturday</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-sm btn-success p-1" (click)="saveSlot(i)" [disabled]="tempSlots[i].saved">
+                            {{ tempSlots[i].saved ? 'Saved' : 'Save' }}
+                          </button>
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-sm btn-danger p-1" (click)="deleteSlot(i)">
+                            Delete
+                          </button>
+                                                </div>
+                                                <div class="col-sm-1">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <!-- Create Leaves -->
+                                <div *ngIf="selectedMenu === 'leave' ">
+
+                                    <div class="profile-content">
+                                        <!--  -->
+                                        <div class="row">
+                                            <div class="col-sm-6" style="color: #100C74;font-weight: bold;">
+                                                <h6>Leaves</h6>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row" style="margin-top:20px">
+
+                                            <div class="col-sm-7">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label class="font">Reason</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <p>
+                                                            <select class="form-control form-control-sm" style="color: #070368;" (change)="setLeaveOption($event.target.value, 'leave')">
+                                        <option *ngFor="let val of Leaves" [selected]="leaveObj.leave === val">{{ val }}</option>
+                                      </select>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label class="font">Date From</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <p>
+                                                            <input style="color: #070368;" [value]="leaveObj.start_date" (change)="setLeaveOption($event.target.value, 'start_date')" type="date" class="form-control form-control-sm">
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label class="font">Date To</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <p>
+                                                            <input type="date" [value]="leaveObj.end_date" (change)="setLeaveOption($event.target.value, 'end_date')" class="form-control form-control-sm">
+                                                        </p>
+                                                    </div>
+                                                </div><br>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label class="font">Remarks</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <textarea class="form-control form-control-sm" (change)="setLeaveOption($event.target.value, 'remark')" [value]="leaveObj.remark"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-3">
+                                                    <button type="button" class="btn btn-success btn-sm btn-block" (click)="saveLeave()">
+                                  create leave
+                                </button>
+                                                </div>
+
+                                                <div class="row" style="margin-top: 25px;background-color: rgb(248, 247, 247);margin-left: 1px;">
+                                                    <div class="col">
+                                                        <span style="background-color:lightseagreen;" class="dot"></span>
+                                                        <label style="color:lightseagreen;">Casual Leave</label><br>
+                                                        <div *ngFor="let leave of savedLeaves; let i=index">
+                                                            <div class="row" style="padding: 0" *ngIf="leave.leave === 'Casual Leave' ">
+                                                                <div class="col-sm-6">
+                                                                    <p class="font">Date From: {{ leave.start_date }}</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <p class="font"> Date To: {{ leave.end_date }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="background-color: rgb(248, 247, 247);margin-left: 1px;margin-top: 4px;">
+                                                    <div class="col">
+                                                        <span style="background-color:rgb(235, 54, 54);" class="dot"></span>
+                                                        <label style="color:rgb(235, 54, 54);">Sick Leave</label><br>
+                                                        <div *ngFor="let leave of savedLeaves; let i=index">
+                                                            <div class="row" style="padding: 0" *ngIf="leave.leave === 'Sick Leave' ">
+                                                                <div class="col-sm-6">
+                                                                    <p class="font">Date From: {{ leave.start_date }}</p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <p class="font"> Date To: {{ leave.end_date }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-7">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- create Leaves end here -->
+
+
+                                <!-- special-timings -->
+                                <div *ngIf="selectedMenu === 'spec' ">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label for="leave">Reason</label>
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:10px;">
+                                                    <textarea class="form-control form-control-sm" (change)="setSpecialOption($event.target.value, 'reason')" [value]="specialTimingsObj.reason">
+                            </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col-md-4">
+                                                    <label for="leave">Time From:</label>
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:15px;">
+                                                    <input type="text" class="form-control form-control-sm" [ngxTimepicker]="startPickerSpec" placeholder="start Time" [value]="specialTimingsObj.start.time">
+                                                    <ngx-material-timepicker #startPickerSpec (timeSet)="setSpecialOption($event, 'start')"></ngx-material-timepicker>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col-md-4">
+                                                    <label for="leave">Time To:</label>
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:15px;">
+                                                    <input type="text" class="form-control form-control-sm" [ngxTimepicker]="endPickerSpec" placeholder="End Time" [value]="specialTimingsObj.end.time">
+                                                    <ngx-material-timepicker #endPickerSpec (timeSet)="setSpecialOption($event, 'end')"></ngx-material-timepicker>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col-md-4">
+                                                    <label for="leave">Mode</label>
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:15px;">
+                                                    <select id="units" class="unit_dropdown" (change)="setSpecialOption($event.target.value, 'mode')">
+                                    <option *ngFor="let mode of modes" [value]="mode" [selected]="specialTimingsObj.mode === mode"> {{ mode }}</option>
+                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top:12px;">
+                                                <div class="col-md-4">
+                                                    <label for="datefrom">Date</label>
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:10px;">
+                                                    <input type="date" [value]="specialTimingsObj.date" class="form-control form-control-sm" value="specialTimingsObj.date" (change)="setSpecialOption($event.target.value, 'date')">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-4">
+                                                    <label for="remark">Remarks</label>
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:10px;">
+                                                    <textarea class="form-control form-control-sm" (change)="setSpecialOption($event.target.value, 'remarks')" [value]="specialTimingsObj.remarks">
+                              </textarea>
+                                                </div>
+                                            </div><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button class="btn btn-success btn-block btn-sm" (click)="saveSpecialTimings()">
+                                Save Timings
+                              </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row mr-1" *ngFor="let timing of savedSpecialTimings">
+                                                <div class="col-sm-12 border mb-1">
+                                                    <p><b>Date : {{ timing.date }}</b></p>
+                                                    <p>
+                                                        <span>
+                                From : {{ timing.start.time }} To {{ timing.end.time }}
+                              </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- testttttttttttttt -->
+            </div>
+        </div>
+    </div>
+</div>

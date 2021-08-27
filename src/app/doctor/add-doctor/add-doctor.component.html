@@ -1,0 +1,18 @@
+<app-doctor-sign-up [hidden]="(totalSubscriptions <= 0)" [type]="'doctorSideMenu'"></app-doctor-sign-up>
+
+<div class="row" [hidden]="!(totalSubscriptions <= 0)">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <h1 class="text-center">Add Doctor Limit Exceeded , Please Add more Subscription</h1><br>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-5 mx-auto">
+                <div class="text-center">
+                    <button class="btn btn-primary " (click)="routePricing()">Go to pricing page</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

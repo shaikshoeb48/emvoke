@@ -1,0 +1,89 @@
+<!-- <amplify-authenticator [signUpConfig]="signUpConfig" [hide]="['Greetings']"></amplify-authenticator> -->
+<h4 mat-dialog-title>Reception Signup</h4>
+<div class="dialog-content">
+  <form [formGroup]="formGrp" class="{{formClass}} col-lg-12" *ngIf ="!receptionData; else viewReception" >
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <label for="firstName">First Name<sup>*</sup></label>
+        <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First name">
+        <div class="invalid-feedback" *ngIf="isFieldValid('firstName')">
+          <div *ngIf="formGrp.controls['firstName'].hasError('required')">
+            First name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <label for="lastName">Last Name<sup>*</sup></label>
+        <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Last name">
+        <div class="invalid-feedback" *ngIf="isFieldValid('lastName')">
+          Last name is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <label for="countryCode">Country Code<sup>*</sup></label>
+          <input type="text" class="form-control" id="countryCode" formControlName="countryCode" placeholder="countryCode" autocomplete="off" (click)="onCountryCode()" #ccInput (keyup)="searchCountryCode($event)">
+          <div class="invalid-feedback" *ngIf="isFieldValid('countryCode')">
+            Country code is required
+          </div>
+          <div *ngIf="visibleCountryCodes" class="dropdown">
+            <p *ngFor="let cc of countryCodeList" (click)="changeCountryCode(cc.dial_code,ccInput)">
+              <small>{{ cc.dial_code }} {{ cc.name }}</small>
+            </p>
+            <p *ngIf="!countryCodeList.length"><small>No Result</small></p>
+          </div>
+        </div>
+      <div class="col-sm-8">
+        <label for="mobileNo">Mobile Number<sup>*</sup></label>
+        <input type="text" class="form-control" id="mobileNo" formControlName="mobileNo" placeholder="Mobile Number">
+        <div class="invalid-feedback" *ngIf="isFieldValid('mobileNo')">
+          Mobile number is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+
+        <div class="col-sm-8">
+          <label for="email">Email<sup>*</sup></label>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+          <div class="invalid-feedback" *ngIf="isFieldValid('email')">
+            <div *ngIf="formGrp.controls['email'].hasError('required')">
+              Email address is required
+            </div>
+            <div *ngIf="formGrp.controls['email'].hasError('email')">
+              Invalid email address
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <label for="password">Password<sup>*</sup></label>
+        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
+        <div class="invalid-feedback" *ngIf="isFieldValid('password')">
+          Password is required
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <label for="confirmPwd">Confirm Password<sup>*</sup></label>
+        <input type="password" class="form-control" id="confirmPwd" formControlName="confirmPwd"
+          placeholder="Confirm Password">
+        <div class="invalid-feedback" *ngIf="isFieldValid('confirmPwd')">
+          <div *ngIf="formGrp.controls['confirmPwd'].hasError('required')">
+            Confirm Password is required
+          </div>
+          <div *ngIf="formGrp.controls['confirmPwd'].hasError('mustMatch')">
+            Passwords does not match
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="onSubmitForm()">Sign Up</button>
+  </form>
+  <ng-template #viewReception>
+    <div class="col-lg-12">
+      <span>Reception login is created with the email address: </span> <b>{{this.receptionData.email}}</b>
+    </div>
+  </ng-template>
+</div>

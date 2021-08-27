@@ -1,0 +1,236 @@
+/* Header Styles */
+.main_container .top_nav {
+  display: block;
+  margin-left: 230px;
+}
+.nav_menu {
+  float: left;
+  background: rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(247, 247, 247);
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
+}
+@media (min-width: 480px) {
+  .nav_menu {
+    position: static;
+  }
+}
+.toggle {
+  float: left;
+  margin: 0;
+  a {
+    padding: 15px 15px;
+    margin: 0;
+    cursor: pointer;
+    i {
+      font-size: 20px;
+    }
+  }
+}
+.lp-breadcrumb {
+  display: flex;
+  list-style-type: none;
+  padding-left: 0px !important;
+  margin-bottom: 5px !important;
+}
+.top_nav {
+  .navbar-right {
+    margin: 0;
+    float: right;
+    li {
+      display: inline-block;
+      position: static;
+      float: right;
+    }
+  }
+}
+.top_nav {
+  a {
+    color: #100c74;
+  }
+  a:focus,
+  a:hover {
+    color: #100c74 !important;
+  }
+}
+.top_nav .nav .open > a,
+.top_nav .nav .open > a:focus,
+.top_nav .nav .open > a:hover,
+.top_nav .nav > li > a:focus,
+.top_nav .nav > li > a:hover {
+  background: #d9dee4 !important;
+}
+@media (min-width: 480px) {
+  .top_nav .navbar-right li {
+    position: relative;
+  }
+}
+.nav.navbar-nav > li > a {
+  color: #515356 !important;
+}
+.navbar-brand,
+.navbar-nav > li > a {
+  font-weight: 500;
+  line-height: 32px;
+  margin-left: 0 !important;
+}
+.user-profile img {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.dropdown-menu {
+  position: absolute;
+  background: #fff;
+  margin-top: 0;
+  border: 1px solid #d9dee4;
+  -webkit-box-shadow: none;
+  right: 0 !important;
+  left: auto;
+  width: 230px;
+}
+.top_nav .dropdown-menu li {
+  width: 100%;
+  padding: 6px 20px !important;
+  a {
+    width: 100%;
+  }
+}
+.dropdown-menu > li > a {
+  color: #5a738e;
+}
+
+/* Notification Styles */
+.top_nav li a i {
+  font-size: 15px;
+}
+@media (max-width: 991px) {
+  .nav-md .main_container.body .right_col,
+  .nav-md .main_container.body .top_nav {
+    width: 100%;
+    margin: 0;
+  }
+}
+.info-number .badge {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 13px;
+  padding: 2px 6px;
+  position: absolute;
+  right: 2px;
+  top: 8px;
+}
+ul.msg_list li {
+  background: #f7f7f7;
+  padding: 5px;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 6px 6px 0;
+  width: 96% !important;
+}
+ul.msg_list li a {
+  padding: 3px 5px !important;
+}
+.dropdown-menu.msg_list span {
+  white-space: normal;
+}
+ul.msg_list li a .image img {
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  float: left;
+  margin-right: 10px;
+  width: 11%;
+}
+ul.msg_list li a .time {
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 700;
+  position: absolute;
+  right: 35px;
+}
+ul.msg_list li a .message {
+  display: block !important;
+  font-size: 11px;
+}
+ul.msg_list li:last-child {
+  margin-bottom: 6px;
+  padding: 10px;
+}
+.navbar-nav .open .dropdown-menu.msg_list {
+  width: 300px;
+}
+/* Profile Dropdown Styles */
+.navbar-nav .open .dropdown-menu {
+  position: absolute;
+  background: #fff;
+  margin-top: 0;
+  border: 1px solid #d9dee4;
+  -webkit-box-shadow: none;
+  right: 0;
+  left: auto;
+  width: 230px;
+}
+.fa-angle-down:before {
+  content: none;
+}
+
+.row_clinic_list {
+  cursor: pointer;
+  color: #797c81;
+}
+
+
+.card_header {
+  padding: 8px 12px;
+  margin-bottom: 0;
+
+}
+
+.card_header:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.top_nav .dropdown-menu .clinic_roles_body li {
+  width: 100%;
+  padding: 6px 0px !important;
+}
+
+.current_clinic_role {
+  border: #7C76FE solid 1px;
+  border-radius: 5px;
+  padding: 1px 4px;
+
+  color: #000000 !important;
+}
+
+.nested_role_switch_card_body {
+  border: #7C76FE 1px solid;
+  border-radius: 4px;
+  padding: 0px 2px;
+  margin: 2px 14px;
+  cursor: pointer;
+}
+
+.nested_role_switch_card_body:hover {
+  background: rgb(102, 96, 221);
+
+
+}
+
+.accordion_content{
+  width: 100%;
+  color: #000000;
+}
+
+.accordion_content:hover{
+  width: 100%;
+  color: #ffffff;
+}
+
+@media only screen and (max-width: 768px){
+  .main_sidebar_menu_toggle{
+    display: none;
+  }
+}

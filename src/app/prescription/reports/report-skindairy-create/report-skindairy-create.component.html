@@ -1,0 +1,384 @@
+<div *ngIf="data['type'] == 'report'">
+  <div class="row">
+    <div class="col-sm-10 report_create_text">
+      <h5>Upload Reports</h5>
+    </div>
+    <div class="col-sm-2" style="text-align: right;">
+      <button type="button" class="close" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  <hr style="border-top: 2px solid rgba(0,0,0,.1);" />
+  <div class="report_create_wrapper">
+    <div class="report_create_text">
+      <form [formGroup]="reportCreateForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="fileLabel">File Label<sup>*</sup></label>
+            <br />
+            <input
+              type="text"
+              formControlName="fileLabel"
+              class="report_create_input_field"
+            />
+            <div
+              *ngIf="
+                submittedReportForm && reportform.fileLabel.errors?.required
+              "
+              class="invalid-feedback"
+            >
+              Label is required
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="labName">Lab Name<sup>*</sup></label>
+            <br />
+            <input
+              type="text"
+              formControlName="labName"
+              class="report_create_input_field"
+            />
+            <div
+              *ngIf="submittedReportForm && reportform.labName.errors?.required"
+              class="invalid-feedback"
+            >
+              Lab name is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="labAddress">Lab Address<sup>*</sup></label>
+            <br />
+            <input
+              type="text"
+              formControlName="labAddress"
+              class="report_create_input_field"
+            />
+            <div
+              *ngIf="
+                submittedReportForm && reportform.labAddress.errors?.required
+              "
+              class="invalid-feedback"
+            >
+              Lab address is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="comments">Comments</label>
+            <br />
+            <input
+              type="text"
+              formControlName="comments"
+              class="report_create_input_field"
+            />
+          </div>
+          <div class="col-sm-6">
+            <label for="reportType">Report Type<sup>*</sup></label>
+            <br />
+            <select
+              formControlName="reportType"
+              id="ReportType"
+              class="report_create_input_field report_select_tab"
+            >
+              <option value="REPORT" [selected]="true">Report</option>
+              <option value="PRESCRIPTION">Prescription</option>
+              <option value="RECEIPT">Receipt</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <label for="tagName">Tag Name</label>
+            <br />
+            <input
+              type="text"
+              id="tagName"
+              style="padding-right: 0;"
+              class="report_create_input_field"
+              #tag
+              (keyup)="onAddTag($event)"
+            />
+          </div>
+          <div class="col-sm-1" style="padding-left: 0;margin-top: 36px;">
+            <button
+              (click)="onAddTag($event, tag)"
+              class="btn btn-success add_tag_button"
+            >
+              +
+            </button>
+          </div>
+          <div class="col-sm-6">
+            <div class="tags_view">
+              <label class="added_pill" *ngFor="let tag of tags; let i = index">
+                <p class="pill_text">{{ tag }}</p>
+                <img
+                  class="cross_icon"
+                  src="assets/cross.svg"
+                  (click)="removeTag(i)"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="file_drop_area" *ngIf="file === undefined">
+      <input
+        type="file"
+        #fileDropRef
+        id="fileDropRef"
+        (change)="fileBrowseHandler($event.target.files)"
+      />
+      <img src="../../../../assets/report/report_file.svg" alt="" />
+      <h5>Drop your files here or click here to upload</h5>
+    </div>
+    <div *ngIf="unsupportedFileType">
+      <h6>* Only PNG,JPEG,PDF file types are supported</h6>
+    </div>
+    <div *ngIf="reportSizeCheck">
+      <h6>* Size should be less than 10 MB</h6>
+    </div>
+
+    <div class="files_list" *ngIf="file">
+      <div class="single_file">
+        <div class="row">
+          <div class="col-sm-1">
+            <img
+              *ngIf="file.type == 'image/png'"
+              src="../../../../assets/report/report_type.svg"
+              style="height: 50px;width: 50px;"
+              alt=""
+            />
+            <img
+              *ngIf="file.type == 'image/jpeg' || file.type == 'image/jpg'"
+              src="../../../../assets/report/report_jpg.png"
+              style="height: 50px;width: 50px;"
+              alt=""
+            />
+            <img
+              *ngIf="file.type == 'application/pdf'"
+              src="../../../../assets/report/report_pdf_icon.svg"
+              style="height: 50px;width: 50px;"
+              alt=""
+            />
+          </div>
+          <div class="col-sm-6">
+            <label class="upload_file_main_name"> {{ file?.name }} </label
+            ><br />
+            <label class="upload_file_under_name"
+              >{{ currentDate }} - {{ formatBytes(file?.size) }}</label
+            >
+          </div>
+          <div
+            class="col-sm-5"
+            *ngIf="uploadStart"
+            style="display:flex;justify-content:center"
+          >
+            <div class="lds-dual-ring"></div>
+          </div>
+          <div
+            class="col-sm-4 upload_remove_button_wrapper"
+            *ngIf="!uploadStart && !uploadFinish"
+          >
+            <button
+              style="float:left"
+              class="btn btn-danger upload_save_button"
+              (click)="onFileRemove()"
+            >
+              Remove
+            </button>
+            <button
+              style="float:right"
+              class="btn btn-success upload_save_button"
+              (click)="onFileUpload()"
+            >
+              Upload
+            </button>
+          </div>
+          <div class="col-sm-5" *ngIf="!uploadStart && uploadFinish">
+            <button
+              class="btn btn-success upload_save_button"
+              [mat-dialog-close]
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="data['type'] == 'skindairy'">
+  <div class="row">
+    <div class="col-sm-10 report_create_text">
+      <h5>Upload Image</h5>
+    </div>
+    <div class="col-sm-2" style="text-align: right;">
+      <button type="button" class="close" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  <hr style="border-top: 2px solid rgba(0,0,0,.1);" />
+  <div class="report_create_wrapper">
+    <div class="report_create_text">
+      <form [formGroup]="skindairyCreateForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="imageLabel">Image Label</label>
+            <br />
+            <input
+              type="text"
+              formControlName="imageLabel"
+              class="report_create_input_field"
+            />
+            <div
+              *ngIf="
+                submittedReportForm && skindairyform.imageLabel.errors?.required
+              "
+              class="invalid-feedback"
+            >
+              Image label is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="clickType">Click Type</label>
+            <br />
+            <select
+              formControlName="clickType"
+              id="clickType"
+              class="report_create_input_field report_select_tab"
+            >
+              <option value="NONE" [selected]="true">None</option>
+              <option value="FACE">Face</option>
+              <option value="LEFT">Left</option>
+              <option value="RIGHT">Right</option>
+              <option value="CONCERN">Concern</option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label for="comments">Comments</label>
+            <br />
+            <input
+              type="text"
+              formControlName="comments"
+              class="report_create_input_field"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <label for="tagName">Tag Name</label>
+            <br />
+            <input
+              type="text"
+              id="tagName"
+              style="padding-right: 0;"
+              class="report_create_input_field"
+              #tag
+              (keyup)="onAddTag($event)"
+            />
+          </div>
+          <div class="col-sm-1" style="padding-left: 0;margin-top: 36px;">
+            <button
+              (click)="onAddTag($event, tag)"
+              class="btn btn-success add_tag_button"
+            >
+              +
+            </button>
+          </div>
+          <div class="col-sm-6">
+            <div class="tags_view">
+              <label class="added_pill" *ngFor="let tag of tags; let i = index">
+                <p class="pill_text">{{ tag }}</p>
+                <img
+                  class="cross_icon"
+                  src="assets/cross.svg"
+                  (click)="removeTag(i)"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="file_drop_area" *ngIf="file === undefined">
+      <input
+        type="file"
+        #fileDropRef
+        id="fileDropRef"
+        (change)="fileBrowseHandler($event.target.files)"
+      />
+      <img src="../../../../assets/report/report_file.svg" alt="" />
+      <h5>Drop your files here or click here to upload</h5>
+    </div>
+    <div class="files_list" *ngIf="file">
+      <div class="single_file">
+        <div class="row">
+          <div class="col-sm-1">
+            <img
+              *ngIf="file.type == 'image/png'"
+              src="../../../../assets/report/report_type.svg"
+              style="height: 50px;width: 50px;"
+              alt=""
+            />
+            <img
+              *ngIf="file.type == 'image/jpeg' || file.type == 'image/jpg'"
+              src="../../../../assets/report/report_jpg.png"
+              style="height: 50px;width: 50px;"
+              alt=""
+            />
+            <img
+              *ngIf="file.type == 'application/pdf'"
+              src="../../../../assets/report/report_pdf_icon.svg"
+              style="height: 50px;width: 50px;"
+              alt=""
+            />
+          </div>
+          <div class="col-sm-6">
+            <label class="upload_file_main_name"> {{ file?.name }} </label
+            ><br />
+            <label class="upload_file_under_name"
+              >{{ currentDate }} - {{ formatBytes(file?.size) }}</label
+            >
+          </div>
+          <div
+            class="col-sm-5"
+            *ngIf="uploadStart"
+            style="display:flex;justify-content:center"
+          >
+            <div class="lds-dual-ring"></div>
+          </div>
+          <div
+            class="col-sm-4 upload_remove_button_wrapper"
+            *ngIf="!uploadStart && !uploadFinish"
+          >
+            <button
+              style="float:left"
+              class="btn btn-danger upload_save_button"
+              (click)="onFileRemove()"
+            >
+              Remove
+            </button>
+            <button
+              style="float:right"
+              class="btn btn-success upload_save_button"
+              (click)="onSkinDairyImageUpload()"
+            >
+              Upload
+            </button>
+          </div>
+          <div class="col-sm-5" *ngIf="!uploadStart && uploadFinish">
+            <button
+              class="btn btn-success upload_save_button"
+              [mat-dialog-close]
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

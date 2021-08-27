@@ -1,0 +1,139 @@
+/* Stepper Styles */
+
+#clinicSignUp {
+     ::ng-deep .mat-horizontal-stepper-header-container {
+        display: none!important;
+    }
+     ::ng-deep .mat-horizontal-content-container {
+        padding: 0px!important;
+    }
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.upload_p_common_input,
+.upload_p_contact_input {
+    width: 100%;
+    border: none;
+    background-color: #F8F8FC;
+    padding: 4px 8px 6px 8px;
+    border-radius: 4px;
+}
+
+.common_input_box {
+    border: none;
+    background-color: #EAEEFF !important;
+    color: #16118F;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 2px solid #7C76FE;
+}
+
+.common_input_box_add {
+    border: none;
+    background-color: #DEF3D1 !important;
+    color: #74CE3E !important;
+}
+
+.common_input_box_delete {
+    border: none;
+    background-color: #FCE0DF !important;
+    color: #F42B2B;
+}
+
+.all_comm_btn {
+    border: none !important;
+    border-radius: 0px !important;
+    width: 100px !important;
+    box-shadow: 0px 6px 18px rgb(194, 190, 255) !important;
+}
+
+.back_comm_btn {
+    border: none;
+    border-radius: 0px;
+    width: 100px;
+    border: 1px solid #7C76FE;
+    color: #7C76FE;
+}
+
+.back_comm_btn:hover {
+    background-color: #7C76FE;
+    color: white;
+}
+
+.common_input_box_add:focus,
+.common_input_box_add:active {
+    box-shadow: none !important;
+}
+
+.common_input_box_delete:focus,
+.common_input_box_delete:active {
+    box-shadow: none !important;
+}
+
+.common_input_box:focus,
+.common_input_box:active {
+    box-shadow: none !important;
+}
+
+.site_main_line {
+    font-size: 22px;
+}
+
+.common_headline {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.next_btn {
+    border: none;
+    border-radius: 0px;
+    width: 100px;
+}
+
+.common_text {
+    font-size: 14px;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.cntry_code_dropdown {
+    max-height: 100px;
+    width: 160%;
+    background-color: #f6f6f6;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+    padding: 4px;
+    border-radius: 2px;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+}
+
+.cntry_code_dropdown label {
+    cursor: pointer;
+}
+
+.signup_cntry_code {
+    position: relative;
+}
+
+.hr_class {
+    padding: 0;
+    margin: 0;
+}
+
+.cntry_code_dropoption {
+    width: 100%;
+}

@@ -1,0 +1,93 @@
+<div class="row justify-content-center mb-5">
+  <h5>Payment Method</h5>
+</div>
+<div class="row">
+  <div class="col-md-2 mb-3">
+    <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
+      <li class="nav-item mb-4">
+        <a class="nav-flex nav-link active" id="creditcard-tab" data-toggle="tab" href="#creditcard" role="tab"
+          aria-controls="creditcard" aria-selected="true"> <i class="fa fa-credit-card mb-2"></i> Credit Card</a>
+      </li>
+      <li class="nav-item mb-4">
+        <a class="nav-flex nav-link" id="debitcard-tab" data-toggle="tab" href="#debitcard" role="tab"
+          aria-controls="debitcard" aria-selected="false"> <i class="fa fa-credit-card mb-2"></i> Debit Card</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-flex nav-link" id="bhim-tab" data-toggle="tab" href="#bhim" role="tab" aria-controls="bhim"
+          aria-selected="false"> <i class="fa fa-credit-card mb-2"></i> BHIM UPI</a>
+      </li>
+    </ul>
+  </div>
+  <!-- /.col-md-4 -->
+  <div class="col-md-10">
+    <div class="row">
+      <div class="tab-content col-md-6" id="myTabContent">
+        <div class="tab-pane fade show active" id="creditcard" role="tabpanel" aria-labelledby="creditcard-tab">
+          <form [formGroup]="creditForm" (ngSubmit)="onSubmitCreditDetails()" class="">
+            <div class="form-group">
+              <label for="cardNo">Card Number
+                <sup>*</sup>
+              </label>
+              <input type="cardNo" class="form-control" id="cardNo" placeholder="Enter the card number"
+                formControlName="cardNo">
+              <div class="invalid-feedback" *ngIf="isFieldValid('cardNo')">
+                <div *ngIf="creditForm.controls['cardNo'].hasError('required')">
+                  Card number is required
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="expirationDate">Expiration Date
+                  <sup>*</sup>
+                </label>
+                <input type="text" class="form-control" id="expirationDate" placeholder="Enter the expiration date"
+                  formControlName="expirationDate">
+                <div class="invalid-feedback" *ngIf="isFieldValid('expirationDate')">
+                  Expiration date is required
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="cvv">CVV
+                  <sup>*</sup>
+                </label>
+                <input type="text" class="form-control" id="cvv" placeholder="Enter the cvv" formControlName="cvv">
+                <div class="invalid-feedback" *ngIf="isFieldValid('cvv')">
+                  CVV is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardName">Card Holder Name
+                <sup>*</sup>
+              </label>
+              <input type="text" class="form-control" id="cardName" placeholder="Enter the card holder name"
+                formControlName="cardName">
+              <div class="invalid-feedback" *ngIf="isFieldValid('cardName')">
+                <div *ngIf="creditForm.controls['cardNo'].hasError('required')">
+                  Card holder name is required
+                </div>
+                <div *ngIf="creditForm.controls['cardNo'].hasError('min')">
+                  Minimum 2 characters required
+                </div>
+              </div>
+            </div>
+            <div class="row-fluid mt-3">
+              <button type="submit" class="btn btn-primary">Confirm Payment</button>
+            </div>
+          </form>
+        </div>
+        <div class="tab-pane fade" id="debitcard" role="tabpanel" aria-labelledby="profile-tab">
+
+        </div>
+        <div class="tab-pane fade" id="bhim" role="tabpanel" aria-labelledby="bhim-tab">
+
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-md-6">
+        <img src="../../../assets/payment-method.png" class="img-fluid" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-sm-3">
+		<div class="card">
+			<div class="card-body">
+				<h6 class="tab" [ngClass]="med_history" (click)="onChange(0)">Medical History</h6><hr>
+				<h6 class="tab" [ngClass]="family_history" (click)="onChange(2)">Family History</h6><hr *ngIf="!dialogData.hideVitals"/>
+				<h6 class="tab" *ngIf="!dialogData.hideVitals" [ngClass]="vitals" (click)="onChange(3)">Vitals</h6>
+				<!-- <h6 class="tab" [ngClass]="allergy" (click)="onChange(4)">Allergy</h6> -->
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<span class="fa fa-times float-right" (click)="close()"></span>
+		<app-medical-history (tabEvent)="changeTab($event)" [data]="patient_data" *ngIf="patient_data && (isCurrent(0))"></app-medical-history>
+		<app-family-history (tabEvent)="changeTab($event)" [data]="patient_data" *ngIf="isCurrent(2)"></app-family-history>
+		<app-vitals (tabEvent)="changeTab($event)" *ngIf="isCurrent(3)"></app-vitals>		
+	</div>
+</div>

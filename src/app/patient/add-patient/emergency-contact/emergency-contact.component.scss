@@ -1,0 +1,450 @@
+.body{
+    padding: 0px;
+    margin: 0px;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.create_patient_btn{
+    color: white;
+    border: none;
+    background-color: #74CE3E;
+    border-radius: 4px;
+    padding: 4px 18px 8px 18px;
+    margin-left: 20px;
+}
+
+
+.add_p_card_quick{
+    border-radius: 6px;
+    padding: 20px;
+    border: 1px solid rgb(233, 233, 233);
+    margin: 20px;
+}
+
+.quick_q_management_btn{
+    color: white;
+    border: none;
+    background-color: #7C76FE;
+    border-radius: 4px;
+    padding: 4px 12px 4px 12px;
+}
+
+.quick_search{
+    color: #100C74;
+    border: none;
+    background-color:#F5F7FD;
+    border-radius: 4px;
+    padding: 4px 4px 4px 38px;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.quick_search_icon{
+    position: absolute;
+    top: 8px;
+    left: 26px;
+    width: 16px;
+}
+
+.create_q_p_heading{
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.quick_new_user_pill{
+    color: white;
+    border-radius: 30px;
+    background-color: #2CA55D;
+    padding: 3px 10px 3px 10px;
+    width: 100px;
+    text-align: center;
+}
+
+.quick_form_data label{
+    color: #768d95;
+}
+
+.quick_form_data input{
+    border-radius: 4px;
+    border: none;
+    border: 1px solid #dee3e6;
+    padding: 4px 12px 4px 12px;
+    
+}
+
+.quick_form_data select{
+    border-radius: 4px;
+    border: none;
+    border: 1px solid #dee3e6;
+    padding: 4px 12px 4px 12px;
+    
+}
+
+.remove_ico{
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    background-color: #fce0df;
+    text-align: center;
+    margin-top: 28px;
+    position: relative;
+}
+
+.remove_ico .remove{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.remove i{
+    color: #f42b2b;
+    font-size: 1.4rem;
+}
+
+.add_more{
+    color: #74CE3E;
+    background-color: #DEF3D1;
+    border: none;
+    padding: 4px 16px 4px 16px;
+    border-radius: 4px;
+}
+
+
+.red {
+  width: 7px;
+  height: 21px;
+  font-family: SegoeUI;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff0000;
+}
+
+.common_input{
+  width: 100%;
+}
+
+
+
+@media only screen and(max-width: 800){
+  .create_patient_btn{
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.circle-ct {
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 3px 6px 0 #3ee782;
+  background-color: #3ee782;
+  border-radius: 100%;
+}
+
+.star {
+  // width: 13px;
+  //   height: 41px;
+  font-family: SegoeUI;
+  font-size: 31px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.32;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff0000;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+//   height: 310px;
+  z-index: 1;
+}
+
+.section-1 {
+   width: 17.5%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  .title {
+    // height: 251px;
+    display: flex;
+    align-items: center;
+    width: 86%;
+    justify-content: center;
+  }
+
+  .step-ct {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 17%;
+
+    .line-dashed {
+      height: 230px;
+      width: 1px;
+      border: 1px solid;
+      border-style: dashed;
+      border-color: #3ee782;
+      margin-top: 4px;
+    }
+  }
+}
+
+.section-2 {
+  width: 90%;
+  margin-left: 3%;
+  z-index: 1;
+
+  .message {
+    // margin-left: 3%;
+    margin-top: 5%;
+
+    p {
+      display: flex;
+      margin-left: 1%;
+      margin-top: 0.4%;
+      font-style: italic;
+
+      span {
+        &:nth-child(2) {
+          margin-left: 1%;
+          margin-top: 0.4%;
+        }
+      }
+    }
+  }
+}
+
+
+::ng-deep {
+  .mat-form-field {
+    z-index: 1;
+  }
+
+  mat-checkbox {
+      z-index: 1;
+  }
+}
+
+.red {
+  width: 7px;
+  height: 21px;
+  font-family: SegoeUI;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff0000;
+}
+
+.forms {
+  margin-left: 4%;
+}
+
+hr {
+    margin-top: 3.3%;
+}
+
+.contact {
+    .step-ct {
+        margin-top: -6%;
+        .line-dashed {
+            height: 288px;
+            margin-top: 0;
+        }
+    }
+
+    .forms {
+        min-height: 144px;
+    }
+}
+
+    .address-info {
+        .step-ct {
+            margin-top: -6%;
+            .line-dashed {
+                height: 288px;
+                margin-top: 0;
+            }
+        }
+    
+        .section-2 {
+            .message {
+                display: flex;
+        align-items: center;
+        p {
+            width: 160px;
+            span {
+                &:nth-child(2) {
+                    margin-left: 5%;
+    margin-top: 2%;
+                }
+            }
+        }
+            }
+        }
+    }
+
+a {
+    cursor: pointer;
+    z-index: 1;
+}
+
+.remove-icon {
+    display: flex;
+    align-items: center;
+}
+
+.remove {
+    width: 31.9px;
+    height: 33.2px;
+    border-radius: 5px;
+    background-color: #fce0df;
+    text-align: center;
+    padding: 5%;
+
+    i {
+        color: #f42b2b;
+        font-size: 1.4rem;
+    }
+}
+
+.add-more {
+    cursor: pointer;
+    color: #1c82e5 !important;
+    text-decoration: underline !important;
+}
+
+.add-more-address {
+    width: 99.8px;
+    height: 33px;
+    border-radius: 5px;
+    background-color: #def3d1;
+    padding: 1%;
+    span {
+        width: 80px;
+        height: 22px;
+        font-family: SegoeUI;
+        font-size: 17px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        text-align: left;
+        color: #74ce3e;
+    }
+}
+
+
+.legal-proof {
+    .forms {
+        min-height: 80px;
+    }
+}
+
+.icon-per {
+  width: 51px;
+  height: 51px;
+  background-color: #e7eeff;
+  padding: 12%;
+  border-radius: 100%;
+}
+
+.icon-contact {
+  width: 51px;
+  height: 51px;
+  background-color: #ffebeb;
+  padding: 12%;
+  border-radius: 100%;
+}
+
+.icon-address-info {
+  width: 51px;
+  height: 51px;
+  background-color: #fef2e5;
+  padding: 12%;
+  border-radius: 100%;
+}
+
+.icon-legal-proof {
+  width: 51px;
+  height: 51px;
+  background-color: #edeafd;
+  padding: 12%;
+  border-radius: 100%;
+}
+
+.title {
+  p {
+    text-align: center;
+  }
+}
+
+.next-but {
+  border-radius: 4px;
+  background-color: #7C76FE;
+  color: #ffffff;
+  z-index: 1;
+  border: none;
+  padding: 4px 12px 4px 12px;
+}
+
+.create_patient_btn{
+  border-radius: 4px;
+  background-color: #74ce3e;
+  color: #ffffff;
+  z-index: 1;
+  border: none;
+  padding: 4px 12px 4px 12px;
+  margin-left: 20px;
+  margin-right: 60px;
+}
+
+.next {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1;
+}*/

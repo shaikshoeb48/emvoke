@@ -1,0 +1,36 @@
+<!-- <app-topnav></app-topnav>
+<app-sidenav></app-sidenav>
+<router-outlet></router-outlet> -->
+<div class="postlogin-container" *ngIf="loginStatus; else loginPage">
+  <div *ngIf="(showSidebar); else noSidebarPage">
+    <router-outlet name="sidebar"></router-outlet>
+    <header>
+      <router-outlet name="header"></router-outlet>
+    </header>
+    <div class="right-col">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- <footer>
+      <router-outlet name="footer"></router-outlet>
+    </footer> -->
+  </div>
+  <!-- <app-sidebar></app-sidebar>
+  <app-header></app-header>
+  <div class="right-col">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer> -->
+</div>
+<ng-template #loginPage>
+  <div class="container prelogin-container">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>
+
+<ng-template #noSidebarPage>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>
+
+<app-loader></app-loader>

@@ -1,0 +1,323 @@
+.step {
+    padding: 0 20px 24px 50px;
+    position: relative;
+    transition: all 0.4s ease-in-out;
+    background-color: #FFF;
+    z-index: 1;
+  }
+
+  .steps {
+    z-index: 1;
+  }
+  
+  .step::before {
+    content: '';
+    position: absolute;
+    height: 13px;
+    width: 13px;
+    background-color: rgb(198, 198, 198);
+    border-radius: 15px;
+    left: calc(50px / 2);
+    transform: translateX(-45%);
+    z-index: 2;
+  }
+  
+  .step::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: rgb(198, 198, 198);
+    left: calc(50px / 2);
+    top: 0;
+    z-index: 1;
+  }
+  
+  .step.minimized {
+    background-color: #FFF;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .step-header .header {
+    user-select: none;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+  }
+  
+  .step-header .subheader {
+    user-select: none;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .step-content {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .step.minimized > .step-content {
+    height: 0px;
+  }
+  
+  .step-content.one {
+    // height: 560px;
+    width: 100%;
+    background-color: #F5F7FD;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .step-content.two {
+    // height: 600px;
+    width: 100%;
+    background-color: #F5F7FD;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .step-content.three {
+    // height: 400px;
+    width: 100%;
+    background-color: #F5F7FD;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .next-btn {
+    margin-right: 20px;
+    border: 0;
+    padding: 6px 20px;
+    border-radius: 5px;
+    background-color: #7C76FE;
+    color: #FFF;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #7C76FE;
+    color: #FFF;
+    cursor: pointer;
+  }
+  
+  /* Irrelevant styling things */
+  .close-btn:hover {
+    background-color: rgb(104, 96, 255);
+  }
+  
+  .close-btn:focus {
+    outline: 0;
+  }
+  
+  /* .next-btn:hover {
+    background-color: rgba(255, 0, 0, 0.6);
+  } */
+  
+  .next-btn:focus {
+    outline: 0;
+  }
+  
+  .step.minimized:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+
+
+
+  /* -------------------- */
+
+  .search_medical_problem_m{
+    width: 100%;
+    background-color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    color: #100C74; 
+  }
+
+  .problem_pill{
+    background-color: #EBEAFD;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 5px;
+    color: #100C74;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  .duration_pill{
+    background-color: white;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    color: #100C74;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .medical_textarea{
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 60px;
+  }
+
+  .dur_box{
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    padding:6px;
+  }
+
+
+  .allerg_yes_btn{
+    margin-left: 30px;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    width:60px;
+  }
+
+  .allerg_no_btn{
+    margin-left: 10px;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    width: 60px;
+  }
+
+  .dont_no_btn{
+    margin-left: 10px;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    width: 100px;
+  }
+
+  .remove-icon {
+    color: #100C74;
+    padding-left: 10px;
+  }
+
+  .duration-select {
+    background-color: #6D65EF;
+    color: #FFFFFF;
+  }
+  .selected-remove {
+    color: #FFFFFF;
+  }
+
+  .medical_duration {
+    padding-left: 2%;
+  }
+
+  .add-icon {
+    margin-left: -15px;
+    cursor: pointer;
+  }
+
+  ::ng-deep {
+    .family_history-cont {
+      .mat-form-field-outline {
+        outline: none;
+    }
+    
+    .mat-form-field-suffix {
+      top: -6px;
+    }
+    }
+  }
+
+  ::ng-deep {
+    .family_history-cont {
+      .mat-form-field-outline {
+        outline: none;
+    }
+    mat-form-field {
+      width: 100%;
+    }
+    .mat-form-field-suffix {
+      top: -6px !important;
+    }
+    .mat-form-field-infix {
+      padding: 0 !important;
+      margin: 0 !important;
+      border-width: 0 !important;
+    }
+    
+    .mat-focused .mat-form-field-outline-thick {
+      outline: none !important;
+      color: transparent;
+    }
+    .mat-form-field-outline-start {
+      border-left: 0px;
+    }
+    .mat-form-field-outline {
+      outline: none;
+    }
+    .mat-form-field-suffix {
+      padding: 4px;
+    }
+    .mat-form-field-wrapper {
+      padding: 0;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-flex {
+      margin-top: 0;
+    }
+    }
+    }
+  
+    ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+      color: transparent;
+  }
+  
+  ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+      color: transparent;
+  }
+  
+  ::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+      color: transparent;
+  }
+  
+  ::ng-deep {
+    .family_history-cont {
+      .mat-form-field-appearance-outline .mat-form-field-outline {
+        // color: #d8dce6;
+        color: transparent;
+        border-radius: 0px;
+    }
+    mat-form-field {
+        .mat-hint,
+        input,
+         ::placeholder,
+        .mat-form-field-label {
+            color: white;
+        }
+    }
+    }
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-radius: 0px !important;
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-radius: 0px !important;
+  }

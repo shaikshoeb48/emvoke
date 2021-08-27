@@ -1,0 +1,28 @@
+.upper-div{
+	line-height: 0.5px;
+}
+
+.column{
+	margin-bottom: 10px;
+}
+
+.no-padding-left{
+	padding-left: 0 ;
+}
+
+.no-padding-right{
+	padding-right: 0 ;
+}
+
+.no-border{
+	border-radius: 0;
+}
+
+.add_vital_card{
+	cursor: pointer;
+	transition: padding 0.5s ;
+}
+
+.add_vital_card:hover{
+	padding: 1px;
+}

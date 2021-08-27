@@ -1,0 +1,57 @@
+body{
+    margin:0;
+    padding:0;
+}
+li{
+    border-bottom: 1px solid grey;
+}
+
+#add{
+    position:relative;
+    left:400px;
+    top:20px;
+}
+
+.status{
+    float: right;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.search{
+    width:100%;
+    height:50px;
+    padding:5px;
+    text-align: center;
+    position:relative;
+    bottom:15px;
+}
+
+#search-bar{
+    width:70%;
+    border-radius: 10px;
+}
+
+img{
+    position: relative;
+    left:290px;
+}
+
+
+.close-position{
+    position:relative;
+    width:20px;
+    border-radius:50%;
+    bottom:25px;
+    left:20px;
+}
+
+.close-position:hover{
+    background-color: rgba(138, 125, 125, 0.479);
+}
+
+.vacci-name{
+    margin-left: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}

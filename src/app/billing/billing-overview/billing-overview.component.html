@@ -1,0 +1,443 @@
+<ng-container *ngIf="!accountExist">
+  <div class="row mt-3">
+    <div class="col-sm-12">
+      <h4>
+        Billing Account Sign Up
+      </h4>
+    </div>
+  </div>
+  <form [formGroup]="billingAccountForm" (ngSubmit)="submitForm()">
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <label for="gstNo">Owner Name</label>
+        <input
+          type="input"
+          class="form-control billing-input-fields"
+          id="ownerName"
+          formControlName="ownerName"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <label for="gstNo">GST No</label>
+        <input
+          type="input"
+          class="form-control billing-input-fields"
+          id="gstNo"
+          formControlName="gstNo"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+          <label for="gstNo">Currency</label>
+          <input
+            type="input"
+            class="form-control billing-input-fields"
+            id="currency"
+            formControlName="currency"
+          />
+        </div>
+      </div>
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <label for="termsAndCondition">Terms and Condition</label>
+        <input
+          type="input"
+          class="form-control billing-input-fields"
+          id="termsAndCondition"
+          formControlName="termsAndCondition"
+        />
+      </div>
+    </div>
+    <button class ="btn btn-primary" type="submit">
+      Add account
+    </button>
+  </form>
+</ng-container>
+
+<ng-container *ngIf="!accountExist">
+  <div class="row">
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="dash-widget-header">
+            <span class="dash-widget-icon text-primary border-primary">
+              <i class="fe fe-users"></i>
+            </span>
+            <div class="dash-count">
+              <h3>168</h3>
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6 class="text-muted">Doctors</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="dash-widget-header">
+            <span class="dash-widget-icon text-success">
+              <i class="fe fe-credit-card"></i>
+            </span>
+            <div class="dash-count">
+              <h3>487</h3>
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6 class="text-muted">Patients</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="dash-widget-header">
+            <span class="dash-widget-icon text-danger border-danger">
+              <i class="fe fe-money"></i>
+            </span>
+            <div class="dash-count">
+              <h3>485</h3>
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6 class="text-muted">Appointment</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="dash-widget-header">
+            <span class="dash-widget-icon text-warning border-warning">
+              <i class="fe fe-folder"></i>
+            </span>
+            <div class="dash-count">
+              <h3>$62523</h3>
+            </div>
+          </div>
+          <div class="dash-widget-info">
+            <h6 class="text-muted">Revenue</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div echarts [options]="chartOption1" class="demo-chart"></div>
+    </div>
+    <div class="col-md-6 mx-auto">
+      <div echarts [options]="chartOption2" class="demo-chart"></div>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a
+        *ngIf="isAdmin"
+        class="nav-item nav-link active"
+        id="nav-home-tab"
+        data-toggle="tab"
+        href="#nav-home"
+        role="tab"
+        aria-controls="nav-home"
+        aria-selected="true"
+        >Revenue per Doctor</a
+      >
+      <a
+        class="nav-item nav-link"
+        id="nav-profile-tab"
+        data-toggle="tab"
+        href="#nav-profile"
+        role="tab"
+        aria-controls="nav-profile"
+        aria-selected="false"
+        >Patient Invoices</a
+      >
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div
+      class="tab-pane fade show active"
+      id="nav-home"
+      role="tabpanel"
+      aria-labelledby="nav-home-tab"
+    >
+      <div class="col-md-12">
+        <div class="card card-table flex-fill">
+          <div class="card-header">
+            <h4 class="card-title">Revenue per Doctor</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-center mb-0">
+                <thead>
+                  <tr>
+                    <th>Doctor Name</th>
+                    <th>Speciality</th>
+                    <th>Earned</th>
+                    <th>Reviews</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of doctorsList">
+                    <td>
+                      <h2 class="table-avatar">
+                        <a href="profile.html" class="avatar avatar-sm mr-2"
+                          ><img
+                            class="avatar-img rounded-circle"
+                            src="https://developers.google.com/web/images/contributors/no-photo.jpg"
+                            alt="User Image"
+                        /></a>
+                        <a href="profile.html">Dr. Ruby Perrin</a>
+                      </h2>
+                    </td>
+                    <td>Dental</td>
+                    <td>$3200.00</td>
+                    <td>
+                      <i class="fe fe-star text-warning"></i>
+                      <i class="fe fe-star text-warning"></i>
+                      <i class="fe fe-star text-warning"></i>
+                      <i class="fe fe-star text-warning"></i>
+                      <i class="fe fe-star-o text-secondary"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="nav-profile"
+      role="tabpanel"
+      aria-labelledby="nav-profile-tab"
+    >
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Patient Invoices</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="datatable table table-hover table-center mb-0">
+                <thead>
+                  <tr>
+                    <th>Invoice Number</th>
+                    <th>Patient ID</th>
+                    <th>Patient Name</th>
+                    <th>Total Amount</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of patientInvoices">
+                    <td><a href="invoice.html">#IN0001</a></td>
+                    <td>#PT001</td>
+                    <td>
+                      <h2 class="table-avatar">
+                        <a href="profile.html">Charlene Reed </a>
+                      </h2>
+                    </td>
+                    <td>$100.00</td>
+                    <td class="text-center">
+                      <span class="badge badge-pill bg-success inv-badge"
+                        >Paid</span
+                      >
+                    </td>
+                    <td class="text-right">
+                      <div class="actions">
+                        <a
+                          class="btn btn-sm bg-success-light"
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                        >
+                          <i class="fe fe-trash"></i> View
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12 ">
+                <div class="invoice-content">
+                  <div class="invoice-item">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="invoice-logo">
+                          <img src="assets/img/logo.png" alt="logo" />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="invoice-details">
+                          <strong>Order:</strong> #00124 <br />
+                          <strong>Issued:</strong> 20/07/2019
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Invoice Item -->
+                  <div class="invoice-item">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="invoice-info">
+                          <strong class="customer-text">Invoice From</strong>
+                          <p class="invoice-details invoice-details-two">
+                            Dr. Darren Elder <br />
+                            806 Twin Willow Lane, Old Forge,<br />
+                            Newyork, USA <br />
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="invoice-info invoice-info2">
+                          <strong class="customer-text">Invoice To</strong>
+                          <p class="invoice-details">
+                            Walter Roberson <br />
+                            299 Star Trek Drive, Panama City, <br />
+                            Florida, 32405, USA <br />
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Invoice Item -->
+
+                  <!-- Invoice Item -->
+                  <div class="invoice-item">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="invoice-info">
+                          <strong class="customer-text">Payment Method</strong>
+                          <p class="invoice-details invoice-details-two">
+                            Debit Card <br />
+                            XXXXXXXXXXXX-2541 <br />
+                            HDFC Bank<br />
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Invoice Item -->
+
+                  <!-- Invoice Item -->
+                  <div class="invoice-item invoice-table-wrap">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="table-responsive">
+                          <table class="invoice-table table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Description</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">VAT</th>
+                                <th class="text-right">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>General Consultation</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center">$0</td>
+                                <td class="text-right">$100</td>
+                              </tr>
+                              <tr>
+                                <td>Video Call Booking</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center">$0</td>
+                                <td class="text-right">$250</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-xl-4 ml-auto">
+                        <div class="table-responsive">
+                          <table class="invoice-table-two table">
+                            <tbody>
+                              <tr>
+                                <th>Subtotal:</th>
+                                <td><span>$350</span></td>
+                              </tr>
+                              <tr>
+                                <th>Discount:</th>
+                                <td><span>-10%</span></td>
+                              </tr>
+                              <tr>
+                                <th>Total Amount:</th>
+                                <td><span>$315</span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Invoice Item -->
+
+                  <!-- Invoice Information -->
+                  <div class="other-info">
+                    <h4>Other information</h4>
+                    <p class="text-muted mb-0">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Vivamus sed dictum ligula, cursus blandit risus. Maecenas
+                      eget metus non tellus dignissim aliquam ut a ex. Maecenas
+                      sed vehicula dui, ac suscipit lacus. Sed finibus leo vitae
+                      lorem interdum, eu scelerisque tellus fermentum. Curabitur
+                      sit amet lacinia lorem. Nullam finibus pellentesque
+                      libero.
+                    </p>
+                  </div>
+                  <!-- /Invoice Information -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

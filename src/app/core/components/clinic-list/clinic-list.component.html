@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="card-body select_clinic_box">
+        <div class="row justify-content-center">
+            <div class="back_dot">
+                <img style="border-radius: 50%;" src="assets/choose_clinic.svg" class="rounded mx-auto d-block back_dot_ico" alt="...">
+            </div>
+        </div>
+        <h6 class="text-center list_title" style="color: #151A6A;">{{ title }}</h6>
+        <div *ngFor="let clinic of clinicList" (click)="onClickClinic(clinic.clinic_id)" style="cursor:pointer;">
+
+            <div class="row p-1 clinic_list_row">
+                <div class="col-ms-3">
+                    <div class="back_dot_white">
+                        <img style="border-radius: 50%;" src="assets/clinic_list_add.svg" class="rounded mx-auto d-block back_dot_white_ico" alt="...">
+                    </div>
+                </div>
+                <div class="col-ms-9" style="margin-left: 5%;">
+                    <h5 style="color: #151A6A;padding-top: 6px;font-size: 18px;">{{ clinic.clinic_name }}</h5>
+                </div>
+            </div>
+        </div>
+        <br><input class="form-control" *ngIf="input" [formControl]="inputValue"><br>
+        <button class="btn btn-primary btn-sm btn-block " *ngIf="isButton" (click)="onClickButton()">{{ button }}</button>
+    </div>
+</div>

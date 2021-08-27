@@ -1,0 +1,70 @@
+<div class="steps row family_history-cont">
+    <form [formGroup]="familyForm">
+        <div class="step" [ngClass]="{'minimized': currentTab != 'family_history'}" (click)="switchTab('family_history')">
+            <div class="step-header">
+                <div class="header">Family History</div>
+                <div class="subheader" *ngFor="let family_history of family_history?.illnesses"><span>{{family_history.term}}  -</span><span class="medical_duration" *ngIf="family_history.family_members?.Father == true">Father</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.Mother == true">Mother</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.Sister == true">Sister</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.Brother == true">Brother</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.Spouse == true">Spouse</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.MaternalGrandFather == true">Maternal GrandFather</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.MaternalGrandMother == true">Maternal GrandMother</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.PaternalGrandFather == true">Paternal Grandfather</span>
+                    <span class="medical_duration" *ngIf="family_history.family_members?.PaternalGrandMother == true">Paternal GrandMother</span>
+                </div>
+                <div class="subheader"><span>{{family_history.family_history_notes}}</span></div>
+            </div>
+            <div class="step-content three" (click)="backprop($event)">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <h6>What are the illnesses that run in your family ?</h6>
+                        </div>
+                        <div style="padding-left: 4px;padding-right: 16px;padding-top: 16px;">
+                            <mat-form-field floatLabel="never" appearance="outline">
+                                <input formControlName="illness" (input)="illnessSearch($event)" matInput [matAutocomplete]="auto" class="search_medical_problem_m" type="text" name="" id="" placeholder="Search illnesses">
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="illnessSelected($event.option.value)">
+                                    <mat-option *ngFor="let illness of modalData.illnesses" [value]="illness">
+                                        <span>{{illness?.term}}</span>
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <span *ngIf="showCustomAdd" (click)="customAddIllness()" matSuffix class="add-icon"><i class="fa fa-plus-circle"></i></span>
+                            </mat-form-field>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="problem_pill" *ngFor="let illness of family_history.illnesses; let i=index" [ngClass]="{'duration-select': iSelectedIndex == i}" (click)="chooseFamilyMember(i)">{{illness.term}}<span class="fa fa-times remove-icon" [ngClass]="{'selected-remove': iSelectedIndex == i}" (click)="illnessRemove(i)"></span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" *ngIf="family_history?.illnesses[iSelectedIndex]">
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <h6>Family members</h6>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="duration_pill" [ngClass]="{'duration-select': family_history?.illnesses[iSelectedIndex]?.family_members[member]}" *ngFor="let member of family_members" (click)="selectFamilyMember(member)">{{member}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                            <label style="margin-bottom: 10px;"> Notes</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <textarea formControlName="familyHistoryNotes" (input)="familyHistoryNotesInput($event)" class='medical_textarea' id="w3mission" rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" *ngIf="!isHideSubmit" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" (click)="submit()">Submit</button>
+                    </div>
+                    <div class="col-sm-5" *ngIf="isHideSubmit" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" (click)="next()">Next</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>

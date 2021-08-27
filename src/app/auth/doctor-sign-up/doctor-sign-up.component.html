@@ -1,0 +1,425 @@
+<!-- <amplify-authenticator [signUpConfig]="signUpConfig" [hide]="['Greetings']"></amplify-authenticator> -->
+<div class="row">
+  <div class="col-sm-10">
+    <h4 mat-dialog-title *ngIf="menuType==='dashboard'">Doctor Signup</h4>
+  </div>
+  <div class="col-sm-2" style="text-align: right;">
+      <button type="button" class="close"  (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+</div>
+
+<div class="col-lg-12 mb-4" *ngIf="menuType==='doctorSideMenu'">
+  <span class="menuTitle">Doctor Signup</span>
+</div>
+
+<div class="col-lg-10 mb-4" *ngIf="menuType===''">
+  <h4><b>Doctor Sign Up</b></h4>
+  <span>Welcome, Book appointments with your favourite doctors</span>
+</div>
+<div class="dialog-content col-lg-10 doc_signup_outer_wrapper">
+  <mat-horizontal-stepper labelPosition="bottom" #stepper class="col-lg-12" id="doctorSignUp"
+    [ngClass]="{'mb-5': menuType == ''}">
+    <!-- Step 1 -->
+    <mat-step [stepControl]="formOneGrp">
+      <form [formGroup]="formOneGrp" class="{{formOneClass}}">
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="email">Email<sup>*</sup></label>
+            <input autocomplete="off" type="email" class="form-control common_input_box" id="email" formControlName="email"
+              placeholder="Email" (change)="isDoctorExist()">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('email')">
+              <div *ngIf="formOneGrp.controls['email'].hasError('required')">
+                Email address is required
+              </div>
+              <div *ngIf="formOneGrp.controls['email'].hasError('email')">
+                Invalid email address
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="firstName">First Name<sup>*</sup></label>
+            <input type="text" class="form-control common_input_box" id="firstName" formControlName="first_name"
+              placeholder="First name">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('first_name')">
+              <div *ngIf="formOneGrp.controls['first_name'].hasError('required')">
+                First name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="lastName">Last Name<sup>*</sup></label>
+            <input type="text" class="form-control common_input_box" id="lastName" formControlName="last_name"
+              placeholder="Last name">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('last_name')">
+              Last name is required
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="doctorId">Doctor Id<sup>*</sup></label>
+            <input type="text" class="form-control" id="doctorId" formControlName="doctorId" placeholder="Doctor Id">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('doctorId')">
+              Doctor Id is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="regNo">Registration Number<sup>*</sup></label>
+            <input type="text" class="form-control" id="regNo" formControlName="regNo"
+              placeholder="Registration number">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('regNo')">
+              Registration number is required
+            </div>
+          </div>
+        </div> -->
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="phone">Phone Number<sup>*</sup>
+              <span class="text-primary ml-4 cursor" (click)="addContact()">Add</span>
+            </label>
+            <div class="input-group" *ngFor="let contact of contact_details; let i=index">
+              <div class="input-group-prepend w-25">
+                <select class="form-control common_input_box" (change)="updateContact($event.target.value, i, 'phone_type')" [value]="contact.phone_type">
+                  <option value="mobile" >Mobile</option>
+                  <option value="telephone">Telephone</option>
+                </select>
+              </div>
+              <div class="input-group-prepend w-25">
+                <select id="countryCode" [value]="contact.country_code" (change)="updateContact($event.target.value, i, 'country_code')" class="form-control common_input_box">
+                  <option value="{{ctryCode}}" *ngFor="let ctryCode of ctryCodes">
+                    {{ctryCode}}
+                  </option>
+                </select>
+              </div>
+              <input type="text" (keyup)="updateContact($event.target.value, i, 'phone_number')" class="form-control common_input_box" id="phone" [value]="contact.phone_number" placeholder="Phone Number">
+              <span class="text-danger ml-4 cursor" (click)="removeContact(i)"><small>Remove</small></span>
+            </div>
+            <div class="invalid-feedback" *ngIf="false">
+              Phone number is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="password">Password<sup>*</sup></label>
+            <input type="password" class="form-control common_input_box" id="password" formControlName="password"
+              placeholder="Password">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('password')">
+              Password is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="confirmPwd">Confirm Password<sup>*</sup></label>
+            <input type="password" class="form-control common_input_box" id="confirmPwd" formControlName="confirmPwd"
+              placeholder="Confirm Password">
+            <div class="invalid-feedback" *ngIf="isFirstFormValid('confirmPwd')">
+              <div *ngIf="formOneGrp.controls['confirmPwd'].hasError('required')">
+                Confirm Password is required
+              </div>
+              <div *ngIf="formOneGrp.controls['confirmPwd'].hasError('mustMatch')">
+                Passwords does not match
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary all_comm_btn" (click)="onSubmitFormOne()">Next</button>
+      </form>
+    </mat-step>
+    <!-- Step 2 -->
+    <mat-step [stepControl]="formTwoGrp">
+      <form [formGroup]="formTwoGrp" class="{{formTwoClass}}">
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="dob">Date of Birth<sup>*</sup></label>
+            <input type="text" class="form-control common_input_box" id="dob" formControlName="date_of_birth"
+              placeholder="Date of birth" #input [matDatepicker]="picker" (focus)="picker.open()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker (closed)="input.blur()"></mat-datepicker>
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('date_of_birth')">
+              Date of birth is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+
+            <label for="gender">Gender<sup>*</sup></label><br />
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="m" formControlName="gender"> Male &nbsp;
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="f" formControlName="gender"> Female &nbsp;
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="o" formControlName="gender"> Other
+            </label>
+
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('gender')">
+              Gender is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="medicalPraciceDet">Medical Practice Details<sup>*</sup>
+              <button class="btn btn-primary btn-sm m-1 common_input_box_add" type="button"
+                (click)="addMedPracticeDet()">+</button>
+            </label>
+            <div formArrayName="registration_details"
+              *ngFor="let medPracDet of medPracticeList.controls; let i = index;">
+              <div [formGroupName]="i" class="flex-row mb-1">
+                <select id="mcouncil" class="form-control mr-1 common_input_box" formControlName="council">
+                  <option value="">Select Council</option>
+                  <option value="{{mcouncil.value}}" *ngFor="let mcouncil of mcouncils">
+                    {{mcouncil.name}}
+                  </option>
+                </select>
+                <input type="number" class="form-control mr-1 common_input_box" id="mnumber" formControlName="number"
+                  placeholder="Medical No.">
+                <input type="text" class="form-control mr-1 common_input_box" id="myear" formControlName="date"
+                  placeholder="Date" [matDatepicker]="mpicker" (focus)="mpicker.open()">
+                <mat-datepicker-toggle matSuffix [for]="mpicker"></mat-datepicker-toggle>
+                <mat-datepicker #mpicker (closed)="input.blur()"></mat-datepicker>
+                <!-- <input type="text" class="form-control mr-1" id="myear" formControlName="date" placeholder="Date"> -->
+                <button class="btn btn-danger common_input_box_delete" type="button"
+                  (click)="removeMedPracticeDet(i)">-</button>
+              </div>
+            </div>
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('registration_details')">
+              Medical practice details is required
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="experience">Experience<sup>*</sup></label>
+            <input type="text" class="form-control" id="experience" formControlName="experience"
+              placeholder="Experience">
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('experience')">
+              Experience is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="deviceId">Device Id<sup>*</sup></label>
+            <input type="text" class="form-control" id="deviceId" formControlName="deviceId" placeholder="Device Id">
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('deviceId')">
+              Device Id is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="education">Education<sup>*</sup></label>
+            <input type="text" class="form-control" id="education" formControlName="education" placeholder="Education">
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('education')">
+              Education is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="registration">Registration<sup>*</sup></label>
+            <input type="text" class="form-control" id="registration" formControlName="registration"
+              placeholder="Registration">
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('registration')">
+              Registration is required
+            </div>
+          </div>
+        </div> -->
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="specialization">Specialization<sup>*</sup></label>
+            <select id="specialization" class="form-control common_input_box" formControlName="specialization">
+              <option value="">Select</option>
+              <option value="{{specialization.value}}" *ngFor="let specialization of specializations">
+                {{specialization.name}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('specialization')">
+              Specialization is required
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="speciality">Speciality<sup>*</sup></label>
+            <select id="speciality" class="form-control common_input_box" formControlName="speciality">
+              <option value="">Select</option>
+              <option value="{{speciality.value}}" *ngFor="let speciality of specialities">
+                {{speciality.name}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isSecondFormValid('speciality')">
+              Speciality is required
+            </div>
+          </div>
+        </div>
+        <div class="btnGroup">
+          <button type="button" class="btn btn-outline-secondary" matStepperPrevious
+            *ngIf="!this.stepIndex">Previous</button>
+          <button type="button" class="btn btn-primary all_comm_btn" (click)="onSubmitFormTwo()">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Step 3 -->
+    <mat-step [stepControl]="formThreeGrp">
+      <form [formGroup]="formThreeGrp" class="{{formThreeClass}}">
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="educationDet">Education Details<sup>*</sup>
+              <button class="btn btn-primary btn-sm m-1 common_input_box_add" type="button"
+                (click)="addEducationDet()">+</button>
+            </label>
+            <div formArrayName="education_details" *ngFor="let educationDet of educationList.controls; let i = index;">
+              <div [formGroupName]="i" class="mb-1">
+                <div class="flex-row edu_margin">
+                  <input type="text" class="form-control mr-1 common_input_box" id="ecollege" formControlName="college"
+                    placeholder="College">
+                  <input type="text" class="form-control common_input_box" id="eUniversity" formControlName="university"
+                    placeholder="University">
+                  <button class="btn btn-danger no_btn  common_input_box_delete">-</button>
+                </div>
+                <div class="flex-row">
+                  <input type="text" class="form-control mr-1 common_input_box" id="eDegree" formControlName="degree"
+                    placeholder="Degree">
+                  <input type="text" class="form-control mr-1 common_input_box" id="eYearCompletion"
+                    formControlName="passing_year" placeholder="Year of Completion">
+                  <button class="btn btn-danger common_input_box_delete" type="button"
+                    (click)="removeEducationDet(i)">-</button>
+                </div>
+                <div class="invalid-feedback" *ngIf="isThirdFormValid('education_details')">
+                  Education details is required
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="yearofexp">Years of Experience</label>
+            <input type="text" class="form-control common_input_box" id="yearofexp"
+              formControlName="years_of_experience" placeholder="Years of Experience">
+          </div>
+          <!-- <div class="invalid-feedback" *ngIf="isThirdFormValid('years_of_experience')">
+            Years of experience is required
+          </div> -->
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="college">Certification & Affiliation Record
+              <button class="btn btn-primary btn-sm m-1 common_input_box_add" type="button"
+                (click)="addCertificationDet()">+</button>
+            </label>
+            <div formArrayName="cerfication_details"
+              *ngFor="let certificationDet of certificationList.controls; let i = index;">
+              <div [formGroupName]="i" class="mb-1 flex-row">
+                <input type="text" class="form-control mr-1 common_input_box" id="certName" formControlName="certName"
+                  placeholder="Name">
+                <input type="text" class="form-control mr-1 common_input_box" id="certYear" formControlName="certYear"
+                  placeholder="Year">
+                <button class="btn btn-danger common_input_box_delete" type="button"
+                  (click)="removeCertificationDet(i)">-</button>
+              </div>
+            </div>
+            <div class="invalid-feedback" *ngIf="isThirdFormValid('cerfication_details')">
+              Cerfication details is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label>Add Picture</label>
+          </div>
+          <div class="col-sm-12">
+            <app-file-upload></app-file-upload>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label>Clinic TNC<sup>*</sup></label>
+          </div>
+          <div class="col-sm-12">
+            <label class="checkbox-inline">
+              <input type="checkbox" value="" formControlName="doctor_terms_condition"> I agree to the terms and
+              conditions
+            </label>
+            <div class="invalid-feedback" *ngIf="isThirdFormValid('doctor_terms_condition')">
+              Please agree to the terms and conditions
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="billTemplateId">Bill Template Id</label>
+            <input type="text" class="form-control" id="billTemplateId" formControlName="billTemplateId"
+              placeholder="Bill template Id">
+          </div>
+          <div class="col-sm-6">
+            <label for="memberships">Memberships</label>
+            <input type="text" class="form-control" id="memberships" formControlName="memberships"
+              placeholder="Memberships">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="services">Services</label>
+            <input type="text" class="form-control" id="services" formControlName="services" placeholder="Services">
+          </div>
+          <div class="col-sm-6">
+            <label for="holidays">Holidays</label>
+            <input type="text" class="form-control" id="holidays" formControlName="holidays" placeholder="Holidays">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="modules">Modules</label>
+            <input type="text" class="form-control" id="modules" formControlName="modules" placeholder="Modules">
+          </div>
+          <div class="col-sm-6">
+            <label for="createdAt">Created At</label>
+            <input type="text" class="form-control" id="createdAt" formControlName="createdAt" placeholder="Created At">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="updatedAt">Updated At</label>
+            <input type="text" class="form-control" id="updatedAt" formControlName="updatedAt" placeholder="Updated At">
+          </div>
+          <div class="col-sm-6">
+            <label for="tnc">Tnc</label>
+            <input type="text" class="form-control" id="tnc" formControlName="tnc" placeholder="Tnc">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="pharmacyNo">Pharmacy Number</label>
+            <input type="text" class="form-control" id="pharmacyNo" formControlName="pharmacyNo"
+              placeholder="Pharmacy number">
+          </div>
+          <div class="col-sm-6">
+            <label for="tncForDoctors">Tnc for Doctors</label>
+            <input type="text" class="form-control" id="tncForDoctors" formControlName="tncForDoctors"
+              placeholder="Tnc for doctors">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="notificationNo">Notification Number</label>
+            <input type="text" class="form-control" id="notificationNo" formControlName="notificationNo"
+              placeholder="Notification number">
+          </div>
+          <div class="col-sm-6">
+            <label for="notificationEmail">Notification Email</label>
+            <input type="text" class="form-control" id="notificationEmail" formControlName="notificationEmail"
+              placeholder="Notification email">
+          </div>
+        </div> -->
+        <div class="btnGroup">
+          <button type="button" class="btn btn-outline-secondary" matStepperPrevious>Back</button>
+          <!-- <button type="reset" class="btn btn-outline-secondary" (click)="stepper.reset()">Reset</button> -->
+          <button class="btn btn-primary" mat-dialog-close (click)="doctorSignup()">Doctor Sign Up</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

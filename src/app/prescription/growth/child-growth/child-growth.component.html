@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-sm-6">
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-4">
+				<div class="form-group">
+                  <label for="exampleFormControlSelect1">Gender</label>
+                  <select class="form-control" (change)="onDropDown($event.target.value, selectedOrg)">
+                    <option [selected]="selectedGender == 'male'" value="male">Male</option>
+                    <option [selected]="selectedGender == 'female'" value="female">Female</option>
+				  </select>
+					</div>
+			</div>
+			<div class="col-sm-1"></div>
+			<div class="col-sm-4">
+				<div class="form-group">
+                  <label for="exampleFormControlSelect1">Organisation</label>
+                  <select class="form-control" (change)="onDropDown(selectedGender,$event.target.value)">
+                    <option [selected]="selectedOrg=='anganwadi'" value="anganwadi">Anganwadi</option>
+                    <option [selected]="selectedOrg=='who'" value="who">WHO</option>
+                    <option [selected]="selectedOrg=='fenton'" value="fenton">Fenton</option>
+				  </select>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="row">
+		<div class="col-sm-6" *ngIf="showChart('weight')">
+			<plotly-plot [data]="weightChart?.data" [layout]="weightChart?.layout" [config]="chartConfig"></plotly-plot>
+		</div>
+		<div class="col-sm-6" *ngIf="showChart('height')">
+			<plotly-plot [data]="heightChart?.data" [layout]="heightChart?.layout" [config]="chartConfig"></plotly-plot>
+		</div>
+		<div class="col-sm-6" *ngIf="showChart('bmi')">
+			<plotly-plot [data]="bmiChart?.data" [layout]="bmiChart?.layout" [config]="chartConfig"></plotly-plot>
+		</div>
+		<div class="col-sm-6" *ngIf="showChart('ofc')">
+			<plotly-plot [data]="ofcChart?.data" [layout]="ofcChart?.layout"
+			 [config]="chartConfig"></plotly-plot>
+		</div>
+	</div>
+</div>

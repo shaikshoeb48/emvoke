@@ -1,0 +1,68 @@
+<!-- <mat-card class="box-shadow-none p-0 mt-2 doctor_name_head">
+    <div class="btnGroup flex-row lp-h3 doctor_name">
+        <span class="card_dot_d">
+        <img class="card_icon_d" src="../../assets/card_icon.svg" alt="">
+      </span>
+        <mat-card-title>Dr. {{doctorName}}</mat-card-title>
+        <app-overlay [connectedTo]="demo" text="Choose date for booked  appointments" id="3"></app-overlay>
+        <div class="doctor_btn_div">
+            <span class="mr-3">
+          <mat-form-field #demo>
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" [formControl]="appointmentDate"
+              (dateChange)="onDateChange()" (focus)="picker.open()" [formControl]="appointmentDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </span>
+            <span class="lp-slide mr-3">
+          Stop <mat-slide-toggle (change)="queueStatusChange($event)" [checked]="queueStatus"></mat-slide-toggle> Active
+        </span>
+            <button class="btn btn-primary-outline"><i class="fa fa-filter"></i> Filter</button>
+           <app-search-patient></app-search-patient>
+            <button class="btn btn-primary" (click)="onBack()"><i class="fa fa-arrow-circle-left"></i>Back</button>
+
+        </div>
+    </div>
+</mat-card> -->
+<div class=" align-content-center">
+  <div class=" queue-mgmt-doctor__head_card">
+    <div class="row">
+      <div class="col-md-3 col-sm-12 col-12  d-flex queue-mgmt-doctor__doctor_wrapper">
+        <div>
+          <span class="card_dot_d">
+            <img class="card_icon_d" src="../../assets/card_icon.svg" alt="">
+          </span>
+        </div>
+        <div>
+          <label class="queue-mgmt-doctor__doctor_name">Dr. {{doctorName}}</label>
+        </div>
+      </div>
+      <div class="col-md-9 col-12 col-sm-12  queue-mgmt-doctor__patient_search">
+        <div class="block queue-mgmt-doctor__patient">
+          <app-search-patient></app-search-patient>
+        </div> 
+        <div class="block queue-mgmt-doctor__toggle">
+          <span class="lp-slide mr-3">
+            Stop <mat-slide-toggle (change)="queueStatusChange($event)" [checked]="queueStatus"></mat-slide-toggle> Active
+          </span>
+        </div>
+        <div class="block queue-mgmt-doctor__datepicker">
+          <mat-form-field #demo>
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" [formControl]="appointmentDate"
+            (dateChange)="onDateChange()" (focus)="picker.open()" [formControl]="appointmentDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div class="col-md-2 col-sm-6 col-xl-2 col-12 col-lg-2 queue-mgmt-doctor__toggle">
+        
+      </div>
+      <div class="col-md-4 col-sm-6 col-xl-2 col-12 col-lg-4 queue-mgmt-doctor__datepicker"> 
+        
+      </div> -->
+    </div>
+  </div>
+</div>
+<br>
+<app-list-view [listData]="patientsData" (reload)="reload($event)"></app-list-view>

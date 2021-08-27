@@ -1,0 +1,40 @@
+<div class="row mx-auto p1">
+    <div *ngIf="!profileLogo" class="col">
+        <div class="p-4 " style="cursor: pointer">
+            <div (click)="fileInput.click()" class="rounded text-center" appDragDrop (onFileDropped)="uploadFile($event,$event.target.files)">
+                <img class="py-2" src="../../../../assets/upload2.svg" width="30%" alt="">
+            </div>
+            <input type="file" style="display: none;" #fileInput id="file" accept="image/x-png,image/jpeg" (change)="uploadFile($event,$event.target.files)">
+        </div>
+    </div>
+    <div *ngIf="profileLogo" class="col text-center" style="border-radius: 50%;" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event,$event.target.files)">
+        <img [src]="profileLogo" alt="..." style=" object-position: center; height: 110px; width: 110px;" class="rounded">
+        <br>
+        <small class="font-weight-light">Click to change image</small>
+        <input type="file" style="display: none;" #fileInput id="file" accept="image/x-png,image/jpeg" (change)="uploadFile($event,$event.target.files)">
+    </div>
+</div>
+
+<!-- <div class="uploadfilecontainer row" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event,$event.target.files)">
+    <div class="col">
+        <p class="topTitle" *ngIf="title">{{topTitle}}</p>
+        <p class="bottomTitle" *ngIf="bottomTitle">{{bottomTitle}}</p>
+        <div class="row">
+            <div class="col" style="width: 50%;">
+                <input hidden type="file" #fileInput id="file" accept="image/x-png,image/jpeg" (change)="uploadFile($event,$event.target.files)">
+                <img class="img" style="width: 100%;" *ngIf="uploadedLogo" [src]=uploadedLogo alt="" />
+                <img *ngIf="!uploadedLogo" src="" alt="" />
+            </div>
+        </div>
+    </div>
+</div> -->
+<div *ngIf="file" class="files-list">
+    <p *ngIf="file"> {{file}} </p>
+
+    <button *ngIf="file" class="delete-file btn-primary" (click)="deleteAttachment()">
+    <img src="../../../../assets/delete.png">
+  </button>
+
+    <!-- <button class="btn btn-primary" (click)="uploadImageFunc()" >Upload</button> -->
+</div>
+<br>

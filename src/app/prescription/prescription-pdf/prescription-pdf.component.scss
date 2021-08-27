@@ -1,0 +1,103 @@
+.body {
+    padding: 0px;
+    margin: 0px;
+    overflow-x: hidden;
+    background-color: #EEEEEE !important;
+}
+
+.doc_detail p {
+    min-height: 24px !important;
+    font-weight: 400 !important;
+}
+
+.doc_detail li {
+    width: 292px !important;
+}
+
+.p_left_inner_wrapper {
+    background-color: white;
+    border-radius: 5px !important;
+    padding: 10px;
+}
+
+.left_section {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+}
+
+.right_section {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+}
+
+.c_text {
+    font-size: 14px;
+}
+
+.reset_link {
+    text-align: right;
+}
+
+.follow_btn {
+    background-color: white;
+    border: 1px solid #DCDCDC;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.follow_btn_active {
+    background-color: blue;
+    color: white;
+}
+
+.l_textarea {
+    width: 100% !important;
+}
+
+.ref_lab {
+    width: 100%;
+    padding: 4px;
+}
+
+.main_pdf_div {
+    border: 1px solid rgb(238, 238, 238);
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 10px;
+    border-radius: 3px;
+}
+
+.main_pdf_outer {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+}
+
+.doc_detail {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+
+.doc_detail p {
+    margin: 0px;
+}
+
+@media only screen and (min-width: 992px) {
+    .sideborderright {
+        border-right: 1px solid black;
+    }
+    .sideborderleft {
+        border-left: 1px solid black;
+        margin-left: -1px;
+    }
+}
+
+.content-headings {
+    border-bottom: 1px solid black;
+}
+
+.footer {
+    position: absolute;
+    padding-top: 30px;
+}

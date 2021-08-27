@@ -1,0 +1,496 @@
+<form [formGroup]="infoForm">
+    <div class="row quick_form_data">
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">First Name <sup class="red">*</sup></label> <br>
+            <input class="personal_common_input" type="text" readonly="true" formControlName="first_name" (keyup)="update_personal_info('first_name', $event)">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Middle Name </label><br>
+            <input class="personal_common_input" type="text" formControlName="middle_name" (keyup)="update_personal_info('middle_name', $event)">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Last Name <sup class="red">*</sup></label><br>
+            <input class="personal_common_input" type="text" readonly="true" formControlName="last_name" (keyup)="update_personal_info('last_name', $event)">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12-sm-3">
+            <label for="f_name">Gender <sup class="red">*</sup></label><br>
+            <!-- <select  formControlName="gender" #genderV (change)="selectGender(genderV.value)">
+                <option *ngFor="let gender of genders" [value]="gender.value">
+                  {{ gender.text }}
+                </option>
+            </select> -->
+            <input class="personal_common_input" type="text" readonly="true" formControlName="gender">
+        </div>
+    </div>
+    <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">DOB <sup class="red">*</sup></label><br>
+            <input class="personal_common_input" type="date" readonly="true" formControlName="dob" (change)="setDateOfBirth($event)">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Age </label><br>
+            <input class="personal_common_input" type="text" formControlName="age" readonly="true" readonly="true">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Email</label><br>
+            <input class="personal_common_input" type="email" formControlName="email" (keyup)="update_personal_info('email', $event)">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Occupation</label><br>
+            <input class="personal_common_input" type="text" formControlName="occupation" (keyup)="update_personal_info('occupation', $event)">
+        </div>
+    </div>
+    <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Nationality</label><br>
+            <select class="personal_common_input" #nationalityV (change)="update_nationality(nationalityV.value)">
+                <option *ngFor="let nation of nationality" [value]="nation">{{ nation }}</option>
+            </select>
+        </div>
+    </div>
+    <hr>
+    <div *ngFor="let contact of data?.contact_details; let i=index">
+        <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+            <div class="col-sm-6 col-md-2 col-12">
+                <label for="f_name">Type </label><br>
+                <select style="width: 100%;" #cType (change)="selectContactType(cType.value, i)" [disabled]="errorMsg[i].status == 1">
+                  <option *ngFor="let type of contactTypes" [selected]="type.value == contact.phone_type"
+                    [value]="type.value">{{ type.text }}</option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-md-2 col-12">
+                <label for="f_name">Country Code</label><br>
+                <select style="width: 100%;" #cCode (change)="selectCountryCode(cCode.value, i)" [disabled]="errorMsg[i].status == 1">
+                  <option *ngFor="let code of countryCodes" [value]="code.dial_code"
+                   [selected]="code.dial_code == contact.country_code">
+                    {{ code.name }} {{ code.dial_code}}
+                  </option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">Number <sup class="red">*</sup></label><br>
+                <input class="personal_common_input" type="text" [value]="contact.phone_number" (keyup)="update_contact_number($event, i)" [readonly]="errorMsg[i].status == 1">
+            </div>
+            <div class="col-sm-6 col-md-1 col-12" *ngIf="errorMsg[i].status != 1">
+                <label class="remove_ico">
+                  <a class="remove" (click)="removeContact(i)">
+                      <i class="fa fa-trash"></i>
+                  </a>
+              </label>
+            </div>
+
+            <!-- VERIFIED -->
+            <div class="col-sm-6 col-md-3 col-12" *ngIf="errorMsg[i].status == 1">
+                <label class="check_ico">
+                <a class="check" >
+                    <i class="fa fa-check"></i>
+                </a>
+            </label>
+            </div>
+
+            <!-- NOT VERIFIED -->
+            <div class="col-sm-6 col-md-3 col-12" *ngIf="errorMsg[i].status == 2">
+                <p class="text-danger">Number already Exist</p>
+            </div>
+
+
+            <!-- LOADER -->
+            <div class="col-sm-6 col-md-3 col-12" *ngIf="errorMsg[i].status == 3">
+                <img class="search_loader" id="loader_diagnosis_id" src="assets/loader.gif" alt="loader">
+            </div>
+        </div>
+    </div>
+    <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+        <div class="col-sm-6 col-md-4 col-12">
+            <a class="add-more" (click)="addContact()">+ Add more numbers</a>
+        </div>
+    </div>
+    <hr>
+
+    <div *ngFor="let address of data.address_details; let i=index">
+        <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+            <div class="col-sm-6 col-md-2 col-12 ">
+                <p>Address Type</p>
+            </div>
+            <div class="col-sm-6 col-md-2 col-12 d-flex">
+                <div class="type_radio">
+                    <input type="radio" name="add_Type" (change)="checkAddressType(i,'home', $event)" [checked]="address.type.home">
+                </div>
+                <div>
+                    <label for="Home">Home</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-2 col-12 d-flex">
+                <div class="type_radio">
+                    <input type="radio" name="add_Type" (change)="checkAddressType(i,'office', $event)" [checked]="address.type.office">
+                </div>
+
+                <label for="Office">Office</label><br>
+            </div>
+            <div class="col-sm-6 col-md-2 col-12 ">
+                <label class="remove_ico remove_margin">
+                <a class="remove" (click)="removeAddress(i)">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </label>
+            </div>
+        </div>
+        <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+            <div class="col-sm-6 col-md-3 col-12 ">
+                <label for="f_name">Address <sup class="red">*</sup></label><br>
+                <input class="personal_common_input" type="text" [value]="address.address" (keyup)="updateAddressField('address', $event, i)">
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">Address Line 1</label><br>
+                <input class="personal_common_input" type="text" [value]="address.address_line_1" (keyup)="updateAddressField('address_line_1', $event, i)">
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">Address Line 2</label><br>
+                <input class="personal_common_input" type="text" [value]="address.address_line_2" (keyup)="updateAddressField('address_line_2', $event, i)">
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">Country <sup class="red">*</sup></label><br>
+                <input class="personal_common_input" type="text" [value]="address.country" (keyup)="updateAddressField('country', $event, i)">
+            </div>
+        </div>
+        <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">Pincode <sup class="red">*</sup></label><br>
+                <input class="personal_common_input" type="text" [value]="address.pincode" (keyup)="updateAddressField('pincode', $event, i)">
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">State <sup class="red">*</sup></label><br>
+                <input class="personal_common_input" type="text" [value]="address.state" (keyup)="updateAddressField('state', $event, i)">
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">District</label><br>
+                <input class="personal_common_input" type="text" [value]="address.district" (keyup)="updateAddressField('district', $event, i)">
+            </div>
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">City <sup class="red">*</sup></label><br>
+                <input class="personal_common_input" type="text" [value]="address.city" (keyup)="updateAddressField('city', $event, i)">
+            </div>
+        </div>
+        <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+            <div class="col-sm-6 col-md-3 col-12">
+                <label for="f_name">Country Code</label><br>
+                <input class="personal_common_input" type="text" [value]="address.country_code" (keyup)="updateAddressField('country_code', $event, i)">
+            </div>
+        </div>
+    </div>
+    <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+        <div class="col-sm-6 col-md-3 col-12">
+            <button class="add_more" (click)="addAddress()">Add More</button>
+        </div>
+    </div>
+
+
+    <hr>
+
+
+    <div class="row quick_form_data" *ngFor="let proof of data.legal_proofs; let i=index" style="margin-top: 24px; margin-bottom: 34px;">
+        <div class="col-sm-6 col-md-2 col-12">
+            <label>Type</label><br>
+            <select style="width: 100%;" #pType (change)="selectLegalProofType(i, pType.value)">
+                <option *ngFor="let type of proofTypes" [selected]="proof.type == type.value"
+                 [value]="type.value">
+                  {{ type.text }}
+                </option>
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label for="f_name">Number</label><br>
+            <input class="personal_common_input" type="text" [value]="proof.number" (keyup)="updateLegalProofNumber(i,$event)">
+        </div>
+        <div class="col-sm-6 col-md-3 col-12">
+            <label class="remove_ico">
+                <a class="remove" (click)="removeProof(i)">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </label>
+
+        </div>
+    </div>
+    <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+        <div class="col-sm-6 col-md-3 col-12">
+            <a class="add-more" (click)="addLegalProof()">+ Add more proof</a>
+        </div>
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-primary create_patient_nex_btn" (click)="next('next')">
+        Next
+      </button>
+    <button type="submit" class="create_patient_btn create_patient_crt_btn" (click)="next('create')">
+        Create Patient
+      </button>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div>
+
+  <form [formGroup]="infoForm">
+  <div class="section per-info">
+   
+    <div class="section-2">
+      <div class="forms">
+        <div class="row">
+          <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>First Name </mat-label>
+                  <input matInput (keyup)="update_personal_info('first_name', $event)" [value]="patientData?.first_name"/>
+                  <span matSuffix><i class="fa fa-user"></i></span>
+                  <mat-error *ngIf="infoForm.controls.first_name.errors && infoForm.controls.first_name.errors.required">Please enter first name</mat-error>
+                </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>Middle Name</mat-label>
+                  <input matInput (keyup)="update_personal_info('middle_name', $event)" [value]="patientData?.middle_name"/>
+                  <span matSuffix><i class="fa fa-user"></i></span>
+                </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>Last Name</mat-label>
+                  <input matInput (keyup)="update_personal_info('last_name', $event)" [value]="patientData?.last_name"/>
+                  <span matSuffix><i class="fa fa-user"></i></span>
+                </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <mat-form-field>
+                    <mat-label>Gender </mat-label>
+                    <mat-select formControlName="gender" placeholder="Select your gender" (selectionChange)="selectGender($event)" [value]="patientData?.gender">
+                        <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                          {{ gender.text }}
+                        </mat-option>
+                      </mat-select>
+                  <mat-error *ngIf="infoForm.controls.gender.errors && infoForm.controls.gender.errors.required">Please select gender</mat-error>
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+                <mat-form-field>
+                    <mat-label>Date of birth</mat-label>
+                    <input formControlName="dob" [value]="patientData?.date_of_birth" matInput [matDatepicker]="picker" (dateChange)="setDateOfBirth($event)" placeholder="Choose a date" (focus)="picker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker ></mat-datepicker>
+                   <span matSuffix><i class="fa fa-calendar"></i></span>
+                  <mat-error *ngIf="infoForm.controls.dob.errors && infoForm.controls.dob.errors.required">Please select Date of birth</mat-error>
+
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput (keyup)="update_personal_info('email', $event)" [value]="patientData?.email_id"/>
+                    <span matSuffix><i class="fa fa-envelope-o"></i></span>
+                  </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>Occupation</mat-label>
+                  <input matInput (keyup)="update_personal_info('occupation', $event)" />
+                  <span matSuffix><i class="fa fa-user"></i></span>
+                </mat-form-field>
+            </div>
+          </div>
+      </div>
+      <hr>
+    </div>
+  </div> -->
+<!-- Contact Details Info -->
+<!-- <div class="section contact">
+      <div class="section-2">
+        <div class="forms">
+          <div class="row" *ngFor="let contact_number of data?.contact_details; let i=index">
+            <div class="col-sm-3">
+                <mat-form-field>
+                    <mat-label>Type</mat-label>
+                    <mat-select placeholder="Select type" (selectionChange)="selectContactType($event, i)">
+                        <mat-option *ngFor="let type of contactTypes" [value]="type.value">
+                          {{ type.text }}
+                        </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-3">
+                <mat-form-field>
+                    <mat-label>Country code</mat-label>
+                    <mat-select placeholder="Select country code" (selectionChange)="selectCountryCode($event, i)">
+                        <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
+                          {{ code.dial_code }}
+                        </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+                <mat-form-field>
+                    <mat-label>Number</mat-label>
+                    <input matInput (keyup)="update_contact_number($event, i)" />
+                    <span matSuffix><i class="fa fa-phone"></i></span>
+                  </mat-form-field>
+            </div>
+            <div class="col-sm-2 remove-icon">
+              <a class="remove" (click)="removeContact(i)"><i class="fa fa-trash"></i></a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <a class="add-more" (click)="addContact()">+ Add more numbers</a>
+        </div>
+        <hr>
+      </div>
+    </div> -->
+<!-- Address Information -->
+<!-- <div class="section address-info">
+        
+        <div class="section-2">
+          <div class="forms">
+            <div *ngFor="let address of data.address_details; let i=index">
+                <div class="message">
+                    <p> <span>  Address type</span></p>
+                    <mat-checkbox style="margin-right: 4%;margin-top: 1%;" (change)="checkAddressType(i, 'home', $event)" [checked]="data.address_details[i].type.home">Home</mat-checkbox>
+                    <mat-checkbox style="margin-top: 1%;" (change)="checkAddressType(i, 'office', $event)" [checked]="data.address_details[i].type.office">Office</mat-checkbox>
+                  </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Address</mat-label>
+                            <input matInput (keyup)="updateAddressField('address', $event, i)" />
+                            <span matSuffix><i class="fa fa-home"></i></span>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Address line 1</mat-label>
+                            <input matInput (keyup)="updateAddressField('address_line_1', $event, i)" />
+                            <span matSuffix><i class="fa fa-home"></i></span>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Address line 2</mat-label>
+                            <input matInput (keyup)="updateAddressField('address_line_2', $event, i)" />
+                            <span matSuffix><i class="fa fa-home"></i></span>
+                          </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-4">
+                          <mat-form-field>
+                              <mat-label>City</mat-label>
+                              <input matInput (keyup)="updateAddressField('city', $event, i)" />
+                              <span matSuffix><i class="fa fa-home"></i></span>
+                            </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                          <mat-form-field>
+                              <mat-label>District</mat-label>
+                              <input matInput (keyup)="updateAddressField('district', $event, i)" />
+                              <span matSuffix><i class="fa fa-home"></i></span>
+                            </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                          <mat-form-field>
+                              <mat-label>State</mat-label>
+                              <input matInput (keyup)="updateAddressField('state', $event, i)" />
+                              <span matSuffix><i class="fa fa-home"></i></span>
+                            </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                          <mat-form-field>
+                              <mat-label>Pincode</mat-label>
+                              <input matInput (keyup)="updateAddressField('pincode', $event, i)" />
+                              <span matSuffix><i class="fa fa-home"></i></span>
+                            </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                          <mat-form-field>
+                              <mat-label>Country</mat-label>
+                              <input matInput (keyup)="updateAddressField('country', $event, i)" />
+                              <span matSuffix><i class="fa fa-home"></i></span>
+                            </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                          <mat-form-field>
+                              <mat-label>Country code</mat-label>
+                              <input matInput (keyup)="updateAddressField('country_code', $event, i)" />
+                              <span matSuffix><i class="fa fa-home"></i></span>
+                            </mat-form-field>
+                      </div>
+                    </div>
+            </div>
+            <div>
+              <a class="add-more-address" *ngIf="data.address_details.length == 1" (click)="addAddress()"><span>Add more</span></a>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div> -->
+<!-- Legal Proof Info -->
+<!-- <div class="section legal-proof">
+          
+          <div class="section-2">
+            <div class="forms">
+              <div class="row" *ngFor="let proof of data.legal_proofs; let i=index">
+                <div class="col-sm-3">
+                    <mat-form-field>
+                        <mat-label>Type</mat-label>
+                        <mat-select placeholder="Select type" (selectionChange)="selectLegalProofType(i, $event)">
+                            <mat-option *ngFor="let type of proofTypes" [value]="type.value">
+                              {{ type.text }}
+                            </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                    <mat-form-field>
+                        <mat-label>Number</mat-label>
+                        <input matInput (keyup)="updateLegalProofNumber(i, $event)" />
+                        <span matSuffix><i class="fa fa-email"></i></span>
+                      </mat-form-field>
+                </div>
+                <div class="col-sm-2 remove-icon">
+                  <a class="remove" (click)="removeProof(i)"><i class="fa fa-trash"></i></a>
+                </div>
+              </div>
+            </div>
+            <div>
+              <a class="add-more" (click)="addLegalProof()">+ Add more proofs</a>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </form>
+      <div class="next">
+        <button class="next-but" (click)="next()" type="button">Add More Details</button>
+        <button class="create_patient_btn">Create Patient</button>
+      </div>
+</div> -->

@@ -1,0 +1,85 @@
+<div class="container">
+	<div class="row mt-1">
+		<div class="col-sm-1">
+			<h6>Filter By:</h6>
+		</div>
+		<div class="col-sm-3">
+			<select class="form-control form-control-sm form-control-block">
+		  		<option>All</option>
+		  		<option>Motor Development</option>
+		  		<option>Cognitive Development</option>
+		  		<option>Physical Development</option>
+		  	</select>
+		</div>
+		<div class="col-sm-5"></div>
+		<div class="col-sm-2">
+		  	<button class="btn btn-sm btn-block btn-primary" type="button" data-toggle="modal" data-target="#exampleModal">
+		  		Add More
+		  	</button>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-11">
+    <plotly-plot [data]="data" [updateOnDataChange]="true" (plotlyClick)="onChartClick($event)" [layout]="layout" [config]="chartConfig"></plotly-plot>
+  </div>
+  <div class="col-sm-1">
+  	<br><br><br>
+  	<p class="legends" (click)="statusFilter(1)" ngClass="{{ curStatusFilter == 1 ? 'opace' : ''}}">
+  		<i class="fa fa-circle text-primary"></i> Completed
+  	</p>
+  	<p class="legends" (click)="statusFilter(0)" ngClass="{{ curStatusFilter == 0 ? 'opace' : ''}}">
+  		<i class="fa fa-circle text-danger"></i> Not Completed
+  	</p>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+  	<form [formGroup]="developmentForm">
+    <div class="modal-content">
+      <div class="modal-body">
+    	<div class="form-group">
+    		<label for="">Enter Development</label>
+    		<input class="form-control form-control-sm" formControlName="value">
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-6">
+    			<div class="form-group">
+    				<label for="">Starting Month</label>
+    				<input type="number" class="form-control form-control-sm" min="0" formControlName="startMonth">
+    			</div>
+    		</div>
+    		<div class="col-sm-6">
+    			<div class="form-group">
+    				<label for="">Ending Month</label>
+    				<input type="number" class="form-control form-control-sm" [min]="developmentForm.value.startMonth" formControlName="endMonth">
+    			</div>
+    		</div>
+    	</div>
+    	<div class="form-group">
+    		<label for="">Status</label>
+    		<select class="form-control form-control-sm" formControlName="status">
+    			<option value="1" >Completed</option>
+    			<option value="0">Not Completed</option>
+    		</select>
+    	</div>
+    	<p class="text-center text-danger" *ngIf="monthErr">
+    		End Month Can't be less than equal to start Month
+    	</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" #closeButton data-dismiss="modal">Close</button>
+        <button type="button" (click)="addDevelopment()" [disabled]="!developmentForm.valid" class="btn btn-primary btn-sm">
+        	Save changes
+        </button>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>

@@ -1,0 +1,364 @@
+<div class="body prescription_main_wrapper" *ngIf="!openPdf">
+	 <nav class="top-nav">
+        <div class="row">
+            <div class="col-sm-3 back_to_queue">
+                <div class="row">
+                    <div class="col-sm-2 back_box">
+                        <a class="back_link" (click)="backToQueue()"><i class="fa fa-chevron-left back_icon" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="col-sm-10 name_video_box">
+                        <div class="row">
+                            <div class="col-sm-8 name_sec_back">
+                                <h6 style="margin: 0px;">{{ patientData?.first_name }}</h6>
+                                <p class="gender_age">{{ patientData?.gender }} , Age <span>{{ patientData?.age }}</span></p>
+                            </div>
+                            <div class="col-sm-4 video_btn_back">
+                                <button class="video_call_btn" (click)="startCall()">Video Call</button>
+                            </div>
+                            <!-- <div class="video_call_wrapper foot_item_3" id="item_3" *ngIf="!videoOn">
+                                <button class="vc_btn" (click)="startCall()">Video Call</button>
+                            </div>
+                            <div  class="video_call_wrapper foot_item_3" id="agora_local" *ngIf="videoOn">
+                
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- <a class="back_link" (click)="backToQueue()"><i class="fa fa-chevron-left back_icon" aria-hidden="true"></i>Back to queue</a> -->
+            </div>
+            <div class="col-sm-4 mid_nav_bar">
+                <a (click)="changeMainTab('consult')" [ngClass]="mainTab === 'consult' ? 'active' : '' ">Consult</a>
+                <a (click)="changeMainTab('vaccination')" [ngClass]="mainTab === 'vaccination' ? 'active' : '' ">Vaccination</a>
+                <a (click)="changeMainTab('growth')" [ngClass]="mainTab === 'growth' ? 'active' : '' ">Growth</a>
+                <a (click)="changeMainTab('reports')" [ngClass]="mainTab === 'reports' ? 'active' : '' ">Reports</a>
+            </div>
+            <div class="col-sm-2">
+            	<div class="mt-2">
+            		<app-search-patient (patientSelect)="checkBooking($event)"></app-search-patient>
+            	</div>
+            </div>
+            <div class="col-sm-1">
+                <button class="print_btn btn btn-sm" (click)="openPdfPreview()">Print Rx</button>
+            </div>
+            <div class="col-sm-2">
+            	<div class="dropdown">
+				  <button class="btn btn-success btn-sm queueListBtn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    Next Patient
+				  </button>
+				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				    <a class="dropdown-item" *ngFor="let patient of allPatientList">{{ patient.name }}
+				    	<span class="float-right text-primary" (click)="consultPatient(patient.patientId, patient.appointmentId)">Consult</span>
+				    </a>
+				    <p  *ngIf="!allPatientList.length" class="text-center text-muted"><small>No Patients</small></p>
+				  </div>
+				</div>
+            </div>
+        </div>
+    </nav>
+
+	<div *ngIf="mainTab === 'consult' " style="margin-top: 52px !important;">
+     <div class="wrapper" >
+	    <div class="left_nav">
+	        <div class="inner_link container">
+	            <!-- <div class="row">
+	                <div class="col-sm-4">
+	                    <img src="assets/avtar.svg" alt="" width="48px">
+	                </div>
+	                <div class="col-sm-8" style="padding-top: 5px;">
+	                    <h6 style="margin: 0px;">{{ patientData?.first_name }}</h6>
+	                    <p class="gender_age">{{ patientData?.gender }} , Age <span>{{ patientData?.age }}</span></p>
+	                </div>
+              </div> -->
+              
+              <!-- Medical history -->
+	            <div class="row row_link_medical_history" (click)="setSelected('medical_history')">
+                <div class="col-sm-3">
+                        <span class="dot">
+                            <img class="medical_history_icon" src="assets/health.svg" alt="">
+                        </span>
+                </div>
+                <div class="col-sm-9 medical_history_inner">
+                    <p class="medical_history_text">Medical History</p>
+                    <a class="add_medical_history_text">Add medical history</a>
+                </div>
+            </div>
+            <!-- Previous appointment -->
+            <div class="row row_link_medical_history_appoint">
+                <div class="col-sm-3">
+                        <span class="dot_appoint">
+                            <img class="medical_history_icon_appoint" src="assets/checkup.svg" alt="">
+                        </span>
+                </div>
+                <div class="col-sm-9 medical_history_inner">
+                    <p class="medical_history_text_appoint">Pre Appointments</p>
+                    <a class="add_medical_history_text" (click)="openPreAppointment()">View All</a>
+                </div>
+            </div>
+
+            <!-- Add vitals -->
+            <div class="row add_vitals_link">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="add_vital_text">Vitals</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 add_vital_wrapper"  data-toggle="modal" data-target=".bd-example-modal-lg">
+                        <img class="add_vital_icon" src="assets/add.svg">
+                    </div>
+                </div>
+            </div>
+	            <!-- Symptoms link -->
+	            <div class="row first_row_link row_link left_nav_active" (click)="setSelected('symptoms')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Symptoms</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Findings link -->
+	            <div class="row row_link" (click)="setSelected('examination_findings')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Examination (Findings)</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Other Findings Link -->
+	             <div class="row row_link" (click)="setSelected('findings')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Other Findings</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Diagnosis link -->
+	            <div class="row row_link" (click)="setSelected('diagnosis')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Diagnosis</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Mediciens link -->
+	            <div class="row row_link" (click)="setSelected('medicines')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Medicines</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Investigation link -->
+	            <div class="row row_link" (click)="setSelected('investigation')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Investigation</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Procedures -->
+	            <div class="row row_link" (click)="setSelected('procedures')">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Procedures</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+	            <!-- Instructions link -->
+	            <div class="row row_link">
+	                <div class="col-sm-10">
+	                    <p class="left_link_text">Instructions</p>
+	                </div>
+	                <div class="col-sm-2">
+	                    <i class="fa fa-chevron-right left_nav_right_icon" aria-hidden="true"></i>
+	                </div>
+	            </div>
+                <!-- global notes -->
+                <hr>
+                <div class="row global_notes_wrapper">
+	                <div class="col-sm-12" style="padding:0px;">
+                        <label class="gn_text">Global Notes</label>
+                        <textarea (keyup)="submitGlobalNotes($event)" [value]="allData?.appointmentData?.notes" class="global_notes"></textarea>
+	                </div>
+              </div>
+	        </div>
+		</div>
+	</div>
+	    <!-- LEFT NAV ENDS HERE -->
+
+
+
+
+
+
+		<!-- THIS PAGE CHANGES DYNAMICALLY -->
+
+
+	<div class="middle_section">
+		<div class="container">
+			<div class="row consult_main_back">
+				<app-symptoms *ngIf="(selected === 'symptoms' || completedArray[0]) && appointmentData" [data]="appointmentData" (tabChange)="changeTab($event)">
+
+				</app-symptoms>
+
+				<app-findings *ngIf="(selected === 'examination_findings'|| completedArray[1]) && appointmentData" [data]="appointmentData" (tabChange)="changeTab($event)">
+
+				</app-findings>
+
+				<app-other-findings *ngIf="(selected === 'findings'|| completedArray[2]) && appointmentData" [data]="appointmentData" (tabChange)="changeTab($event)">
+
+				</app-other-findings>
+
+				<app-diagnosis *ngIf="(selected === 'diagnosis'|| completedArray[3]) && appointmentData" [data]="appointmentData" (tabChange)="changeTab($event)">
+
+				</app-diagnosis>
+
+				<app-medicine *ngIf="(selected === 'medicines' || completedArray[4]) && appointmentData" [data]="appointmentData" (tabChange)="changeTab($event)">
+
+				</app-medicine>
+
+        <app-investigations *ngIf="(selected === 'investigation' || completedArray[5]) && appointmentData" [data]="appointmentData"
+          (tabChange)="changeTab($event)">
+
+        </app-investigations>
+
+        <app-procedures *ngIf="(selected === 'procedures' || completedArray[6]) && appointmentData" [data]="appointmentData"
+          (tabChange)="changeTab($event)">
+
+        </app-procedures>
+
+        <div class="col-sm-12 common_div_padding">
+          <div class="upper_box_wrapper">
+              <div class="upper_box">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <button class="print_btn btn float-right" (click)="openPdfPreview()">Print Rx</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+			</div>
+		</div>
+	</div>
+  </div>
+		<!-- CONSULT ENDS HERE -->
+ <div *ngIf="mainTab === 'vaccination' ">
+ 	<app-vaccination></app-vaccination>
+ </div>
+
+ <div *ngIf="mainTab === 'growth' ">
+  <app-growth></app-growth>
+</div>
+<div *ngIf="mainTab === 'reports' ">
+  <app-reports></app-reports>
+</div>
+
+
+	<!-- <div class="body_VC"> -->
+    <div class="floating_footer" id="floating_footer">
+        <div class="footer_up_down_row">
+            <a id="up_down_link"><img  src="assets/floating_footer_up.svg" alt=""></a>
+        </div>
+        <div class="d-flex">
+            <div class="vitals_wrapper foot_item_1" id="item_1">
+                <div class="d-flex">
+                    <div>
+                        <img src="assets/footer_dot.svg" alt="" width="24px" style="margin-right: 6px;">
+                    </div>
+                    <div class="vital_data" style="margin-right: 10px;">
+                        <label class="vital_inner_row">Vital : </label>
+                        <label *ngFor="let vital of vitals">
+                            <span *ngIf="vital.value">
+                                {{ vital.name }} : {{ vital.value }} {{ vital.unit }}
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+            <!-- <div class="global_notes_wrapper foot_item_2" id="item_2">
+                <textarea (keyup)="submitGlobalNotes($event)" [value]="allData?.appointmentData?.notes" class="global_notes"></textarea>
+            </div> -->
+            <!-- <div class="video_call_wrapper foot_item_3" id="item_3" *ngIf="!videoOn">
+                <button class="vc_btn" (click)="startCall()">Video Call</button>
+            </div>
+            <div  class="video_call_wrapper foot_item_3" id="agora_local" *ngIf="videoOn">
+
+            </div> -->
+        </div>
+    <!-- </div> -->
+</div>
+<div class="full_screen_video_wrapper">
+    <app-resizable-draggable [width]="260" [height]="180" [left]="20" [top]="20"></app-resizable-draggable>
+    <!-- <div class="video_box">
+        <button>click</button>
+    </div> -->
+</div>
+
+</div>
+<!-- </div> -->
+
+
+<!-- PDF PREVIEW HERE -->
+
+<app-prescription-pdf *ngIf="openPdf && appointmentData" [data]="allData" (closePreview)="openPdfPreview()"></app-prescription-pdf>
+
+
+<!-- MODAL FOR VITALS -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Vitals</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body vital_table_body">
+                <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th class="vital_name_col main_vital_name empty_one" scope="col"><div class="empty"></div></th>
+                        <th  class="data_input_col" scope="col"><div class="first_row_elem">09 Mar 2020</div></th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                      <tr *ngFor="let vital of vitals; let i=index">
+                        <td class="main_vital_name" ><div>{{ vital.name }}</div> </td>
+                        <td class="data_input">
+                          <div class='data_input_div first_row_input'>
+                            <input class="data_input_box" type="text" #vitalValue (change)="addVital(vitalValue.value,i)" value="{{ vital.value }}">
+                            <label for="">
+                              <select id="units" class="unit_dropdown" #vitalUnit (change)="addVitalUnit(vitalUnit.value,i)">
+                                <option [selected]="vital.unit === unit" *ngFor="let unit of vital.units"> {{ unit }}</option>
+                              </select>
+                            </label>
+                          </div>
+                        </td>
+
+
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmitVitals()">Submit</button>
+          </div>
+    </div>
+  </div>
+</div>
+
+<!-- medicine/search -->
+<!--  { search_term : "para" } -->

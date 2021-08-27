@@ -1,0 +1,382 @@
+<div style="margin-top: 88px !important;">
+  <div class="report_wrapper">
+    <div class="row">
+      <div class="col-sm-12">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a
+              class="nav-link active"
+              id="nav-home-tab"
+              data-toggle="tab"
+              href="#reports"
+              role="tab"
+              aria-controls="nav-home"
+              aria-selected="true"
+              >Reports</a
+            >
+            <a
+              class="nav-link"
+              id="nav-profile-tab"
+              data-toggle="tab"
+              href="#gallery"
+              role="tab"
+              aria-controls="nav-profile"
+              aria-selected="false"
+              >Image Gallery</a
+            >
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="reports"
+            role="tabpanel"
+            aria-labelledby="nav-home-tab"
+          >
+            <div class="report_inner_wrapper">
+              <div class="row">
+                <div class="col-sm-2">
+                  <label for="reportSearch">Search Report</label>
+                  <input
+                    placeholder="Search reports"
+                    class="report_comm_input"
+                    type="text"
+                    [(ngModel)]="reportsSearchText"
+                    id="reportSearch"
+                  />
+                </div>
+                <div class="col-sm-2">
+                  <label for="reportDateFilter">Filter by date</label>
+                  <input
+                    class="report_comm_input"
+                    type="date"
+                    id="reportDateFilter"
+                    (change)="onFilterReportByDate($event)"
+                  />
+                </div>
+                <div class="col-sm-2">
+                  <label for="filterByTag">Filter by Tag</label>
+                  <select
+                    id="filterByTag"
+                    class="report_comm_input"
+                    (change)="onFilterReportByTag($event)"
+                  >
+                    <option value="" [disabled]="true">Select Tags</option>
+                    <option [value]="tag" *ngFor="let tag of reportTags">{{
+                      tag
+                    }}</option>
+                  </select>
+                </div>
+                <div class="col-sm-6" style="text-align: right;">
+                  <button class="add_report_btn" (click)="onAddReport()">
+                    Add Reports
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="report_table_wrapper">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table class="table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col" style="width: 200px;">TYPE</th>
+                        <th scope="col" style="width: 240px">NAME</th>
+                        <th scope="col" style="width: 240px">LAB</th>
+                        <th scope="col" style="width: 240px">TAG</th>
+                        <th scope="col" style="width: 240px">COMMENTS</th>
+                        <th scope="col" style="width: 240px">ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container
+                        *ngFor="
+                          let report of reportItems
+                            | ReportsFilter
+                              : reportsSearchText
+                              : ['label', 'labName', 'labAddress', 'comment'];
+                          let i = index
+                        "
+                      >
+                        <tr>
+                          <td style="width: 180px;">
+                            <ng-container *ngIf="report.reportExt != 'pdf'">
+                              <img
+                                [src]="report.thumbnail"
+                                style="height: 60px;width: 60px;cursor: pointer;"
+                                alt=""
+                                (click)="openImage(report, 'report')"
+                              />
+                            </ng-container>
+                            <ng-container *ngIf="report.reportExt == 'pdf'">
+                              <img
+                                (click)="openImage(report, 'report')"
+                                src="../../../assets/report/report_pdf_icon.svg"
+                                style="height: 60px;width: 60px;cursor: pointer;"
+                                alt=""
+                              />
+                            </ng-container>
+                          </td>
+                          <td>
+                            <label class="table_main_name">{{
+                              report["label"]
+                            }}</label
+                            ><br />
+                            <label class="table_under_name"
+                              >{{ report["reportDate"] }}
+                            </label>
+                          </td>
+                          <td>
+                            <label class="table_main_name">{{
+                              report["labName"]
+                            }}</label
+                            ><br />
+                            <label class="table_under_name">{{
+                              report["labAddress"]
+                            }}</label>
+                          </td>
+                          <td class="tag_names">
+                            <div *ngFor="let tag of report['tags']">
+                              {{ tag }}
+                            </div>
+                          </td>
+                          <td>
+                            <label class="table_under_name">{{
+                              report?.comment
+                            }}</label>
+                          </td>
+                          <td>
+                            <img
+                              class="comm_img"
+                              src="../../../assets/report/report_view.svg"
+                              alt=""
+                              class="report_edit_items"
+                              (click)="openImage(report, 'report')"
+                            />
+                            <img
+                              class="comm_img"
+                              src="../../../assets/report/report_delete.svg"
+                              alt=""
+                              class="report_edit_items"
+                              (click)="onDeleteFile(report._id)"
+                            />
+                            <img
+                              *ngIf="report.reportExt != 'pdf'"
+                              class="comm_img"
+                              src="../../../assets/report/report_download.svg"
+                              alt=""
+                              class="report_edit_items"
+                              (click)="onDownloadFile(report.url, report.label)"
+                            />
+                            <img
+                              *ngIf="report.reportExt == 'pdf'"
+                              class="comm_img"
+                              src="../../../assets/report/report_download.svg"
+                              alt=""
+                              class="report_edit_items"
+                              (click)="openImage(report, 'report')"
+                            />
+
+                            <label class="report_dot">
+                              <img
+                                class="arrow_img collapsed"
+                                src="../../../assets/report/report_pencil.svg"
+                                alt=""
+                                data-toggle="collapse"
+                                [attr.data-target]="'#collapse' + i"
+                                aria-expanded="false"
+                                aria-controls="collapseThree"
+                              />
+                            </label>
+                          </td>
+                        </tr>
+                        <tr
+                          [attr.id]="'collapse' + i"
+                          class="collapse"
+                          #toCollapse
+                        >
+                          <td style="width: 180px;">
+                            <label for="comment" class="report_edit_label_field"
+                              >Comment</label
+                            >
+                            <br />
+                            <input
+                              type="text"
+                              id="comment"
+                              class="report_edit_input_field"
+                              name="comment"
+                              (change)="onChangeSingleReportValue($event, i)"
+                              [value]="report?.comment"
+                            />
+                          </td>
+                          <td>
+                            <label for="labName" class="report_edit_label_field"
+                              >Lab Name</label
+                            >
+                            <br />
+                            <input
+                              type="text"
+                              id="labName"
+                              class="report_edit_input_field"
+                              name="labName"
+                              (change)="onChangeSingleReportValue($event, i)"
+                              [value]="report?.labName"
+                            />
+                          </td>
+                          <td>
+                            <label
+                              for="labAddress"
+                              class="report_edit_label_field"
+                              >Lab Address</label
+                            >
+                            <br />
+                            <input
+                              type="text"
+                              id="labAddress"
+                              class="report_edit_input_field"
+                              name="labAddress"
+                              (change)="onChangeSingleReportValue($event, i)"
+                              [value]="report?.labAddress"
+                            />
+                          </td>
+                          <td colspan="2">
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <label
+                                  for="tagName"
+                                  class="report_edit_label_field"
+                                  >Tag Names</label
+                                >
+                              </div>
+                            </div>
+                            <div class="row tags_inner_wrapper">
+                              <div class="col-sm-6">
+                                <input
+                                  type="text"
+                                  id="tagNames"
+                                  class="report_tag_field"
+                                  name="tagNames"
+                                  (keyup)="onAddTag($event, i)"
+                                />
+                              </div>
+                              <div class="col-sm-6" *ngIf="report.tags.length">
+                                <label
+                                  class="added_pill"
+                                  *ngFor="let tag of report.tags; let j = index"
+                                >
+                                  <p class="pill_text">{{ tag }}</p>
+                                  <img
+                                    class="cross_icon"
+                                    src="assets/cross.svg"
+                                    (click)="removeTag(i, j)"
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="report_edit_save_button">
+                            <button
+                              class="btn btn-primary "
+                              (click)="onUpdateReport(i, toCollapse)"
+                            >
+                              Save
+                            </button>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="gallery"
+            role="tabpanel"
+            aria-labelledby="nav-profile-tab"
+          >
+            <div class="report_inner_wrapper">
+              <div class="row">
+                  <div class="col-sm-2">
+                      <label for="skindairySearch">Search skindairy</label>
+                      <input
+                        placeholder="Search skindairy"
+                        class="report_comm_input"
+                        type="text"
+                        [(ngModel)]="skindairySearchText"
+                        id="skindairySearch"
+                      />
+                    </div>
+                <div class="col-sm-2">
+                  <label for="skindairyDateFilter">Filter by date</label>
+                  <input
+                    id="skindairyDateFilter"
+                    class="report_comm_input"
+                    type="date"
+                    (change)="onFilterSkindairyByDate($event)"
+                  />
+                </div>
+
+                <div class="col-sm-8" style="text-align: right;">
+                  <button
+                    class="add_report_btn"
+                    (click)="onAddSkinDairyImage()"
+                  >
+                    Add Image
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="report_image_wrapper">
+              <div class="all_image_block" *ngFor="let date of skinDairyItems">
+                <label class="image_date">{{ date.newdate }}</label>
+                <div class="image_inner_wrapper d-flex flex-wrap">
+                  <ng-container
+                    *ngFor="
+                      let singleItem of date.skindairyItems| ReportsFilter
+                      : skindairySearchText
+                      : ['label'];
+                      let i = index
+                    "
+                  >
+                    <div class="image_box">
+                      <img
+                        class="inner_image"
+                        [src]="singleItem.thumbnail"
+                        alt=""
+                        style="cursor: pointer"
+                        (click)="openImage(singleItem, 'skindairy')"
+                      />
+                      <div class="row" (click)="openImage(singleItem, 'skindairy')"  style="cursor: pointer">
+                        <div class="col-sm-12">
+                          <h6 class="skin_diary_image_label" style="  display: flex;justify-content: center;">{{singleItem?.label}}</h6>
+                        </div>
+                      </div>
+                      <!-- <div class="row" *ngIf="singleItem.comment!= null && singleItem.comment.length">
+                        <div class="col-sm-12">
+                          <p class="skin_diary_image_label">Comments - {{singleItem?.comment}}</p>
+                        </div>
+                      </div> -->
+                      <!-- <label class="image_pill">X-RAY</label> -->
+                        <img
+                          class="comm_img"
+                          src="../../../assets/report/report_delete.svg"
+                          alt=""
+                          class="skin_dairy_delete"
+                          (click)="onDeleteImage(singleItem, date, i)"
+                        />
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div j *ngIf="onOpenViewModal" class="spinner_pos">
+  <div class="lds-dual-ring"></div>
+</div>

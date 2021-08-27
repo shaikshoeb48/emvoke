@@ -1,0 +1,384 @@
+<html lang="en">
+
+<body>
+
+    <section class="vaccine_top_section">
+        <div class="row">
+            <div class="col-sm-2 vaccine_inner_div">
+                <div class="common_text">Search</div>
+                <div style="position: relative;">
+                    <img class="search_icon" src="assets/Vaccination/search.png" alt="">
+                    <input class="box_common" type="text" name="" placeholder="Search any vaccine …" id="">
+                </div>
+            </div>
+            <div class="col-sm-2 vaccine_inner_div">
+                <div class="common_text">Vaccines</div>
+                <div>
+                    <select id="Vaccines" class="box_common" (change)="selectHandler($event)">
+                        <option value="adult">Common Immunization chart</option>
+                        <option value="child">Child Immunization chart</option>
+                        <option value="travel">Travel Immunization chart</option>
+                        <option value="pregnancy">Pregnancy Immunization chart</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2 vaccine_inner_div">
+                <!--<div class="common_text">Start date</div>-->
+                <!--<input type="date" class="box_common" id="start_date" name="start_date">-->
+                <mat-form-field>
+                    <input matInput placeholder=" Select Start Date" [(ngModel)]="selected_date" [matDatepicker]="picker" (dateChange)="onDateChange($event)"
+                        (focus)="picker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-3 vaccine_inner_div">
+                <div class="common_text">
+                    Sort by
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 d-flex">
+                        <div>
+                            <span class="dot"></span>
+                            <button class="s_common_btn green_btn" (click)="setFilter(true, false)"
+                             ngClass="{{filter ? 'bordered' : ''}}">
+                                Given
+                            </button>
+                        </div>
+                        <div>
+                            <span class="dot"></span>
+                            <button class="s_common_btn red_btn" (click)="setFilter(false, false)" 
+                                ngClass="{{ !filter ? 'bordered' : ''}}">
+                                Due
+                            </button>
+                        </div>
+                        <div>
+                            <span class="dot"></span>
+                            <button class="s_common_btn grey_btn" (click)="setFilter(true, true)"
+                             ngClass="{{ all_filter ? 'bordered' : ''}} ">
+                                All
+                            </button>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary s_common_btn" type="button" style="font-weight:bold" (click)="openModal()">ADD
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 d-flex">
+                <div style="margin-top: 36px;">
+                    <button class="create_chart_btn">Create Custom chart</button>
+                </div>
+                <div style="margin-top: 36px;">
+                    <button class="send_alert_btn">Send Alert</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+
+    </div>
+    <section class="vaccine_table_sec">
+        <table class="table table-bordered" *ngIf="selection=='all-vaccines'">
+            <thead>
+                <tr>
+                    <th class="vaccine_name_col" scope="col">Vaccine</th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let vaccine of allVaccines">
+                <tr>
+                    <th scope="row">{{vaccine.name}}</th>
+                    <td class="status_pill">
+                        <div class='inner_div pill_green' data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <img class="cal_logo" src="assets/Vaccination/cal.svg" alt="">
+                            <img class="g_dot_logo" src="assets/Vaccination/g_dot.svg" alt="">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s given_txt">Given</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="vaccine_name pill_c_s">Influenza inactivated (IIV)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s date_text">12-01-2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="status_pill">
+                        <div class='inner_div pill_red' data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <img class="cal_logo" src="assets/Vaccination/cal.svg" alt="">
+                            <img class="g_dot_logo" src="assets/Vaccination/r_dot.svg" alt="">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s given_txt">Due</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="vaccine_name pill_c_s">Influenza inactivated (IIV)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s date_text">12-01-2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="status_pill">
+                        <div class='inner_div pill_grey' data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <img class="cal_logo" src="assets/Vaccination/cal.svg" alt="">
+                            <img class="g_dot_logo" src="assets/Vaccination/grey_dot.svg" alt="">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s given_txt">Pending</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="vaccine_name pill_c_s">Influenza inactivated (IIV)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s date_text">12-01-2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered" *ngIf="selection=='adult'">
+            <thead>
+                <tr>
+                    <th class="vaccine_name_col" scope="col">Vaccine</th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let vaccine of common_vaccines">
+                <tr>
+                        <th scope="row">
+                                <div class="vaccine_head_div">
+                                    <span *ngIf="vaccine.dates" style="color:red;float:right;font-size: 16px;cursor:pointer;" (click)="removeVaccine(vaccine)"
+                                        class="material-icons">
+                                        highlight_off
+                                    </span>
+                                    {{vaccine.name}}
+                                </div>
+                            </th>
+                            <td *ngFor="let date of vaccine.dates" id="childcell">
+                                    <div *ngIf="date==''" style="width:140px;">
+                                    </div>
+                                    <div class='inner_div pill_red' 
+                                    *ngIf="date!='' && (all_filter || (!checkGivenVaccine(vaccine.name,date) && !filter) || (checkGivenVaccine(vaccine.name,date) && filter))">
+                                        <img class="cal_logo" src="assets/Vaccination/cal.svg" alt="">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p class="pill_c_s given_txt" *ngIf="!checkGivenVaccine(vaccine.name,date)">Due</p>
+                                                <p class="pill_c_s given_txt" *ngIf="checkGivenVaccine(vaccine.name,date)">Given</p>
+                                                <span class="material-icons status" *ngIf="!checkGivenVaccine(vaccine.name,date)" (click)="openVaccineDialog(vaccine,date)"
+                                                    style="color:green;cursor:pointer;">
+                                                    add
+                                                </span>
+                                                <span class="material-icons" *ngIf="checkGivenVaccine(vaccine.name,date)" style="color:green;cursor:pointer;font-weight:600;">
+                                                    check
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p class="vaccine_name pill_c_s">{{vaccine.name}}</p>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p class="pill_c_s date_text"> {{date}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered" *ngIf="selection=='pregnancy'">
+            <thead>
+                <tr>
+                    <th class="vaccine_name_col" scope="col">Vaccine</th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let vaccine of pregnancyChart">
+                <tr>
+                    <th scope="row">{{vaccine.name}}</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered" *ngIf="selection=='child'">
+            <thead>
+                <tr>
+                    <th class="vaccine_name_col" scope="col" ṭ>Vaccine</th>
+                    <th class="all_column" scope="col">0 m</th>
+                    <th class="all_column" scope="col">1 m</th>
+                    <th class="all_column" scope="col">2 m</th>
+                    <th class="all_column" scope="col">4 m</th>
+                    <th class="all_column" scope="col">6 m</th>
+                    <th class="all_column" scope="col">9 m</th>
+                    <th class="all_column" scope="col">12 m</th>
+                    <th class="all_column" scope="col">15 m</th>
+                    <th class="all_column" scope="col">18 m</th>
+                    <th class="all_column" scope="col">19 m</th>
+                    <th class="all_column" scope="col">2 y</th>
+                    <th class="all_column" scope="col">4 y</th>
+                    <th class="all_column" scope="col">7 y</th>
+                    <th class="all_column" scope="col">11 y</th>
+                    <th class="all_column" scope="col">13 y</th>
+                    <th class="all_column" scope="col">16 y</th>
+                    <th class="all_column" scope="col">17 y</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let vaccine of childVaccines">
+                <tr>
+                    <th scope="row">
+                        <div class="vaccine_head_div">
+                            <span *ngIf="vaccine.dates" style="color:red;float:right;font-size: 16px;cursor:pointer;" (click)="removeVaccine(vaccine)"
+                                class="material-icons">
+                                highlight_off
+                            </span>
+                            {{vaccine.name}}
+                        </div>
+                    </th>
+                    <td *ngFor="let date of vaccine.dates" id="childcell">
+                        <div *ngIf="date==''" style="width:140px;">
+                        </div>
+                        <div class='inner_div pill_red'
+                         *ngIf="date!='' && (all_filter || (!checkGivenVaccine(vaccine.name,date) && !filter) || 
+                         (checkGivenVaccine(vaccine.name,date) && filter))">
+                            <img class="cal_logo" src="assets/Vaccination/cal.svg" alt="">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s given_txt" *ngIf="!checkGivenVaccine(vaccine.name,date)">Due</p>
+                                    <p class="pill_c_s given_txt" *ngIf="checkGivenVaccine(vaccine.name,date)">Given</p>
+                                    <span class="material-icons status" *ngIf="!checkGivenVaccine(vaccine.name,date)" (click)="openVaccineDialog(vaccine,date)"
+                                        style="color:green;cursor:pointer;">
+                                        add
+                                    </span>
+                                    <span class="material-icons" *ngIf="checkGivenVaccine(vaccine.name,date)" style="color:green;cursor:pointer;font-weight:600;">
+                                        check
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="vaccine_name pill_c_s">{{vaccine.name}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="pill_c_s date_text"> {{date}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered" *ngIf="selection=='travel'">
+            <thead>
+                <tr>
+                    <th class="vaccine_name_col" scope="col">Vaccine</th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                    <th class="all_column" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let vaccine of travelChart">
+                <tr>
+                    <th scope="row">{{vaccine.name}}</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <!--  modal for all pill -->
+       <!--  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Vaccine</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro quaerat officia commodi minima sapiente! Quo quos vero cumque
+                        enim eveniet ut quasi optio explicabo labore! Incidunt itaque atque quia natus, non laborum. Nemo
+                        ad tenetur quia ut perferendis tempora odit commodi modi necessitatibus aspernatur, ex fuga non odio
+                        earum maiores beatae explicabo itaque iusto minima reprehenderit, ipsam, est ab
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> -->
+        <!-- ends -->
+    </section>
+</body>
+
+</html>

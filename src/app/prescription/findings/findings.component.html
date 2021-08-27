@@ -1,0 +1,1598 @@
+<!-- <div class="middle_section">
+    <div class="container">
+        <div class="row">  -->
+            <div class="col-sm-12 common_div_padding">
+                <div class="upper_box_wrapper">
+                    <div class="upper_box">
+                        <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                            <span style="display: inline-block;">Examination (Findings)</span><br>
+                                <span class="badge badge-pill badge-primary mr-2" *ngFor="let finding of selectedFindings" style="color: white">
+                                    {{ finding.term }}
+                                </span>
+                        </button>
+                        <div class="container " [ngClass]="currentClass">
+                            <div class="row upper_box_hr">
+                                <div class="col-sm-4 upper_box_heading_row" (click)="toggle()" style="cursor: pointer;">
+                                    <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                                    <label for=""><p class="upper_box_heading">Examination (Findings)</p></label>
+                                </div>
+                                <div class="col-sm-8 upper_box_heading_row_search">
+                                    <!-- <label style="position: relative;" for="">
+                                        <input type="text" class="upper_box_search" 
+                                                #findingsValue placeholder="Search" (keyup)="searchFindings(findingsValue.value)">
+                                        <i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i>
+                                    </label>
+                                    <small class="add_symptom" *ngIf="noSearch" (click)="addFinding(findingsValue.value)">Add</small> -->
+                                </div>
+                            </div>
+                            <hr>
+                             <div class="row">
+                                <!-- latest code 06-05-2020 -->
+                                <div class="col-sm-12 upper_box_heading_row d-flex">
+                                    <div class="examin_cat_card" (click)="changeExaminationTab('physical')" [ngClass]="examination_tab == 'physical'? 'selected-exam': ''">
+                                        <img class="examin_card_img_l" src="assets/latest_physical.svg" alt="" width="30px">
+                                        <p>Physical Exam</p>
+                                    </div>
+                                    <div class="examin_cat_card" (click)="changeExaminationTab('skin')"  [ngClass]="examination_tab == 'skin'? 'selected-exam': ''">
+                                        <img class="examin_card_img_l" src="assets/latest_skin.svg" alt="" width="30px">
+                                        <p>Skin Exam</p>
+                                    </div>
+                                   <!--  <div class="examin_cat_card" (click)="changeExaminationTab('breast')"  [ngClass]="examination_tab == 'breast'? 'selected-exam': ''">
+                                        <img class="examin_card_img_l" src="assets/latest_breast.svg" alt="" width="30px">
+                                        <p>Breast Exam</p>
+                                    </div> -->
+                                   <!--  <div class="examin_cat_card" >
+                                        <img class="examin_card_img_l" src="assets/latest_addnew.svg" alt="" width="30px">
+                                        <p>Add New</p>
+                                    </div> -->
+                                </div>
+                                 <!-- latest code 06-05-2020 -->
+                            </div>
+                            <hr>
+                            <div class="row upper_box_hr_s">
+                                <div class="col-sm-4 upper_box_heading_row" style="cursor: pointer;">
+                                    <!-- <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label> -->
+                                    <label for=""><p class="upper_box_heading">Select Examination</p></label>
+                                </div>
+                                <div class="col-sm-8 upper_box_heading_row_search">
+                                    <label style="position: relative;" for="">
+                                        <img class="search_loader" id="loader_finding_id" src="assets/loader.gif" alt="loader">
+                                        <input type="text" class="upper_box_search" 
+                                                #findingsValue placeholder="Search" (keyup)="searchFindings(findingsValue.value)">
+                                        <i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i>
+                                    </label>
+                                    <small class="add_symptom" *ngIf="noSearch" (click)="addFinding(findingsValue.value)">+Add</small>
+                                </div>
+                                <div class="mx-3 my-2  float-right" *ngIf="examination_tab == 'skin' ">
+                                    <button class="btn btn-sm btn-primary"  data-toggle="modal" data-target=".bd-example-modal-lg-skin" (click)="addLesion()">
+                                        Add Lesion+
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                   <div *ngFor="let finding of selectedFindings; let i=index" style="display: inline-block;">
+                                        <label [ngClass]="findingOptions[i].isLesion ? 'added_lesion_pill' : 'added_pill' " for="Dandruff" *ngIf="finding.term">
+                                            <p class="pill_text" (click)="setFinding(i)">{{ finding.term }}</p>
+                                            <img class="cross_icon" src="assets/cross.svg" (click)="removeFinding(i)">
+                                        </label>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="findings.length === 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let finding of displayFindings ; let i=index" (click)="selectFinding(i)">
+                                        <p class="pill_text">{{ finding.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="findings.length !== 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let finding of findings; let i=index" (click)="selectFinding(i)">
+                                        <p class="pill_text">{{ finding.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center" *ngIf="noSearch">
+                                <h6>No search Found</h6>
+                            </div>
+
+                           <!--  <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="lower_key_text">Note</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3" placeholder="Enter the prescription notes . . ."  ></textarea>
+                                </div>
+                            </div> -->
+                            <div class="row" style="padding-top: 10px; padding-bottom: 14px;">
+                                <div class="col-sm-12" style="text-align: right;">
+                                    <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- </div>
+    </div>
+</div> -->
+
+<div class="right_nav" *ngIf="showRight && selectedFindings.length && isLesionSelected">
+    <div class="right_nav_wrapper">
+            <div class="row text-center">
+                <p class="textarea_heading_dynamic " *ngIf="currentFindingIndex >= 0 && selectedFindings.length">
+                    {{ selectedFindings[currentFindingIndex].term }}
+                    
+                    {{ findingOptions[currentFindingIndex].examination_results.subTerm ? '(' + findingOptions[currentFindingIndex].examination_results.subTerm + ')' : ''}}
+                </p>
+            </div>
+
+
+           
+            <!-- ------------------1---------------- -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="textarea_heading">Severity</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form>
+                                <div class="radio-group severity_radio_block">
+                                    <input type="radio" id="option-one" name="selector" 
+                                        [checked]="findingOptions[currentFindingIndex].severity === 'mild'">
+                                    <label class="severity_label"  (click)="addOption('mild', 'severity')">Mild</label>
+
+                                    <input type="radio" id="option-two" name="selector" 
+                                        [checked]="findingOptions[currentFindingIndex].severity === 'moderator'">
+                                    <label class="severity_label" (click)="addOption('moderator', 'severity')">Moderate</label>
+
+                                    <input type="radio" id="option-three" name="selector"
+                                        [checked]="findingOptions[currentFindingIndex].severity === 'severe'">
+                                    <label class="severity_label" (click)="addOption('severe', 'severity')">Severe</label>
+                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- -----------------2-------------------- -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="textarea_heading">Since </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-12 d-flex">
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('1 day', 'duration')" 
+                                      [ngClass]="findingOptions[currentFindingIndex].duration === '1 day' ? 'btn-primary' : '' ">
+                                        1 Day
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('2 day', 'duration')" 
+                                        [ngClass]="findingOptions[currentFindingIndex].duration === '2 day' ? 'btn-primary' : '' ">
+                                        2 day
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('3 day', 'duration')"
+                                       [ngClass]="findingOptions[currentFindingIndex].duration === '3 day' ? 'btn-primary' : '' ">
+                                        3 Day
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('3+ day', 'duration')"
+                                        [ngClass]="findingOptions[currentFindingIndex].duration === '3+ day' ? 'btn-primary' : '' ">
+                                        3+ day
+                                    </button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <!-- -----------------3-------------------- -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="textarea_heading">Frequency</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-12 d-flex">
+                                <div>
+                                    <button class="btn_common_since" [ngClass]="findingOptions[currentFindingIndex].frequency === 'once' ? 'btn-primary' : '' " (click)="addOption('once', 'frequency')">
+                                        1st time
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('twice', 'frequency')"
+                                        [ngClass]="findingOptions[currentFindingIndex].frequency === 'twice' ? 'btn-primary' : '' ">
+                                        Twice
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('thrice', 'frequency')"
+                                        [ngClass]="findingOptions[currentFindingIndex].frequency === 'thrice' ? 'btn-primary' : '' ">
+                                        thrice
+                                    </button>
+                                </div>
+                                <div>
+                                    <button class="btn_common_since" (click)="addOption('more', 'frequency')"
+                                        [ngClass]="findingOptions[currentFindingIndex].frequency === 'more' ? 'btn-primary' : '' ">
+                                        More
+                                    </button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <!-- -----------------4-------------------- -->
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="textarea_heading">
+                                Finding Distress scale ( {{ findingOptions[currentFindingIndex].distress_scale }})
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="slidecontainer">
+                                <input type="range" min="1" max="10" value="{{ findingOptions[currentFindingIndex].distress_scale }}" 
+                                class="slider" id="myRange" #distress (change)="addOption(distress.value, 'distress_scale')">
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+            <!-- ----------5-------------- -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                   <!--  <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="skin_lesion_btn" data-toggle="modal" data-target=".bd-example-modal-lg-skin" (click)="changeModal(0)">
+                                Skin Lesion Type
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="findingOptions[currentFindingIndex].examination_results.lesion_type">
+                        <div class="col-sm-12">
+                            <div style="margin-top: 10px;  margin-bottom: 10px; ">
+                                <button class="skin_c_pill">
+                                    {{ findingOptions[currentFindingIndex].examination_results.lesion_type }}<a ><img src="assets/cross_5.svg" alt=""></a>
+                                </button>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="skin_lesion_btn_location" data-toggle="modal" data-target=".bd-example-modal-lg-skin" (click)="changeModal(1)">
+                                Location of skin finding
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="findingOptions[currentFindingIndex].location">
+                        <div class="col-sm-12">
+                            <div style="  margin-bottom: 10px; ">
+                                <button class="skin_c_pill">{{ findingOptions[currentFindingIndex].location }}<a>
+                                    <img src="assets/cross_5.svg" alt="" (click)="removeExaminationOption('location', false)">
+                                </a></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="skin_lesion_btn_location" data-toggle="modal" data-target=".bd-example-modal-lg-skin" (click)="changeModal(2)">
+                                Shape of Lesion
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="findingOptions[currentFindingIndex].examination_results.lesion_shape">
+                        <div class="col-sm-12">
+                            <div style="  margin-bottom: 10px; ">
+                                <button class="skin_c_pill">{{ findingOptions[currentFindingIndex].examination_results.lesion_shape }}<a>
+                                    <img src="assets/cross_5.svg" alt="" (click)="removeExaminationOption('lesion_shape', true)">
+                                </a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- ------------------6---------------- -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12 sidenav_right">
+                            <button class="dropdown-btn" #dropdown_btn_1 (click)="collapsible(1)">On Set 
+                                <i class="fa fa-caret-down"></i>
+                              </button>
+                              <div class="dropdown-container">
+                                <div class="content">
+                                    <div class="radio_container">
+                                        <input type="radio" name="onset" value="hours" [checked]="selectedFindings[currentFindingIndex].onset === 'hours'" (click)="addOption('hours', 'onset')" id="Hours">
+                                        <label for="Hours">Hours</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="onset" value="days" [checked]="selectedFindings[currentFindingIndex].onset === 'days'" (click)="addOption('days', 'onset')" id="Days">
+                                        <label for="Days">Days</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="onset" [checked]="selectedFindings[currentFindingIndex].onset === 'months' " (click)="addOption('months', 'onset')" id="Months">
+                                        <label for="Months">Months</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="onset" [checked]="selectedFindings[currentFindingIndex].onset === 'years'" (click)="addOption('years', 'onset')" id="Years">
+                                        <label for="Years">Years</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="onset" [checked]="selectedFindings[currentFindingIndex].onset === 'birth'" (click)="addOption('birth', 'onset')" id="Birth">
+                                        <label for="Birth">At Birth</label>
+                                    </div>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-sm-12 sidenav_right" style="margin-top:10px">
+                            <button class="dropdown-btn"  #dropdown_btn_2 (click)="collapsible(2)">Lesion/Skin Color 
+                                <i class="fa fa-caret-down"></i>
+                              </button>
+                              <div class="dropdown-container">
+                                <div class="content">
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('regular','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'regular'" id="Regular">
+                                        <label for="Regular">Regular</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('yellow','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'yellow'" id="Yellow">
+                                        <label for="Yellow">Yellow</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('white','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'white'" id="White">
+                                        <label for="White">White</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('brown','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'brown'" id="Brown">
+                                        <label for="Brown">Brown</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('black','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'black'" id="Black">
+                                        <label for="Black">Black</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('watery','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'watery'" id="Watery">
+                                        <label for="Watery">Watery</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('red','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'red'" id="Red">
+                                        <label for="Red">Red</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('blue','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'blue'" id="Blue">
+                                        <label for="Blue">Blue</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('purple','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'purple'" id="Purple">
+                                        <label for="Purple">Purple</label>
+                                    </div>
+                                    <div class="radio_container">
+                                        <input type="radio" name="lesion_color" (click)="addExaminationResult('puss-filled','lesion_color')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_color === 'puss-filled'" id="PusFilled">
+                                        <label for="PusFilled">Pus-Filled</label>
+                                    </div>
+                              </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-12 sidenav_right" style="margin-top:10px">
+                        <button class="dropdown-btn"  #dropdown_btn_3 (click)="collapsible(3)">Lesion Fluid 
+                            <i class="fa fa-caret-down"></i>
+                          </button>
+                          <div class="dropdown-container">
+                            <div class="content">
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_fluid" (click)="addExaminationResult('none','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'none' " id="NONE">
+                                    <label for="NONE">NONE</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('yellow','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'yellow' " id="lYellow">
+                                    <label for="lYellow">Yellow</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('white','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'white' " id="lWhite">
+                                    <label for="lWhite">White</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('brown','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'brown' " id="lBrown">
+                                    <label for="lBrown">Brown</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('black','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'black' " id="lBlack">
+                                    <label for="lBlack">Black</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('watery','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'watery' " id="lWatery">
+                                    <label for="lWatery">Watery</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('red','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'red' " id="lRed">
+                                    <label for="lRed">Red</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_fluid" (click)="addExaminationResult('blue','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'blue' " id="lBlue">
+                                    <label for="lBlue">Blue</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('purple','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'purple' " id="lPurple">
+                                    <label for="lPurple">Purple</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_fluid" (click)="addExaminationResult('puss-filled','lesion_fluid')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_fluid === 'puss-filled' " id="lPusFilled">
+                                    <label for="lPusFilled">Pus-Filled</label>
+                                </div>
+                          </div>
+                    </div>
+                </div>
+                    <!--  -->
+                    <div class="col-sm-12 sidenav_right" style="margin-top:10px">
+                        <button class="dropdown-btn"  #dropdown_btn_4 (click)="collapsible(4)">Lesion Sensation
+                            <i class="fa fa-caret-down"></i>
+                          </button>
+                          <div class="dropdown-container">
+                            <div class="content">
+                                <div class="radio_container">
+                                    <input type="radio"  name="lesion_sensation" (click)="addExaminationResult('none','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'none' " id="lsNONE">
+                                    <label for="lsNONE">NONE</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('aching','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'aching' " id="lsAching">
+                                    <label for="lsAching">Aching </label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('burning','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'burning' " id="Burning">
+                                    <label for="Burning">Burning</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('bursting','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'bursting' " id="Bursting">
+                                    <label for="Bursting">Bursting</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('cold','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'cold' " id="Cold">
+                                    <label for="Cold">Cold</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('constricting','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'constricting' " id="Constricting">
+                                    <label for="Constricting">Constricting</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('cramping','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'cramping' " id="Cramping">
+                                    <label for="Cramping">Cramping</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('cutting','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'cutting' " id="Cutting">
+                                    <label for="Cutting">Cutting</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('hot','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'hot' " id="Hot">
+                                    <label for="Hot">Hot</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('pricking','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'pricking' " id="Pricking">
+                                    <label for="Pricking">Pricking</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('shooting-pain','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'shooting-pain' " id="Shooting">
+                                    <label for="Shooting">Shooting pain</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('soreness','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'soreness' " id="Soreness">
+                                    <label for="Soreness">Soreness</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('stabbing-pain','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'stabbing-pain' " id="Stabbing">
+                                    <label for="Stabbing">Stabbing pain</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('throbbing','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'throbbing' " id="Throbbing">
+                                    <label for="Throbbing">Throbbing</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('tickling','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'tickling' " id="Tickling">
+                                    <label for="Tickling">Tickling</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('skin_tightness','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'skin_tightness' " id="Tightness">
+                                    <label for="Tightness">Skin Tightness</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('tinkling','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'tinkling' " id="Tinkling">
+                                    <label for="Tinkling">Tinkling</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_sensation" (click)="addExaminationResult('itchy','lesion_sensation')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_sensation === 'itchy' " id="Itchy">
+                                    <label for="Itchy">Itchy</label>
+                                </div>
+                          </div>
+                    </div>
+                </div>
+                    <!--  -->
+                    <div class="col-sm-12 sidenav_right" style="margin-top:10px">
+                        <button class="dropdown-btn"  #dropdown_btn_5 (click)="collapsible(5)">On touching  
+                            <i class="fa fa-caret-down"></i>
+                          </button>
+                          <div class="dropdown-container">
+                            <div class="content">
+                                <div class="radio_container">
+                                    <input type="radio" name="onTouch" (click)="addExaminationResult('dont-know','onTouch')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.onTouch === 'dont-know' " id="DontKnow">
+                                    <label for="DontKnow">Dont Know</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="onTouch" (click)="addExaminationResult('solid','onTouch')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.onTouch === 'solid' " id="Solid">
+                                    <label for="Solid">Solid</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="onTouch" (click)="addExaminationResult('soft','onTouch')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.onTouch === 'soft' " id="Soft">
+                                    <label for="Soft">Soft</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="onTouch" (click)="addExaminationResult('dried-crust','onTouch')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.onTouch === 'dried-crust' " id="DriedCrust">
+                                    <label for="DriedCrust">Dried Crust</label>
+                                </div>
+                          </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-sm-12">
+                    <p class="textarea_heading">Prescription Notes</p>
+                </div>
+                <div class="col-sm-12">
+                    <textarea class="lower_text_area" value="{{ findingOptions[currentFindingIndex].notes }}" 
+                        rows="3" #notes (change)="addOption(notes.value, 'notes')"></textarea>
+                </div>
+                <!--  -->
+                <div class="col-sm-12">
+                    <p class="textarea_heading">Doctor Notes</p>
+                </div>
+                <div class="col-sm-12">
+                    <textarea class="lower_text_area" rows="3" ></textarea>
+                </div>
+                </div>
+            </div>
+            
+          <!-- <div class="row">
+                <div class="col-sm-12"> -->
+                    <!-- <div class="row">
+                        <div class="col-sm-12">
+                            <p class="textarea_heading">Prescription Notes</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <textarea class="lower_text_area" value="{{ findingOptions[currentFindingIndex].notes }}" 
+                                rows="3" #notes (change)="addOption(notes.value, 'notes')">
+                            </textarea>
+                        </div>
+                    </div> -->
+                <!-- </div>
+            </div> -->
+            <!-- <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="textarea_heading">Doctor Notes</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <textarea class="lower_text_area" rows="3" >
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+    </div>
+</div>
+</div>
+
+
+<!-- OPTIONS FOR NON LESION EXAMINATION -->
+
+ <div class="right_nav"  *ngIf="showRight && selectedFindings.length && !isLesionSelected">
+    <div class="right_nav_wrapper">
+        <div class="row">
+            <p class="textarea_heading_dynamic text-center" *ngIf="currentFindingIndex >= 0 && selectedFindings.length">
+                {{ selectedFindings[currentFindingIndex].term }}
+                {{ selectedFindings[currentFindingIndex].med_term ? "(" + selectedFindings[currentFindingIndex].med_term + ")" : ""}}
+            </p>
+        </div>
+
+         <!-- ------------------0---------------- -->
+
+            <div class="row" *ngIf="medTerms.length">
+                <div class="col-sm-12">
+                    <p class="textarea_heading_dynamic">Sub Terms (optional)
+                        <span class="float-right">Total : {{ totalMedTerms }}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row" *ngIf="medTerms.length">
+                <div class="col-sm-9">
+                    <div class="badge badge-primary termBadge"  (click)="prevTerms()">
+                        Prev
+                    </div>
+                    <div class="badge badge-danger termBadge" (click)="nextTerms()">
+                        Next
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <p class="float-right">{{ curTermPage + 1}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row not_added_pill_row" >
+                        <div class="col-sm-12">
+                            <label class="added_pill" *ngIf="selectedFindings[currentFindingIndex].med_term">
+                                <p class="pill_text">
+                                 {{ selectedFindings[currentFindingIndex].med_term }}
+                                </p> 
+                            </label>
+                            <label class="not_added_pill" *ngFor="let medTerm of medTerms[curTermPage]; let i=index">
+                                <p class="pill_text" (click)="selectMedTerm(medTerm,i)">
+                                 {{ medTerm }}
+                                </p> 
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- ------------------2---------------- -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Severity</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form>
+                            <div class="radio-group severity_radio_block">
+                                <input type="radio" id="option-one" name="selector" 
+                                    [checked]="findingOptions[currentFindingIndex].severity === 'mild'">
+                                <label class="severity_label"  (click)="addOption('mild', 'severity')">Mild</label>
+
+                                <input type="radio" id="option-two" name="selector" 
+                                    [checked]="findingOptions[currentFindingIndex].severity === 'moderator'">
+                                <label class="severity_label" (click)="addOption('moderator', 'severity')">Moderate</label>
+
+                                <input type="radio" id="option-three" name="selector"
+                                    [checked]="findingOptions[currentFindingIndex].severity === 'severe'">
+                                <label class="severity_label" (click)="addOption('severe', 'severity')">Severe</label>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- -----------------3-------------------- -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Since </p>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-12 d-flex">
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('1 day', 'duration')" 
+                                  [ngClass]="findingOptions[currentFindingIndex].duration === '1 day' ? 'btn-primary' : '' ">
+                                    1 Day
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('2 day', 'duration')" 
+                                    [ngClass]="findingOptions[currentFindingIndex].duration === '2 day' ? 'btn-primary' : '' ">
+                                    2 day
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('3 day', 'duration')"
+                                   [ngClass]="findingOptions[currentFindingIndex].duration === '3 day' ? 'btn-primary' : '' ">
+                                    3 Day
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('3+ day', 'duration')"
+                                    [ngClass]="findingOptions[currentFindingIndex].duration === '3+ day' ? 'btn-primary' : '' ">
+                                    3+ day
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- -----------------4-------------------- -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading" >Frequency</p>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-12 d-flex">
+                            <div>
+                                <button class="btn_common_since" [ngClass]="findingOptions[currentFindingIndex].frequency === 'once' ? 'btn-primary' : '' " (click)="addOption('once', 'frequency')">
+                                    1st time
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('twice', 'frequency')"
+                                    [ngClass]="findingOptions[currentFindingIndex].frequency === 'twice' ? 'btn-primary' : '' ">
+                                    Twice
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('thrice', 'frequency')"
+                                    [ngClass]="findingOptions[currentFindingIndex].frequency === 'thrice' ? 'btn-primary' : '' ">
+                                    thrice
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn_common_since" (click)="addOption('more', 'frequency')"
+                                    [ngClass]="findingOptions[currentFindingIndex].frequency === 'more' ? 'btn-primary' : '' ">
+                                    More
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- -----------------5-------------------- -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">
+                            Finding Distress scale ( {{ findingOptions[currentFindingIndex].distress_scale }})
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="10" value="{{ findingOptions[currentFindingIndex].distress_scale }}" 
+                            class="slider" id="myRange" #distress (change)="addOption(distress.value, 'distress_scale')">
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Prescription Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" value="{{ findingOptions[currentFindingIndex].notes }}" 
+                            rows="3" #notes (change)="addOption(notes.value, 'notes')"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Doctor Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ICD10 CODE -->
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="textarea_heading_dynamic">
+                    ICD-10 Code : {{ selectedFindings[currentFindingIndex].ICD_code }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- modal for skin lesion -->
+
+<div  class="modal fade bd-example-modal-lg-skin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" 
+    *ngIf="selectedFindings.length && examination_tab === 'skin' " #lesionModal>
+    <div class="modal-dialog modal-lg" role="document">
+        <!-- SKIN -->
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="modal-option" [ngClass]="selectedModal === 0 ? 'modal-active' : ''" 
+                    (click)="changeModal(0)">
+                         Lesion Type
+                     </div>
+                </div>  
+                <div class="col-sm-4">
+                    <div class="modal-option" [ngClass]="selectedModal === 1 ? 'modal-active' : ''" 
+                    (click)="changeModal(1)">
+                         Lesion Location
+                     </div>
+                </div>  
+                <div class="col-sm-4">
+                    <div class="modal-option" [ngClass]="selectedModal === 2 ? 'modal-active' : ''" 
+                    (click)="changeModal(2)">
+                         Lesion Shape
+                     </div> 
+                </div>
+            </div>
+
+            <div  *ngIf="selectedModal === 0">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                      <div *ngIf="!displaySubImages"> 
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Smooth Papule' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" (click)="addTerm('Smooth Papule', true)">
+                                        <img src="/assets/smooth_papule_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Smooth Papule</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select smooth papule or Plaque</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Scaly Papule' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" (click)="addTerm('Scaly Papule', true)">
+                                        <img src="/assets/scaly_papule_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Scaly Papule</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select scaly papule or Plaque</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Eschar' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" data-toggle="modal" (click)="addTerm('Eschar', false)">
+                                        <img src="/assets/eschar_main.svg" alt="" class="lesion_type_img">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Eschar</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Eschar </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Erythema' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" data-toggle="modal" (click)="addTerm('Erythema', true)">
+                                        <img src="/assets/erythema_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Erythema</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Erythema or erythroderma</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- second row -->
+                        <div class="row" style="margin-top: 18px;">
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Purpura' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" data-toggle="modal"  (click)="addTerm('Purpura', true)">
+                                        <img src="/assets/purpura_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Purpura</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Purpura or petechiae</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Flat/Macular' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" data-toggle="modal" (click)="addTerm('Flat/Macular', true)">
+                                        <img src="/assets/flat_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Flat / Macular</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Flat or macular</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Vesicular/Pustular' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" data-toggle="modal"  (click)="addTerm('Vesicular/Pustular', true)">
+                                        <img src="/assets/vesicular_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Vesicular/Pustular</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Vesicular or Pustular</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Erosion' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" (click)="addTerm('Erosion', true)">
+                                        <img src="/assets/erosion_main.svg" alt="" class="lesion_type_img">
+                                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_type_img_add_btn">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Erosion</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Erosion, ulcer or atrophy</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row" style="margin-top: 18px;">
+                            <div class="col-sm-3">
+                                <div class="lesion_main_card_type"
+                                ngClass="{{ selectedFindings[currentFindingIndex].term == 'Gangrene' ? 'border':''}}">
+                                    <div class="lesion_type_img_wrapper" type="button" data-toggle="modal"  (click)="addTerm('Gangrene', false)">
+                                        <img src="/assets/gangrene.png" alt="" class="lesion_type_img">
+                                    </div>
+                                    <div class="lesion_type_text_wrapper">
+                                        <p class="lesion_p_names">Gangrene</p>
+                                        <img src="/assets/lesion_underline.svg" alt="" width="24px">
+                                        <p class="lesion_select_text">Select Gangrene</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <!-- SUB IMAGES  -->
+                      <div *ngIf="displaySubImages">
+                          <h4 class="text-center"> {{ selectedFindings[currentFindingIndex].term }}</h4>
+
+                          <!-- SMOOTH -->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Smooth Papule' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Smooth Papule')">
+                                        <img src="/assets/smooth/smooth_papule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Smooth Papule</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Smooth Plaque')">
+                                        <img src="/assets/smooth/smooth_plaque.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Smooth Plaque</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('cyst')">
+                                        <img src="/assets/smooth/cyst.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">cyst</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Smooth Nodule')">
+                                        <img src="/assets/smooth/smooth_nodule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Smooth Nodule</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                          </div>
+
+                          <!-- SCALY -->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Scaly Papule' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Scaly Papule')">
+                                        <img src="/assets/scaly/scaly_papule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Scaly Papule </p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Scaly Plaque')">
+                                        <img src="/assets/scaly/scaly_plaque.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Scaly Plaque</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Crust')">
+                                        <img src="/assets/scaly/crust.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Crust</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                          </div>
+
+
+
+                          <!-- ERYTHEMA-->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Erythema' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Branching Macule')">
+                                        <img src="/assets/erythema/b_macule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Branching Macule</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Blanching Patch')">
+                                        <img src="/assets/erythema/b_patch.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Blanching Patch</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Erythroderma')">
+                                        <img src="/assets/erythema/erythroderma.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Erythroderma</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Telangiectasia')">
+                                        <img src="/assets/erythema/telangiectasia.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Telangiectasia</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                          </div>
+
+
+
+
+                          <!-- PURPURA -->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Purpura' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Skin Petechiae')">
+                                        <img src="/assets/purpura/skin.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Skin Petechiae</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Palpable')">
+                                        <img src="/assets/purpura/palpable.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Palpable</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Ecchymosis')">
+                                        <img src="/assets/purpura/ecchymosis.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Ecchymosis</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                          </div>
+
+
+
+
+
+                            <!-- FLAT -->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Flat/Macular' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Hyperpigmented Macule')">
+                                        <img src="/assets/flat/hyperpigmented_macule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Hyperpigmented Macule</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Hyperpigmented Patch')">
+                                        <img src="/assets/flat/hyperpigmented_patch.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Hyperpigmented Patch</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Hypopigmented Macule')">
+                                        <img src="/assets/flat/hypopigmented_macule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Hypopigmented Macule</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Hypopigmented Patch')">
+                                        <img src="/assets/flat/hypopigmented_patch.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Hypopigmented Patch</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                          </div>
+
+
+
+                            <!-- VESICULAR -->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Vesicular/pustular' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Bullae')">
+                                        <img src="/assets/vesicular/bullae.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Bullae</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Pustule')">
+                                        <img src="/assets/vesicular/pustule.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Pustule</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Vesicle')">
+                                        <img src="/assets/vesicular/vesicle.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Vesicle</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                          </div>
+
+
+
+
+
+                            <!-- EROSION -->
+                          <div class="row" *ngIf="selectedFindings[currentFindingIndex].term == 'Erosion' ">
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type">
+                                    <div class="lesion_type_img_wrapper" type="button"  
+                                    (click)="addSubTerm('Atrophy')">
+                                        <img src="/assets/erosion/atrophy.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Atrophy</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                     (click)="addSubTerm('Excoriation')">
+                                        <img src="/assets/erosion/excoriation.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper">
+                                            <p class="lesion_p_names">Excoriation</p>
+                                        </div>
+                                    </div>
+                                </div>  
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Sinus')">
+                                        <img src="/assets/erosion/sinus.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Sinus</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Skin Erosion')">
+                                        <img src="/assets/erosion/skin_erosion.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Skin Erosion</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                              <div class="col-sm-3">
+                               <div class="lesion_main_card_type" >
+                                    <div class="lesion_type_img_wrapper" type="button" 
+                                    (click)="addSubTerm('Skin Ulcer')">
+                                        <img src="/assets/erosion/skin_ulcer.png" alt="" class="lesion_type_img">
+                                        <div class="lesion_type_text_wrapper" >
+                                            <p class="lesion_p_names">Skin Ulcer</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                              </div>
+                          </div>
+
+
+                      </div> 
+                    </div>
+                  </div>
+               </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="changeModal(1)">Next</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div> 
+            </div>
+
+        <!-- LESION LOCATION -->
+        <div *ngIf="selectedModal === 1">
+          <div class="modal-body">
+        <!-- <div class="modal-content"> -->
+            <div class="row d-flex justify-content-center">
+                <div>
+                    <div class="lesion_main_card"
+                     ngClass="{{ findingOptions[currentFindingIndex].location == 'Scalp' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Scalp', 'location')" >
+                        <img src="/assets/scalp_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Scalp</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="lesion_main_card"
+                     ngClass="{{ findingOptions[currentFindingIndex].location == 'Face' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Face', 'location')">
+                        <img src="/assets/face_img.svg" alt="" class="lesion_img" >
+                        <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Face</p>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Neck' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Neck', 'location')">
+                            <img src="/assets/neck_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Neck</p>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Arms' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Arms', 'location')">
+                            <img src="/assets/arms_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Arms</p>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <div class="lesion_main_card" 
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Hands' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Hands', 'location')">
+                            <img src="/assets/hands_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Hands</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- second row -->
+            <div class="row d-flex justify-content-center" style="margin-top: 18px;">
+                <div>
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Trunks' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Trunks', 'location')">
+                            <img src="/assets/trunk_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Trunk</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Anogenital' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Anogenital', 'location')">
+                            <img src="/assets/anogenital_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Anogenital</p>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Legs' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Legs', 'location')">
+                            <img src="/assets/leg_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Leg</p>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Foot and Toe' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Foot and Toe', 'location')">
+                            <img src="/assets/foot_img.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Foot and Toe</p>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <div class="lesion_main_card"
+                    ngClass="{{ findingOptions[currentFindingIndex].location == 'Distributed' ? 'border':''}}">
+                        <div class="lesion_img_wrapper" type="button" data-toggle="modal" data-target="#exampleModalinner" (click)="addOption('Distributed', 'location')">
+                            <img src="/assets/distribution.svg" alt="" class="lesion_img" >
+                            <img src="/assets/lesion_add_btn.svg" alt="" class="lesion_img_add_btn">
+                        </div>
+                        <div class="lesion_text_wrapper">
+                            <p class="lesion_p_names">Distribution</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <!-- </div> -->
+              
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="changeModal(2)">Next</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div> 
+        </div>
+
+        <!-- LESION SHAPE -->
+         <div *ngIf="selectedModal === 2 ">
+              <div class="modal-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Annular','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Annular' ">
+                                    <label for="html">Annular</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Arcutate','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Arcutate' " id="html">
+                                    <label for="html">Arcutate</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Grouped','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Grouped' " id="html">
+                                    <label for="html">Grouped</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Linear','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Linear' " id="html">
+                                    <label for="html">Linear</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Polycyclic','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Polycyclic' " id="html">
+                                    <label for="html">Polycyclic</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Reticular','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Reticular' " id="html">
+                                    <label for="html">Reticular</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Scattered','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Scattered' " id="html">
+                                    <label for="html">Scattered</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Whorled','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Whorled' " id="html">
+                                    <label for="html">Whorled</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Targetoid','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Targetoid' " id="html">
+                                    <label for="html">Targetoid</label>
+                                </div>
+                                <div class="radio_container">
+                                    <input type="radio" name="lesion_shape" (click)="addExaminationResult('Serpiginous','lesion_shape')"
+                                        [checked]="findingOptions[currentFindingIndex].examination_results.lesion_shape === 'Serpiginous' " id="html">
+                                    <label for="html">Serpiginous</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <!-- 3 -->
+                  
+              </div>
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-primary" data-dismiss="modal">Next</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+          </div>  
+        </div>
+
+    </div>
+    </div>
+   

@@ -1,0 +1,57 @@
+<div class="col-lg-12">
+  <div class="col-lg-10 inner_wrapper">
+    <h4 class="site_main_line"><b>Healthcare for your family</b></h4>
+    <span class="login_tag_line">Welcome, Book appointments with your <br> favourite doctors</span>
+    <form [formGroup]="signinForm" (ngSubmit)="signIn()" class="mt2">
+      <div class="form-group">
+        <label class="email_headline " for="email">Email Address
+          <sup>*</sup>
+        </label>
+        <input type="text" class="form-control login_email_input" id="email" placeholder="Enter the email address"
+          formControlName="email">
+        <div class="invalid-feedback" *ngIf="isFieldValid('email')">
+          <div *ngIf="signinForm.controls['email'].hasError('required')">
+            Email address is required
+          </div>
+          <div *ngIf="signinForm.controls['email'].hasError('email')">
+            Invalid email address
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="password_headline" for="password">Password
+          <sup>*</sup>
+        </label>
+        <input type="password" class="form-control login_password_input" id="password" placeholder="Enter the password"
+          formControlName="password">
+        <div class="invalid-feedback" *ngIf="isFieldValid('password')">
+          <div *ngIf="signinForm.controls['password'].hasError('required')">
+            Password is required
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <label class="checkbox-inline">
+          <input type="checkbox"><span class="common_text">Remember me</span>
+        </label>
+        <a href="" class="pull-right" routerLink="/auth/forgotpassword"><span class="common_text">Forgot Password?</span></a>
+      </div>
+      <div class="row-fluid mt-3">
+        <button type="submit" class="btn btn-primary mr-3 login_btn">Login</button>
+        <button type="button" class="btn btn-outline-secondary signup_btn" [routerLink]="['/auth/signup']">Sign Up</button>
+      </div>
+   <!---   <div class="row-fluid mt-5">
+        <span class="common_text">
+          Or Login with
+        </span>
+        <span class="pull-right">
+          <ul class="list-inline">
+            <li class="list-inline-item common_text"><a href="#">Google</a></li>
+            <li class="list-inline-item common_text"><a href="#">LinkedIn</a></li>
+            <li class="list-inline-item common_text"><a href="#">Facebook</a></li>
+          </ul>
+        </span>
+      </div> -->
+    </form>
+  </div>
+</div>

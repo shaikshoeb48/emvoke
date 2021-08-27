@@ -1,0 +1,65 @@
+
+.shared_search-patient_input{
+	background-color: #F5F7FD !important;
+	color: #100C74 !important;
+	border: none;
+  padding: 8px;
+	padding-left: 35px;
+	border-radius: 4px !important;
+}
+
+.shared_search-patient_input:active, .shared_search-patient_input:focus{
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.searchList{
+	position: absolute;
+	left: 0 ;
+	top: 35px;
+	z-index: 100;
+	width: 100%;
+  margin-top: 10px;
+  background-color: #F5F7FD; //----change color code
+}
+
+li{
+	padding: 6px 8px ;
+}
+
+span{
+	margin: 0 ;
+}
+
+h6{
+	margin: 0 ;
+}
+
+.det{
+	cursor: pointer;
+	float: right;
+}
+
+.shared_search-patient_input_wrapper{
+	position: relative;
+}
+
+.shared_search-patient_input_search_icon{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+
+.search_item:hover{
+  background-color: rgb(179, 180, 185);
+}
+
+.active_button{
+  color: #100C74;;
+}
+
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}

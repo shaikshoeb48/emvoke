@@ -1,0 +1,372 @@
+ <div class="col-sm-12 common_div_padding">
+    <div class="upper_box_wrapper">
+        <div class="upper_box">
+            <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                <span style="display: inline-block;">Medicine</span><br>
+                <span class="badge badge-pill badge-primary mr-2" *ngFor="let medicine of selectedMedicine; let i=index" style="color: white">
+                      {{ medicine.name }}
+                   <!--  <small>
+                         {{ medicineOption[i].duration }}, {{  medicineOption[i].quantity }} 
+                    </small> -->
+                </span>
+            </button>
+            <div class="container " [ngClass]="currentClass">
+                <div class="row upper_box_hr" >
+                    <div class="col-sm-4 upper_box_heading_row p-2"  (click)="toggle()" style="cursor: pointer;">
+                        <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                        <label for=""><p class="upper_box_heading">Medicine</p></label>
+                    </div>
+                    <div class="col-sm-8 upper_box_heading_row_search">
+                        <label style="position: relative;" for="">
+                            <img class="search_loader" id="loader_med_id" src="assets/loader.gif" alt="loader">
+                            <input type="text" class="upper_box_search" 
+                                    #medicineValue placeholder="Search" (keyup)="searchMedicine(medicineValue.value)">
+                            <i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i>
+                        </label>
+                        <small class="add_symptom" *ngIf="noSearch" (click)="addMedicine(medicineValue.value)">+Add</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="added_pill" for="Dandruff" *ngFor="let medicine of selectedMedicine; let i=index">
+                            <p class="pill_text" (click)="setMedicine(i)">{{ medicine.name }}</p>
+                            <img class="cross_icon" src="assets/cross.svg" (click)="removeMedicine(i)">
+                        </label>
+                    </div>
+                </div>
+                <div class="row not_added_pill_row" *ngIf="medicine.length === 0 && !noSearch">
+                    <div class="col-sm-12">
+                        <label class="not_added_pill" *ngFor="let medicine of displayMedicine; let i=index" (click)="selectMedicine(i)">
+                            <p class="pill_text">{{ medicine.name }}</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="row not_added_pill_row" *ngIf="medicine.length !== 0">
+                    <div class="col-sm-12">
+                        <label class="not_added_pill" *ngFor="let med of medicine; let i=index" (click)="selectMedicine(i)">
+                            <p class="pill_text">{{ med.name }}</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="text-center" *ngIf="noSearch">
+                    <h6>No search Found</h6>
+                </div>
+                <div class="row" style="padding-top: 10px; padding-bottom: 14px; ">
+                    <div class="col-sm-12" style=" text-align: right;">
+                        <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <div class="right_nav" *ngIf="showRight && selectedMedicine.length">
+    <div class="right_nav_wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Type</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <select id="labs" class="lower_text_area" (change)="addOption($event.target.value, 'route')">
+                            <option value="tablet" [selected]="medicineOption[currentMedicineIndex].route === 'tablet' ">Tablet</option>
+                            <option value="inj" [selected]="medicineOption[currentMedicineIndex].route === 'inj' ">Injection</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Quantity</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" class="lower_text_area" [value]="medicineOption[currentMedicineIndex].quantity"
+                         (change)="addOption($event.target.value, 'quantity')">
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <select id="labs" class="lower_text_area" (change)="addOption($event.target.value, 'quantity_type')">
+                            <option value="mg" [selected]="medicineOption[currentMedicineIndex].quantity_type === 'mg' ">mg</option>
+                            <option value="ml" [selected]="medicineOption[currentMedicineIndex].quantity_type === 'ml' ">ml</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <!--   <div class="row">
+            <div class="col-sm-12 d-flex quantity_btn" style="margin-top: 16px;">
+                <div>
+                    <button (click)="addOption('1/3', 'quantity')">1/3</button>
+                </div>
+                <div>
+                    <button (click)="addOption('1/2', 'quantity')">1/2</button>
+                </div>
+                <div>
+                    <button (click)="addOption('3/4', 'quantity')">3/4</button>
+                </div>
+                <div>
+                    <button (click)="addOption('1', 'quantity')">1</button>
+                </div>
+                <div>
+                    <button (click)="addOption('2', 'quantity')">2</button>
+                </div>
+                <div>
+                    <button (click)="addOption('3', 'quantity')">3</button>
+                </div>
+                <div>
+                    <button (click)="addOption('4', 'quantity')">4</button>
+                </div>
+                <div>
+                    <button (click)="addOption('5', 'quantity')">5</button>
+                </div>
+                <div>
+                    <button (click)="addOption('6', 'quantity')">6</button>
+                </div>
+                
+            </div> -->
+        <!-- </div> -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Default Time frequency</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- <div class="col-sm-6">
+                        <select id="labs" class="lower_text_area" (change)="addFrequency($event.target.value, -1)">
+                            <option value="1 hour" 
+                            [selected]="medicineOption[currentMedicineIndex].frequency_notes.value === '1' && medicineOption[currentMedicineIndex].frequency_notes.unit == 'hour'">
+                                1h
+                            </option>
+                            <option value="2 hour" 
+                            [selected]="medicineOption[currentMedicineIndex].frequency_notes.value === '2' && medicineOption[currentMedicineIndex].frequency_notes.unit == 'hour'">
+                                2h
+                            </option>
+                            <option value="3 hour" 
+                            [selected]="medicineOption[currentMedicineIndex].frequency_notes.value === '3' && medicineOption[currentMedicineIndex].frequency_notes.unit == 'hour'">
+                                3h
+                            </option>
+                            <option value="4 hour" 
+                            [selected]="medicineOption[currentMedicineIndex].frequency_notes.value === '4' && medicineOption[currentMedicineIndex].frequency_notes.unit == 'hour'">
+                                4h
+                            </option>
+                          </select>
+                    </div> -->
+                    
+                    <div class="col-sm-12">
+                        <select id="labs" class="lower_text_area" (change)="addFrequency($event.target.value, 'time')">
+                             <option value="none" [selected]="medicineOption[currentMedicineIndex].frequency_notes.time === 'none' ">None</option>
+                            <option value="after_food" [selected]="medicineOption[currentMedicineIndex].frequency_notes.time === 'after_food' ">After food</option>
+                            <option value="before_food" [selected]="medicineOption[currentMedicineIndex].frequency_notes.time === 'before_food' ">Before food</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-sm-12" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-sm-12 d-flex quantity_btn">
+                        <div>
+                            <button>1h</button>
+                        </div>
+                        <div>
+                            <button>2h</button>
+                        </div>
+                        <div>
+                            <button>3h</button>
+                        </div>
+                        <div>
+                            <button>4h</button>
+                        </div>
+                        <div>
+                            <button>5h</button>
+                        </div>
+                        <div>
+                            <button>6h</button>
+                        </div>
+                        <div>
+                            <button>7h</button>
+                        </div>
+                        <div>
+                            <button>8h</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-sm-12" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" class="lower_text_area" [value]="medicineOption[currentMedicineIndex].frequency_notes.value"
+                         (change)="addFrequency($event.target.value, 'value')">
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <select id="labs" class="lower_text_area" (change)="addFrequency($event.target.value, 'unit')">
+                            <option value="hour" [selected]="medicineOption[currentMedicineIndex].frequency_notes.unit === 'hour' ">hours</option>
+                            <option value="minutes" [selected]="medicineOption[currentMedicineIndex].frequency_notes.unit === 'minutes' ">minutes</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Default Duration</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- <div class="col-sm-8">
+                        <select id="labs" class="lower_text_area" (change)="addDuration($event.target.value, -1)">
+                            <option value="1 hour"
+                             [selected]="medicineOption[currentMedicineIndex].duration.value === '1' && medicineOption[currentMedicineIndex].duration.unit == 'hour'">
+                                1h
+                            </option>
+                            <option value="2 hour" 
+                             [selected]="medicineOption[currentMedicineIndex].duration.value === '2' && medicineOption[currentMedicineIndex].duration.unit == 'hour'">
+                                2h
+                            </option>
+                            <option value="3 hour" 
+                             [selected]="medicineOption[currentMedicineIndex].duration.value === '3' && medicineOption[currentMedicineIndex].duration.unit == 'hour'">
+                                3h
+                            </option>
+                            <option value="4 hour" 
+                             [selected]="medicineOption[currentMedicineIndex].duration.value === '4' && medicineOption[currentMedicineIndex].duration.unit == 'hour'">
+                                4h
+                            </option>
+                        </select>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+       <!--  <div class="row">
+            <div class="col-sm-12" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-sm-12 d-flex quantity_btn">
+                        <div>
+                            <button>1d</button>
+                        </div>
+                        <div>
+                            <button>2d</button>
+                        </div>
+                        <div>
+                            <button>3d</button>
+                        </div>
+                        <div>
+                            <button>4d</button>
+                        </div>
+                        <div>
+                            <button>1w</button>
+                        </div>
+                        <div>
+                            <button>2w</button>
+                        </div>
+                        <div>
+                            <button>3w</button>
+                        </div>
+                        <div>
+                            <button>1m</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-sm-12" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" class="lower_text_area" [value]="medicineOption[currentMedicineIndex].duration.value"
+                         (change)="addDuration($event.target.value, 'value')">
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <select id="labs" class="lower_text_area" (change)="addDuration($event.target.value, 'unit')">
+                            <option value="hour" [selected]="medicineOption[currentMedicineIndex].duration.unit === 'hour' ">Hour</option>
+                            <option value="day" [selected]="medicineOption[currentMedicineIndex].duration.unit === 'day' ">Day</option>
+                            <option value="week" [selected]="medicineOption[currentMedicineIndex].duration.unit === 'week' ">Week</option>
+                            <option value="month" [selected]="medicineOption[currentMedicineIndex].duration.unit === 'month' ">Month</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 d-flex flex-wrap" style="margin-top: 16px;">
+                <div>
+                    <input type="radio" id="male" name="gender" value="1">
+                    <label style="margin-left: 8px; margin-right: 16px;" for="male">SOS</label>
+                </div>
+                <div>
+                    <input type="radio" id="male" name="gender" value="2">
+                    <label style="margin-left: 8px; margin-right: 16px;" for="male">Till required</label>
+                </div>
+                <div>
+                    <input type="radio" id="male" name="gender" value="3">
+                    <label style="margin-left: 8px; margin-right: 16px;" for="male">To continue</label>
+                </div>
+                <div>
+                    <input type="radio" id="male" name="gender" value="4">
+                    <label style="margin-left: 8px; margin-right: 16px;" for="male">Stat</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Routes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 d-flex flex-wrap" style="margin-top: 16px;">
+                <div>
+                    <input type="radio" id="route" name="route" value="1">
+                    <label style="margin-left: 8px; margin-right: 16px;" for="male">Affected area</label>
+                </div>
+                <div>
+                    <input type="radio" id="route" name="route" value="2">
+                    <label style="margin-left: 8px; margin-right: 16px;" for="male">Till required</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="text" class="lower_text_area" placeholder="Enter body part">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Doctor Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" value="medicineOption[currentMedicineIndex].notes" (change)="addOption($event.target.value, 'notes')"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

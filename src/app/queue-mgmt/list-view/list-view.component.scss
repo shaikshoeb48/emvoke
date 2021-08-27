@@ -1,0 +1,304 @@
+/*.mat-tab-group {
+  height: 100%;
+}
+::ng-deep .mat-tab-label-active .mat-tab-label-content {
+  color: #6f42c1;
+}*/
+
+.lp-h3 {
+  height: 3rem;
+}
+
+.no-margin-left{
+	margin-left: 0 ;
+}
+
+.no-margin-right{
+	margin-right: 0 ;
+}
+
+.tab{
+	color: grey ;
+	border: none;
+	cursor: pointer;
+}
+
+
+.activeTab{
+	text-align: center;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.activeTab h6{
+	color: white;
+}
+
+
+.slide {
+  display: block;
+}
+
+.all_common_tab_queue div{
+	width: 100% !important;
+	text-align: center;
+  }
+
+.all_common_tab_queue h6{
+	// width: 96px !important;
+	font-size: 14px;
+	padding-top: 6px;
+  }
+
+.outer_queue_tab{
+	padding-left: 24px;
+	padding-right: 26px;
+}
+
+.queue_row_card{
+	border-radius: 0px;
+    border: none;
+    box-shadow: 0px 2px 12px rgb(238, 238, 238) !important;
+}
+
+.queue_row_card_inner{
+	font-size: 12px;
+	color: #808080;
+  }
+
+.queue_vital_btn{
+  border-radius: 0px;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 8px;
+}
+
+.queue_vital_btn:active , .queue_vital_btn:focus{
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.queue_ui_btn{
+	box-shadow: none;
+	border: 1px solid #7c76fe;
+	border-radius: 0px;
+	padding: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 4px;
+}
+
+.card-body{
+	padding: 1rem;
+}
+
+.queue_time_status div {
+	text-align: center;
+}
+
+.queue_time_status button{
+	border: none;
+}
+
+.queue_time_status .text-time{
+	font-weight: 500;
+}
+
+.queue_inner_row_margin{
+	margin-bottom: 10px ;
+}
+
+.queue_inner_row_margin_pill{
+	margin-bottom: 4px;
+}
+
+.mode_under_line::after{
+	display: block;
+    content: '';
+    height: 2px;
+    background: #00CE7F;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 16px;
+    border-radius: 80px;
+}
+
+.mode_under_line{
+	position: relative; 
+	font-weight: 500;
+	color: #00CE7F;
+}
+
+.name_under_line{
+	position: relative; 
+	font-weight: 500;
+	color: #100C74;
+}
+
+.name_under_line::after{
+	display: block;
+    content: '';
+    height: 2px;
+    background: #7BA8DE;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 16px;
+    border-radius: 80px;
+}
+
+.fill_api_data_queue{
+	font-weight: 500 !important;
+	color: rgb(39, 41, 44) !important;
+}
+
+.cancel {
+	margin-top: 0.6%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 1%;
+}
+
+.queue_no_data img{
+	width: 126px;
+}
+
+.queue_no_data{
+	text-align: center;
+    padding-top: 70px;
+}
+
+.single_doc_queue_row{
+	width: 100%;
+	min-height: 86px;
+	background-color: white;
+	border-radius: 4px;
+	margin-top: 4px;
+	margin-bottom: 8px;
+	box-shadow: 0px 4px 14px rgb(245, 245, 245);
+	padding-bottom: 6px;
+}
+
+.queue_card_dot{
+	height: 58px;
+    width: 58px;
+    background-color: #F8F9FF;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    margin-top: 14px;
+}
+
+.queue_card_icon{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+}
+
+.queue_pill{
+	min-width: 188px;
+    height: 40px;
+    background-color: #F3F8FB;
+    border-radius: 50px;
+    margin-right: 8px;
+    padding-left: 6px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    padding-top: 2px;
+}
+
+.queue_pill_age_wrapper{
+	min-width: 122px;
+	margin-bottom: 10px !important;
+}
+
+.queue_pill_phone_wrapper{
+	min-width: 140px;
+	margin-bottom: 10px !important;
+}
+
+.queue_pill_time_wrapper{
+	min-width: 140px;
+	margin-bottom: 10px !important;
+}
+
+.queue_pill label{
+	padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #8B9AA3;
+    margin-left: 4px;
+}
+
+.online_dot{
+	height: 8px;
+    width: 8px;
+    background-color: #74CE3E;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    // margin-top: 14px;
+}
+
+.online_dot_label{
+	color: #74CE3E;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 3px;
+    margin-left: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.patient_name{
+	padding: 0px;
+	margin: 0px;
+	font-size: 19px;
+	font-weight: 500;
+	color:#100C82;
+	padding-left: 6px;
+}
+
+.queue_right_wrapper{
+	margin-top: 29px;
+}
+
+
+.queue_right_sec{
+	margin-left: 16px;
+	margin-right: 6px;
+}
+
+.queue_right_sec_start_btn button{
+	border: 1px solid #7C76FE;
+	border-radius: 3px;
+	background-color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #7C76FE;
+	margin-bottom: 10px;
+}
+
+.queue_right_sec_dot{
+	cursor: pointer;
+	width: 5px;
+}
+
+.queue_right_sec_dot_wrapper{
+	cursor: pointer;
+}
+
+.dropdown_menu_custom{
+	width: 200px !important;
+	left: -50px !important;
+}
+

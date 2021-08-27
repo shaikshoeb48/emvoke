@@ -1,0 +1,418 @@
+<div class="">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mt-3 tab-card">
+        <div class="card-header tab-card-header">
+          <ul
+            class="nav nav-tabs card-header-tabs exam_ul"
+            id="myTab"
+            role="tablist"
+          >
+            <ng-container *ngFor="let singleExam of formNames; let i = index">
+              <li class="nav-item exam_ul_li">
+                <a
+                  class="nav-link "
+                  id="one-tab"
+                  data-toggle="tab"
+                  href="#{{ formStatus[singleExam].id }}"
+                  role="tab"
+                  aria-controls="One"
+                  aria-selected="true"
+                  (click)="onLoadForm(singleExam, i)"
+                >
+                  <img
+                    class="li_a_img"
+                    src="assets/exam_cal.svg"
+                    alt=""
+                    width="20px"
+                  />
+                  <img
+                    *ngIf="formStatus[singleExam].status == 'true'"
+                    class="li_a_pill_img"
+                    src="assets/exam_pill.svg"
+                    alt=""
+                  />
+                  <img
+                    *ngIf="formStatus[singleExam].status == 'false'"
+                    class="li_a_pill_pending_img"
+                    src="assets/exam_pill_pending.svg"
+                    alt=""
+                  />
+                  <p class="li_a_para">{{ formStatus[singleExam].tabName }}</p>
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+
+        <div class="tab-content" id="myTabContent">
+          <!--  -->
+          <ng-container
+            *ngFor="let singleExam of data | keyvalue; let i = index"
+          >
+            <div
+              class="tab-pane show p-3"
+              [ngClass]="{
+                active: activeTab === formStatus[singleExam.key].id
+              }"
+              [id]="formStatus[singleExam.key].id"
+              role="tabpanel"
+              aria-labelledby="one-tab"
+            >
+              <form [formGroup]="examinationForm" style="margin-bottom: 62px;">
+                <ng-container [formGroupName]="singleExam.value.formName">
+                  <h4 class="card_title"><strong>{{ singleExam.value.title }} starts from </strong><span class="exam_month_button">{{formStatus[singleExam.key]["monthAndYear"]}}</span></h4>
+                  <div class="row ">
+                    <ng-container
+                      *ngFor="let item of singleExam.value.section_one"
+                    >
+                      <div
+                        class="col-sm-{{ item.flex.level_1 }}"
+                        style="margin-bottom: 32px;"
+                      >
+                        <div class="row">
+                          <div class="col-sm-{{ item.flex.level_2_a }}">
+                            {{ item.name }}
+                          </div>
+                          <div class="col-sm-{{ item.flex.level_2_b }}" [ngClass]="{'item_unit_present': item.unit}">
+                            <ng-container *ngIf="item.type == 'input'">
+                              <input
+                                [type]="item.type"
+                                [formControlName]="item.formName"
+                                [placeholder]="item.placeholder"
+                                class="exam_common_input"
+                                (keydown) = onChangeValue(item,singleExam)
+                                (click) = onChangeValue(item,singleExam)
+
+                              />
+                            </ng-container>
+                            <ng-container *ngIf="item.unit">
+                              <select
+                                [formControlName]="item.unit.formName"
+                                class="exam_select_button"
+
+                              >
+                                <option
+                                  [ngValue]="null"
+                                  hidden
+                                  selected
+                                  disabled
+                                  >{{ item.unit.placeholder }}
+                                </option>
+                                <option
+                                  [ngValue]="optionChoice.label"
+                                  *ngFor="let optionChoice of item.unit.options"
+                                >
+                                  {{ optionChoice.label }}</option
+                                >
+                              </select>
+                            </ng-container>
+                            <ng-container *ngIf="item?.type == 'checkbox'">
+                              <input
+                                type="checkbox"
+                                [formControlName]="item.formName"
+                              />
+                              {{ item?.checkboxContent }}
+                            </ng-container>
+
+                            <ng-container *ngIf="item?.type == 'radio'">
+                              <ng-container *ngFor="let option of item.options">
+                                <input
+                                  type="radio"
+                                  class="net_metering_yes"
+                                  checked
+                                  [formControlName]="item.formName"
+                                  style="width: 30px;margin-top: 8px;"
+                                  [value]="option.value"
+                                /><label>{{ option.label }}</label>
+                              </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="item?.type == 'select'">
+                              <select
+                                [formControlName]="item.formName"
+                                class="exam_select_button"
+                              >
+                                <option
+                                  [ngValue]="null"
+                                  hidden
+                                  selected
+                                  disabled
+                                  >{{ item.placeholder }}
+                                </option>
+                                <option
+                                  [ngValue]="optionChoice.label"
+                                  *ngFor="let optionChoice of item.options"
+                                >
+                                  {{ optionChoice.label }}</option
+                                >
+                              </select>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <!--  -->
+
+                  <hr />
+                  <h6 class="card-title"><strong>Development</strong></h6>
+                  <!--  -->
+                  <div class="row" style="margin-bottom: 18px;">
+                    <ng-container formGroupName="development">
+                      <ng-container
+                        *ngFor="
+                          let item of singleExam.value.section_two;
+                          let i = index
+                        "
+                      >
+                        <ng-container [formGroupName]="item.name">
+                          <div class="col-sm-2" style="margin-bottom: 24px;">
+                            {{ item.displayName }}
+                          </div>
+                          <div class="col-sm-2">
+                            <input
+                              type="radio"
+                              class="net_metering_yes"
+                              checked
+                              formControlName="val"
+                              style="width: 30px;margin-top: 8px;"
+                              value="1"
+                            /><label>Yes</label>
+                            <input
+                              type="radio"
+                              class="net_metering_no"
+                              style="width: 30px"
+                              formControlName="val"
+                              value="0"
+                            /><label>No</label>
+                          </div>
+                          <div class="col-sm-2">
+                            <div
+                              *ngIf="
+                                examinationForm
+                                  .get(singleExam.value.formName)
+                                  .get('development')
+                                  .get(item.name)
+                                  .get('val').value == 1
+                              "
+                            >
+                              <select
+                                class="btn "
+                                formControlName="month"
+                                style="border: 1px solid #e1e1e1;"
+                              >
+                                <option [value]="null" disabled>month</option>
+                                <option
+                                  [value]="month"
+                                  *ngFor="let month of developmentDate[0]"
+                                  >{{ month }}</option
+                                >
+                              </select>
+                              <select
+                                class="btn "
+                                formControlName="year"
+                                style="border: 1px solid #e1e1e1;"
+                              >
+                                <option [value]="null" disabled>year</option>
+                                <option
+                                  [value]="year"
+                                  *ngFor="let year of developmentDate[1]"
+                                  >{{ year }}</option
+                                >
+                              </select>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                  <hr />
+
+                  <h5 class="card_title"><strong>Development Milestones</strong></h5>
+                  <ng-container *ngFor="let singleMilestone of milestoneNames">
+                    <div class="row">
+                      <div class="col" style="margin-bottom: 18px;">
+                        <h5>
+                          <img [src]="singleMilestone.icon" width="30" height="30" style="margin: 4px 10px 4px 2px;">
+                          <strong>{{ singleMilestone.name }}</strong>
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div
+                        class="col"
+                        style="margin-bottom: 18px;margin-left: 4px"
+                      >
+                        <app-multi-selector-dropdown
+                          [list]="
+                            singleExam.value.section_three[
+                              singleMilestone.formName
+                            ]
+                          "
+                          [selectedList]="
+                            milestoneContent[singleExam.key][
+                              singleMilestone.formName
+                            ]
+                          "
+                          [developmentDate]="developmentDate"
+                          (shareCheckedList)="
+                            shareCheckedList(
+                              $event,
+                              singleExam.value.formName,
+                              singleMilestone.formName
+                            )
+                          "
+                        >
+                        </app-multi-selector-dropdown>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <hr />
+                  <h5 style="margin-bottom:24px;">
+                      <img src="../../../../assets/child_examination_tooth.svg" width="30" height="30" style="margin: 4px 10px 4px 2px;">
+                      <strong>Teeth chart</strong></h5>
+                  <table class="teeth_chart">
+                    <tr>
+                      <th *ngFor="let column of teethChartHeader">
+                        {{ column }}
+                      </th>
+                    </tr>
+
+                    <tr *ngFor="let row of teethChartRows">
+                      <td>
+                        <p>{{ row.Name }}</p>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-2">
+                            <input
+                              type="checkbox"
+                              style="margin-right: 4px;"
+                              [(ngModel)]="row.checklist_1.value"
+                              [ngModelOptions]="{ standalone: true }"
+                            />
+                          </div>
+                          <div class="col-sm-10">
+                            <ng-container *ngIf="row.checklist_1.value">
+                              <select
+                                class="btn "
+                                [(ngModel)]="row.checklist_1.month"
+                                [ngModelOptions]="{ standalone: true }"
+                                style="border: 1px solid #e1e1e1;"
+                              >
+                                <option [value]="null" disabled>month</option>
+                                <option
+                                  [value]="month"
+                                  *ngFor="let month of developmentDate[0]"
+                                  >{{ month }}</option
+                                >
+                              </select>
+                              <select
+                                class="btn "
+                                [(ngModel)]="row.checklist_1.year"
+                                [ngModelOptions]="{ standalone: true }"
+                                style="border: 1px solid #e1e1e1;"
+                              >
+                                <option [value]="null" disabled>year</option>
+                                <option
+                                  [value]="year"
+                                  *ngFor="let year of developmentDate[1]"
+                                  >{{ year }}</option
+                                >
+                              </select>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-2">
+                            <input
+                              type="checkbox"
+                              style="margin-right: 4px;"
+                              [(ngModel)]="row.checklist_2.value"
+                              [ngModelOptions]="{ standalone: true }"
+                            />
+                          </div>
+                          <div class="col-sm-10">
+                            <ng-container *ngIf="row.checklist_2.value">
+                              <select
+                                class="btn "
+                                [(ngModel)]="row.checklist_2.month"
+                                [ngModelOptions]="{ standalone: true }"
+                                style="border: 1px solid #e1e1e1;"
+                              >
+                                <option [value]="null" disabled>month</option>
+                                <option
+                                  [value]="month"
+                                  *ngFor="let month of developmentDate[0]"
+                                  >{{ month }}</option
+                                >
+                              </select>
+                              <select
+                                class="btn "
+                                [(ngModel)]="row.checklist_2.year"
+                                [ngModelOptions]="{ standalone: true }"
+                                style="border: 1px solid #e1e1e1;"
+                              >
+                                <option [value]="null" disabled>year</option>
+                                <option
+                                  [value]="year"
+                                  *ngFor="let year of developmentDate[1]"
+                                  >{{ year }}</option
+                                >
+                              </select>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <hr />
+                  <!--  -->
+                  <div class="row">
+                    <div class="col-sm-12" style="text-align: right;">
+                      <mat-form-field class="date_save_btn">
+                        <mat-label>Choose a date</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="picker"
+                          formControlName="saveDate"
+                          (focus)="picker.open()"
+                        />
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                      <ng-container
+                        *ngIf="formStatus[singleExam.key].status == 'false'"
+                      >
+                        <button
+                          class="exam_save_btn"
+                          (click)="onSave(singleExam.value.formName)"
+                        >
+                          Save
+                        </button>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="formStatus[singleExam.key].status == 'true'"
+                      >
+                        <button
+                          class="exam_saved_btn"
+                          (click)="onSave(singleExam.value.formName)"
+                        >
+                          Saved
+                        </button>
+                      </ng-container>
+                    </div>
+                  </div>
+
+                  <!--  -->
+                </ng-container>
+              </form>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

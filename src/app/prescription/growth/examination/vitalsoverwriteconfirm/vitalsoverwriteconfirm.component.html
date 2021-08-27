@@ -1,0 +1,58 @@
+<ng-container *ngIf="!data.examinationSaved">
+    <div class="vitals_content">
+        <h5>
+          Click for current
+          <button class="btn btn-primary vitals_button" (click)="onClickVitals()">
+            Vitals
+          </button>
+        </h5>
+        <!-- <div mat-dialog-actions  align="center">
+          <button class="btn btn-primary custom_button"  (click)="onClickVitals()">Vitals</button>
+        </div> -->
+      </div>
+  <div mat-dialog-content>
+    <h6>
+      Vitals are historic data of a patient which is used to measure development
+      of a child
+    </h6>
+
+    <h6>
+      Are you sure you want to overwrite vitals taken on {{ data.date }} ?
+    </h6>
+  </div>
+  <div mat-dialog-actions align="center">
+    <button class="btn btn-primary custom_button" [mat-dialog-close]="true">
+      Yes
+    </button>
+    <button class="btn btn-light custom_button" [mat-dialog-close]="false">
+      No
+    </button>
+  </div>
+
+</ng-container>
+
+<ng-container *ngIf="data.examinationSaved">
+  <div class="vitals_content">
+    <h5>
+
+      <button class="btn btn-primary vitals_button" (click)="onClickVitals()">
+        Vitals
+      </button>
+    </h5>
+    <div mat-dialog-content>
+      <h6>
+        Patient vitals are historic data of a patient.Once saved cannot be
+        overwritten.
+      </h6>
+    </div>
+    <div mat-dialog-actions align="center">
+      <button class="btn btn-light custom_button" [mat-dialog-close]="false">
+        Close
+      </button>
+    </div>
+
+    <!-- <div mat-dialog-actions  align="center">
+      <button class="btn btn-primary custom_button"  (click)="onClickVitals()">Vitals</button>
+    </div> -->
+  </div>
+</ng-container>

@@ -1,0 +1,590 @@
+<div class="outer_queue_tab">
+  <div class="row">
+    <div class="col-sm-2 all_common_tab_queue">
+      <div [className]="all" (click)="onAll()" >
+        <h6>All</h6>
+      </div>
+    </div>
+    <div class="col-sm-2 all_common_tab_queue">
+      <div [className]="queue" (click)="onQueue()" >
+        <h6>Queue</h6>
+      </div>
+    </div>
+    <div class="col-sm-2 all_common_tab_queue">
+      <div [className]="consulting" (click)="onConsulting()" >
+        <h6>Consulting</h6>
+      </div>
+    </div>
+    <div class="col-sm-2 all_common_tab_queue">
+      <div [className]="cancelled" (click)="onCancelled()">
+        <h6>Cancelled</h6>
+      </div>
+    </div>
+    <div class="col-sm-2 all_common_tab_queue">
+      <div [className]="seen" (click)="onSeen()">
+        <h6>Seen</h6>
+      </div>
+    </div>
+  </div>
+<br>
+  <div class="no-margin-left" [@slideAnimation]="currentTab">
+     <div *ngIf="isCurrentTab(0)">
+        <!-- <div class="card slide shadow-sm queue_row_card"  *ngFor="let listDet of listDatafiltered; let i=index">
+         <div class="card-body">
+           <div class="row queue_row_card_inner">
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                Token No: <b class="fill_api_data_queue">{{ listDet.tokenNo}}</b>
+               </div>
+               <div>
+                Consulting Fees: <b class="fill_api_data_queue">{{listDet.mode == "online"? consultationCharge?.consultation_charges_online:consultationCharge?.consultation_charges_offline}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-title queue_inner_row_margin name_under_line">
+                {{listDet.name}}
+               </div>
+               <div>
+                {{listDet.gender|uppercase}}, Age - {{listDet.age}}
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-mode queue_inner_row_margin mode_under_line">
+                 Mode: {{listDet.mode}}
+               </div>
+               <div>
+                 Phone No: <b >{{listDet.contactNo}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                In-Consult: <b class="fill_api_data_queue">{{listDet.status == "Consulting" ? "Yes" : "No"}}</b>
+               </div>
+               <div>
+                Waiting-time: <b class="fill_api_data_queue">{{listDet.waitingTime }}</b>
+              </div>
+             </div>
+             <div class="col-sm-1 queue_time_status">
+               <div class="text-time queue_inner_row_margin_pill">
+                  <i class="fa fa-clock-o"></i> {{listDet.appointmentdate}}
+                </div>
+                <div>
+                  <button mat-stroked-button [ngClass]="queuemgmtService.getStatusColor(listDet.status)">
+                    {{listDet.status}}
+                  </button>
+                </div>
+             </div>
+             <div class="col-sm-2" *ngIf="listDet.status=='Queue' || listDet.status=='Consulting'">
+               <div style="text-align: center;">
+                <button class="btn btn-primary-outline queue_vital_btn" (click)="onClickVitals(listDet)">
+                  {{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}
+                </button>
+              </div>
+             </div>
+             <div class="col-sm-1" *ngIf="listDet.status != 'Cancelled' && listDet.status != 'Consulting' && listDet.status != 'Seen'"  class="cancel" (click)="onCancelAppointment(listDet)"><i class="fa fa-close"></i></div>
+           </div>
+         </div>
+        </div> -->
+        <div class="row" style="padding-left: 15px; padding-right: 15px;">
+          <!--  -->
+          <div class="col-sm-12 single_doc_queue_row"  *ngFor="let listDet of listDatafiltered; let i=index">
+            <div class="row single_doc_queue_inner_row">
+              <div class="col-sm-8 col-12">
+                <div class="d-flex">
+                  <div style="margin-right: 20px;">
+                    <span class="queue_card_dot">
+                      <img class="queue_card_icon" src="../../assets/queue/queue.svg" alt="">
+                    </span>
+                  </div>
+                  <div>
+                    <div class="d-flex flex-wrap" style="margin-top: 10px; margin-bottom: 4px;">
+                      <div style="margin-right: 14px;"><label class="patient_name">{{listDet.name}}</label></div>
+                      <div><span class="online_dot"></span> <label class="online_dot_label">{{listDet.mode}}</label></div>
+                    </div>
+                    <div class="d-flex queue_pill_wrapper flex-wrap">
+                      <div class="queue_pill_age_wrapper">
+                        <span class="queue_pill "><img src="../../assets/queue/queue_profile.svg" width="20px" alt=""><label>{{listDet.gender|uppercase}}, Age - {{listDet.age}}</label></span>
+                      </div>
+                      <div class="queue_pill_phone_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_call.svg" width="20px" alt=""><label>{{listDet.contactNo}}</label></span>
+                      </div>
+                      <div class="queue_pill_time_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_clock.svg" width="20px" alt=""><label> {{listDet.appointmentdate}} | {{listDet.waitingTime }}</label></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-sm-4 col-12">
+                <div class="d-flex justify-content-end flex-wrap queue_right_wrapper">
+                  <div class="queue_right_sec"><label class="queue_status" [ngClass]="queuemgmtService.getStatusColor(listDet.status)">{{listDet.status}}</label></div>
+                  <div class="queue_right_sec queue_right_sec_start_btn" *ngIf="listDet.status=='Queue' || listDet.status=='Consulting'">
+                    <button (click)="onClickVitals(listDet)">{{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}</button>
+                  </div>
+                  <div class="queue_right_sec queue_right_sec_dot_wrapper">
+                      <img class="queue_right_sec_dot" src="../../assets/queue/queue_dot.svg" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                      <div class="dropdown-menu dropdown-menu-left dropdown_menu_custom" aria-labelledby="dropdownMenuReference">
+                        <a class="dropdown-item" *ngIf="listDet.status != 'Cancelled' && listDet.status != 'Consulting' && listDet.status != 'Seen'" (click)="onCancelAppointment(listDet)">Cancel Appointment</a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+        <div class="row" *ngIf="!listDatafiltered.length">
+          <div class="col-sm-12 queue_no_data">
+            <img src="assets/queue_no_data.svg" alt="">
+          </div>
+        </div>
+     </div>
+
+     <div *ngIf="isCurrentTab(1)">
+       <!-- <div class="card slide shadow-sm queue_row_card"  *ngFor="let listDet of listDatafiltered; let i=index">
+         <div class="card-body">
+           <div class="row queue_row_card_inner">
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                Token No: <b class="fill_api_data_queue">{{listDet.tokenNo }}</b>
+               </div>
+               <div>
+                Consulting Fees: <b class="fill_api_data_queue">{{listDet.mode == "online"? consultationCharge?.consultation_charges_online:consultationCharge?.consultation_charges_offline}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-title queue_inner_row_margin name_under_line">
+                {{listDet.name}}
+               </div>
+               <div>
+                {{listDet.gender|uppercase}}, Age - {{listDet.age}}
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-mode queue_inner_row_margin mode_under_line">
+                 Mode: {{listDet.mode}}
+               </div>
+               <div >
+                 Phone No: <b class="fill_api_data_queue">{{listDet.contactNo}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                In-Consult: <b class="fill_api_data_queue">{{listDet.status == "Consulting" ? "Yes" : "No"}}</b>
+               </div>
+               <div>
+                Waiting-time: <b class="fill_api_data_queue">{{listDet.waitingTime}}</b>
+              </div>
+             </div>
+
+             <div class="col-sm-1 queue_time_status">
+               <div class="text-time queue_inner_row_margin_pill">
+                  <i class="fa fa-clock-o"></i> {{listDet.appointmentdate}}
+                </div>
+                <div>
+                  <button mat-stroked-button [ngClass]="queuemgmtService.getStatusColor(listDet.status)">
+                    {{listDet.status}}
+                  </button>
+                </div>
+             </div>
+              <div class="col-sm-2">
+               <div style="text-align: center;">
+                <button class="btn btn-primary-outline queue_vital_btn" (click)="onClickVitals(listDet)">
+                  {{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}
+                </button>
+              </div>
+             </div>
+             <div class="col-sm-1" class="cancel" (click)="onCancelAppointment(listDet)"><i class="fa fa-close"></i></div>
+           </div>
+         </div>
+        </div> -->
+        <div class="row" style="padding-left: 15px; padding-right: 15px;">
+          <!--  -->
+          <div class="col-sm-12 single_doc_queue_row"  *ngFor="let listDet of listDatafiltered; let i=index">
+            <div class="row single_doc_queue_inner_row">
+              <div class="col-sm-8 col-12">
+                <div class="d-flex">
+                  <div style="margin-right: 20px;">
+                    <span class="queue_card_dot">
+                      <img class="queue_card_icon" src="../../assets/queue/queue.svg" alt="">
+                    </span>
+                  </div>
+                  <div>
+                    <div class="d-flex flex-wrap" style="margin-top: 10px; margin-bottom: 4px;">
+                      <div style="margin-right: 14px;"><label class="patient_name">{{listDet.name}}</label></div>
+                      <div><span class="online_dot"></span> <label class="online_dot_label">{{listDet.mode}}</label></div>
+                    </div>
+                    <div class="d-flex queue_pill_wrapper flex-wrap">
+                      <div class="queue_pill_age_wrapper">
+                        <span class="queue_pill "><img src="../../assets/queue/queue_profile.svg" width="20px" alt=""><label>{{listDet.gender|uppercase}}, Age - {{listDet.age}}</label></span>
+                      </div>
+                      <div class="queue_pill_phone_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_call.svg" width="20px" alt=""><label>{{listDet.contactNo}}</label></span>
+                      </div>
+                      <div class="queue_pill_time_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_clock.svg" width="20px" alt=""><label> {{listDet.appointmentdate}} | {{listDet.waitingTime }}</label></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-sm-4 col-12">
+                <div class="d-flex justify-content-end flex-wrap queue_right_wrapper">
+                  <div class="queue_right_sec"><label class="queue_status" [ngClass]="queuemgmtService.getStatusColor(listDet.status)">{{listDet.status}}</label></div>
+                  <div class="queue_right_sec queue_right_sec_start_btn" *ngIf="listDet.status=='Queue' || listDet.status=='Consulting'">
+                    <button (click)="onClickVitals(listDet)">{{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}</button>
+                  </div>
+                  <div class="queue_right_sec queue_right_sec_dot_wrapper">
+                      <img class="queue_right_sec_dot" src="../../assets/queue/queue_dot.svg" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                      <div class="dropdown-menu dropdown-menu-left dropdown_menu_custom" aria-labelledby="dropdownMenuReference">
+                        <a class="dropdown-item" *ngIf="listDet.status != 'Cancelled' && listDet.status != 'Consulting' && listDet.status != 'Seen'" (click)="onCancelAppointment(listDet)">Cancel Appointment</a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+        <div class="row" *ngIf="!listDatafiltered.length">
+          <div class="col-sm-12 queue_no_data">
+            <img src="assets/queue_no_data.svg" alt="">
+          </div>
+        </div>
+     </div>
+
+
+
+     <div *ngIf="isCurrentTab(2)">
+       <!-- <div class="card slide shadow-sm queue_row_card"  *ngFor="let listDet of listDatafiltered; let i=index">
+         <div class="card-body">
+           <div class="row queue_row_card_inner">
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                Token No: <b class="fill_api_data_queue">{{listDet.tokenNo}}</b>
+               </div>
+               <div>
+                Consulting Fees: <b class="fill_api_data_queue">{{listDet.mode == "online"? consultationCharge?.consultation_charges_online:consultationCharge?.consultation_charges_offline}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-title queue_inner_row_margin name_under_line">
+                {{listDet.name}}
+               </div>
+               <div>
+                {{listDet.gender|uppercase}}, Age - {{listDet.age}}
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-mode queue_inner_row_margin mode_under_line">
+                 Mode: {{listDet.mode}}
+               </div>
+               <div>
+                 Phone No: <b class="fill_api_data_queue">{{listDet.contactNo}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                In-Consult: <b class="fill_api_data_queue">{{listDet.status == "Consulting" ? "Yes" : "No"}}</b>
+               </div>
+               <div>
+                Waiting-time: <b class="fill_api_data_queue">{{listDet.waitingTime}}</b>
+              </div>
+             </div>
+
+             <div class="col-sm-2 queue_time_status">
+               <div class="text-time queue_inner_row_margin_pill">
+                  <i class="fa fa-clock-o"></i> {{listDet.appointmentdate}}
+                </div>
+                <div>
+                  <button mat-stroked-button [ngClass]="queuemgmtService.getStatusColor(listDet.status)">
+                    {{listDet.status}}
+                  </button>
+                </div>
+               </div>
+                <div class="col-sm-2">
+                 <div style="text-align: center;">
+                  <button class="btn btn-primary-outline queue_vital_btn" (click)="onClickVitals(listDet)">
+                    {{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}
+                  </button>
+                </div>
+             </div>
+           </div>
+         </div>
+        </div> -->
+        <div class="row" style="padding-left: 15px; padding-right: 15px;">
+          <!--  -->
+          <div class="col-sm-12 single_doc_queue_row"  *ngFor="let listDet of listDatafiltered; let i=index">
+            <div class="row single_doc_queue_inner_row">
+              <div class="col-sm-8 col-12">
+                <div class="d-flex">
+                  <div style="margin-right: 20px;">
+                    <span class="queue_card_dot">
+                      <img class="queue_card_icon" src="../../assets/queue/queue.svg" alt="">
+                    </span>
+                  </div>
+                  <div>
+                    <div class="d-flex flex-wrap" style="margin-top: 10px; margin-bottom: 4px;">
+                      <div style="margin-right: 14px;"><label class="patient_name">{{listDet.name}}</label></div>
+                      <div><span class="online_dot"></span> <label class="online_dot_label">{{listDet.mode}}</label></div>
+                    </div>
+                    <div class="d-flex queue_pill_wrapper flex-wrap">
+                      <div class="queue_pill_age_wrapper">
+                        <span class="queue_pill "><img src="../../assets/queue/queue_profile.svg" width="20px" alt=""><label>{{listDet.gender|uppercase}}, Age - {{listDet.age}}</label></span>
+                      </div>
+                      <div class="queue_pill_phone_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_call.svg" width="20px" alt=""><label>{{listDet.contactNo}}</label></span>
+                      </div>
+                      <div class="queue_pill_time_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_clock.svg" width="20px" alt=""><label> {{listDet.appointmentdate}} | {{listDet.waitingTime }}</label></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-sm-4 col-12">
+                <div class="d-flex justify-content-end flex-wrap queue_right_wrapper">
+                  <div class="queue_right_sec"><label class="queue_status" [ngClass]="queuemgmtService.getStatusColor(listDet.status)">{{listDet.status}}</label></div>
+                  <div class="queue_right_sec queue_right_sec_start_btn" *ngIf="listDet.status=='Queue' || listDet.status=='Consulting'">
+                    <button (click)="onClickVitals(listDet)">{{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}</button>
+                  </div>
+                  <div class="queue_right_sec queue_right_sec_dot_wrapper">
+                      <img class="queue_right_sec_dot" src="../../assets/queue/queue_dot.svg" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                      <div class="dropdown-menu dropdown-menu-left dropdown_menu_custom" aria-labelledby="dropdownMenuReference">
+                        <a class="dropdown-item" *ngIf="listDet.status != 'Cancelled' && listDet.status != 'Consulting' && listDet.status != 'Seen'" (click)="onCancelAppointment(listDet)">Cancel Appointment</a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+        <div class="row" *ngIf="!listDatafiltered.length">
+          <div class="col-sm-12 queue_no_data">
+            <img src="assets/queue_no_data.svg" alt="">
+          </div>
+        </div>
+     </div>
+
+     <div *ngIf="isCurrentTab(3)">
+       <!-- <div class="card slide shadow-sm queue_row_card"  *ngFor="let listDet of listDatafiltered; let i=index">
+         <div class="card-body">
+           <div class="row queue_row_card_inner">
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                Token No: <b class="fill_api_data_queue">{{ listDet.tokenNo }}</b>
+               </div>
+               <div>
+                Consulting Fees: <b class="fill_api_data_queue">{{listDet.mode == "online"? consultationCharge?.consultation_charges_online:consultationCharge?.consultation_charges_offline}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-title queue_inner_row_margin name_under_line">
+                {{listDet.name}}
+               </div>
+               <div>
+                {{listDet.gender|uppercase}}, Age - {{listDet.age}}
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="text-mode queue_inner_row_margin mode_under_line">
+                 Mode: {{listDet.mode}}
+               </div>
+               <div>
+                 Phone No: <b class="fill_api_data_queue">{{listDet.contactNo}}</b>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="queue_inner_row_margin">
+                In-Consult: <b class="fill_api_data_queue">{{listDet.status == "Consulting" ? "Yes" : "No"}}</b>
+               </div>
+               <div>
+                Waiting-time: <b class="fill_api_data_queue">{{listDet.waitingTime}}</b>
+              </div>
+             </div>
+
+             <div class="col-sm-2 queue_time_status">
+               <div class="text-time queue_inner_row_margin_pill">
+                  <i class="fa fa-clock-o"></i> {{listDet.appointmentdate}}
+                </div>
+                <div>
+                  <button mat-stroked-button [ngClass]="queuemgmtService.getStatusColor(listDet.status)">
+                    {{listDet.status}}
+                  </button>
+                </div>
+             </div>
+
+           </div>
+         </div>
+        </div> -->
+        <div class="row" style="padding-left: 15px; padding-right: 15px;">
+          <!--  -->
+          <div class="col-sm-12 single_doc_queue_row"  *ngFor="let listDet of listDatafiltered; let i=index">
+            <div class="row single_doc_queue_inner_row">
+              <div class="col-sm-8 col-12">
+                <div class="d-flex">
+                  <div style="margin-right: 20px;">
+                    <span class="queue_card_dot">
+                      <img class="queue_card_icon" src="../../assets/queue/queue.svg" alt="">
+                    </span>
+                  </div>
+                  <div>
+                    <div class="d-flex flex-wrap" style="margin-top: 10px; margin-bottom: 4px;">
+                      <div style="margin-right: 14px;"><label class="patient_name">{{listDet.name}}</label></div>
+                      <div><span class="online_dot"></span> <label class="online_dot_label">{{listDet.mode}}</label></div>
+                    </div>
+                    <div class="d-flex queue_pill_wrapper flex-wrap">
+                      <div class="queue_pill_age_wrapper">
+                        <span class="queue_pill "><img src="../../assets/queue/queue_profile.svg" width="20px" alt=""><label>{{listDet.gender|uppercase}}, Age - {{listDet.age}}</label></span>
+                      </div>
+                      <div class="queue_pill_phone_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_call.svg" width="20px" alt=""><label>{{listDet.contactNo}}</label></span>
+                      </div>
+                      <div class="queue_pill_time_wrapper">
+                        <span class="queue_pill"><img src="../../assets/queue/queue_clock.svg" width="20px" alt=""><label> {{listDet.appointmentdate}} | {{listDet.waitingTime }}</label></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-sm-4 col-12">
+                <div class="d-flex justify-content-end flex-wrap queue_right_wrapper">
+                  <div class="queue_right_sec"><label class="queue_status" [ngClass]="queuemgmtService.getStatusColor(listDet.status)">{{listDet.status}}</label></div>
+                  <div class="queue_right_sec queue_right_sec_start_btn" *ngIf="listDet.status=='Queue' || listDet.status=='Consulting'">
+                    <button (click)="onClickVitals(listDet)">{{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}</button>
+                  </div>
+                  <div class="queue_right_sec queue_right_sec_dot_wrapper">
+                      <img class="queue_right_sec_dot" src="../../assets/queue/queue_dot.svg" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                      <div class="dropdown-menu dropdown-menu-left dropdown_menu_custom" aria-labelledby="dropdownMenuReference">
+                        <a class="dropdown-item" *ngIf="listDet.status != 'Cancelled' && listDet.status != 'Consulting' && listDet.status != 'Seen'" (click)="onCancelAppointment(listDet)">Cancel Appointment</a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+        <div class="row" *ngIf="!listDatafiltered.length">
+          <div class="col-sm-12 queue_no_data">
+            <img src="assets/queue_no_data.svg" alt="">
+          </div>
+        </div>
+     </div>
+
+     <div *ngIf="isCurrentTab(4)">
+      <!-- <div class="card slide shadow-sm queue_row_card"  *ngFor="let listDet of listDatafiltered; let i=index">
+        <div class="card-body">
+          <div class="row queue_row_card_inner">
+            <div class="col-sm-2">
+              <div class="queue_inner_row_margin">
+               Token No: <b class="fill_api_data_queue">{{ listDet.tokenNo }}</b>
+              </div>
+              <div>
+               Consulting Fees: <b class="fill_api_data_queue">{{listDet.mode == "online"? consultationCharge?.consultation_charges_online:consultationCharge?.consultation_charges_offline}}</b>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="text-title queue_inner_row_margin name_under_line">
+               {{listDet.name}}
+              </div>
+              <div>
+               {{listDet.gender|uppercase}}, Age - {{listDet.age}}
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="text-mode queue_inner_row_margin mode_under_line">
+                Mode: {{listDet.mode}}
+              </div>
+              <div>
+                Phone No: <b class="fill_api_data_queue">{{listDet.contactNo}}</b>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="queue_inner_row_margin">
+               In-Consult: <b class="fill_api_data_queue">{{listDet.status == "Consulting" ? "Yes" : "No"}} </b>
+              </div>
+              <div>
+               Waiting-time: <b class="fill_api_data_queue">{{listDet.waitingTime}}</b>
+             </div>
+            </div>
+
+            <div class="col-sm-2 queue_time_status">
+              <div class="text-time queue_inner_row_margin_pill">
+                 <i class="fa fa-clock-o"></i> {{listDet.appointmentdate}}
+               </div>
+               <div>
+                 <button mat-stroked-button [ngClass]="queuemgmtService.getStatusColor(listDet.status)">
+                   {{listDet.status}}
+                 </button>
+               </div>
+            </div>
+
+          </div>
+        </div>
+       </div> -->
+       <div class="row" style="padding-left: 15px; padding-right: 15px;">
+        <!--  -->
+        <div class="col-sm-12 single_doc_queue_row"  *ngFor="let listDet of listDatafiltered; let i=index">
+          <div class="row single_doc_queue_inner_row">
+            <div class="col-sm-8 col-12">
+              <div class="d-flex">
+                <div style="margin-right: 20px;">
+                  <span class="queue_card_dot">
+                    <img class="queue_card_icon" src="../../assets/queue/queue.svg" alt="">
+                  </span>
+                </div>
+                <div>
+                  <div class="d-flex flex-wrap" style="margin-top: 10px; margin-bottom: 4px;">
+                    <div style="margin-right: 14px;"><label class="patient_name">{{listDet.name}}</label></div>
+                    <div><span class="online_dot"></span> <label class="online_dot_label">{{listDet.mode}}</label></div>
+                  </div>
+                  <div class="d-flex queue_pill_wrapper flex-wrap">
+                    <div class="queue_pill_age_wrapper">
+                      <span class="queue_pill "><img src="../../assets/queue/queue_profile.svg" width="20px" alt=""><label>{{listDet.gender|uppercase}}, Age - {{listDet.age}}</label></span>
+                    </div>
+                    <div class="queue_pill_phone_wrapper">
+                      <span class="queue_pill"><img src="../../assets/queue/queue_call.svg" width="20px" alt=""><label>{{listDet.contactNo}}</label></span>
+                    </div>
+                    <div class="queue_pill_time_wrapper">
+                      <span class="queue_pill"><img src="../../assets/queue/queue_clock.svg" width="20px" alt=""><label> {{listDet.appointmentdate}} | {{listDet.waitingTime }}</label></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="col-sm-4 col-12">
+              <div class="d-flex justify-content-end flex-wrap queue_right_wrapper">
+                <div class="queue_right_sec"><label class="queue_status" [ngClass]="queuemgmtService.getStatusColor(listDet.status)">{{listDet.status}}</label></div>
+                <div class="queue_right_sec queue_right_sec_start_btn" *ngIf="listDet.status=='Queue' || listDet.status=='Consulting'">
+                  <button (click)="onClickVitals(listDet)">{{ role === 'doctor' ? 'Start Consult' : 'Vitals'}}</button>
+                </div>
+                <div class="queue_right_sec queue_right_sec_dot_wrapper">
+                    <img class="queue_right_sec_dot" src="../../assets/queue/queue_dot.svg" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                    <div class="dropdown-menu dropdown-menu-left dropdown_menu_custom" aria-labelledby="dropdownMenuReference">
+                      <a class="dropdown-item" *ngIf="listDet.status != 'Cancelled' && listDet.status != 'Consulting' && listDet.status != 'Seen'" (click)="onCancelAppointment(listDet)">Cancel Appointment</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+      </div>
+       <div class="row" *ngIf="!listDatafiltered.length">
+        <div class="col-sm-12 queue_no_data">
+          <img src="assets/queue_no_data.svg" alt="">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

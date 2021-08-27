@@ -1,0 +1,31 @@
+<!-- <div class="row justify-content-center">. -->
+  <div style="width: 100%; padding-left: 10px; padding-right: 10px;" (click)="clickin()">
+    <div class="shared_search-patient_input_wrapper">
+      <input type="search" placeholder="Search Patients...." #search (keyup)="searchTerm$.next($event.target.value)" class="form-control shared_search-patient_input"/>
+      <i class="fa fa-search shared_search-patient_input_search_icon"  aria-hidden="true"></i>
+
+      <div class="searchList" *ngIf="(searchResults && search.value)">
+
+        <div>
+          <ul class="list-group" *ngIf="(searchResults && search.value) && show">
+            <li class="list-group-item  list-group-item-action" *ngFor="let result of searchResults | slice:0:9">
+              <div>
+                <h6> {{ result.first_name }}
+                  <span (click)="bookAppointment(result)" class="text-primary det">
+                    <small> Book</small>
+                  </span>
+                </h6>
+                <span>
+                  <small> {{ result.contact_details[0].phone_number }} </small>
+                </span>
+                <span class="text-primary det" (click)="onDetails(result)"><small> Details </small></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
+    </div>
+   </div>
+<!-- </div> -->

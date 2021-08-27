@@ -1,0 +1,25 @@
+.chip {
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 16px;
+  line-height: 30px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+  border: 1px solid #c9c6fd;
+  font-size: 14px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.fa {
+  color: #7c76fe;
+}
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12rem;
+}
+
+.doctor-selected {
+  background: #cbcbcb;
+}

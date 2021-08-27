@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-sm-12" style="text-align: right;">
+    <button type="button" class="close" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+<div class="image_view" *ngIf="data.type == 'skindairy'">
+  <img style="height:80%;width: 100%;" [src]="data.imageData" />
+  <div class="row" style="margin-top: 14px;">
+    <div class="col-sm-6">
+      <label style="margin-left: 10px;" for="comment">Comments</label>
+      <!-- <br> -->
+      <div class="input_tabs">{{ item.comment }}</div>
+    </div>
+    <div class="col-sm-6" *ngIf="item.tags.length">
+      <label style="margin-left: 10px;" for="tags">Tags</label>
+      <br />
+      <!-- <input disabled="true" id="comment" class="input_tabs" [value]="item.comment"> -->
+      <div
+        class="input_tabs"
+        style="display:inline-block;padding: 2px 16px;"
+        *ngFor="let tag of item.tags"
+      >
+        {{ tag }}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="image_view" *ngIf="data.type != 'skindairy'">
+  <img style="height:100%;width: 100%;" [src]="data.imageData" />
+</div>

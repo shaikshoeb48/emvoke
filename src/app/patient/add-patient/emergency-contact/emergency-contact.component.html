@@ -1,0 +1,407 @@
+<h5 class="text-center" (click)="test()">Emergency Persons</h5>
+
+<div *ngFor="let emergency of data.emergency_contact_details; let i=index">
+  <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Name <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('name', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Relationship <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('relationship', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Email Id</label><br>
+        <input class="common_input" type="email" (keyup)="update_emergency_details('email_id', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Mobile no. <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('mobile_no', $event, i)">
+    </div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Address <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('address', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Address Line 1</label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('address_line_1', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Address Line 2</label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('address_line_2', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Country <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('country', $event, i)">
+    </div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">State <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('state', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Pincode <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('pincode', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">District</label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('district', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">City <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('city', $event, i)">
+    </div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Country Code</label><br>
+        <input class="common_input" type="text" (keyup)="update_emergency_details('country_code', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label class="remove_ico" (click)="removeEmergencyDetails(i)">
+            <a class="remove" >
+                <i class="fa fa-trash"></i>
+            </a>
+        </label>
+    </div>
+</div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-4 col-12">
+        <a class="add-more" (click)="addMoreEmergencyPerson()">+ Add more emergency person</a>
+    </div>
+</div>
+
+<hr>
+<hr>
+<hr>
+
+<h5 class="text-center">Care Persons</h5>
+
+<div *ngFor="let emergency of data.care_person_details; let i=index">
+  <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Name <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('name', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Relationship <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('relationship', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Email Id</label><br>
+        <input class="common_input" type="email" (keyup)="update_care_person('email_id', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Mobile no. <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('mobile_no', $event, i)">
+    </div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Address <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('address', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Address Line 1</label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('address_line_1', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Address Line 2</label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('address_line_2', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Country <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('country', $event, i)">
+    </div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">State <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('state', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Pincode <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('pincode', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">District</label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('district', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">City <sup class="red">*</sup></label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('city', $event, i)">
+    </div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-3 col-12">
+        <label for="f_name">Country Code</label><br>
+        <input class="common_input" type="text" (keyup)="update_care_person('country_code', $event, i)">
+    </div>
+    <div class="col-sm-6 col-md-3 col-12">
+        <label class="remove_ico" (click)="removeCarePersonDetails(i)">
+            <a class="remove">
+                <i class="fa fa-trash"></i>
+            </a>
+        </label>
+    </div>
+</div>
+</div>
+<div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+    <div class="col-sm-6 col-md-4 col-12">
+        <a class="add-more" (click)="addMoreCarePerson()">+ Add more Care person</a>
+    </div>
+</div>
+<br>
+
+<button  class="create_patient_btn" (click)="next('create')">Create Patient</button>
+
+
+
+
+
+
+
+
+ 
+  <!-- <div class="section per-info">
+  
+    <div class="section-2">
+      <div class="forms" *ngFor="let emergency of data.emergency_contact_details; let i=index">
+        <div class="row">
+          <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>Name</mat-label>
+                  <input matInput (keyup)="update_emergency_details('name', $event, i)" />
+                  <span matSuffix><i class="fa fa-home"></i></span>
+                </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>Relationship</mat-label>
+                  <input matInput (keyup)="update_emergency_details('relationship', $event, i)" />
+                  <span matSuffix><i class="fa fa-home"></i></span>
+                </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+              <mat-form-field>
+                  <mat-label>Email Id</mat-label>
+                  <input matInput (keyup)="update_emergency_details('email_id', $event, i)" />
+                  <span matSuffix><i class="fa fa-home"></i></span>
+                </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Mobile no.</mat-label>
+                <input matInput (keyup)="update_emergency_details('mobile_no', $event, i)" />
+                <span matSuffix><i class="fa fa-phone"></i></span>
+              </mat-form-field>
+            </div>
+          
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Address</mat-label>
+                <input matInput (keyup)="update_emergency_details('address', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Address Line 1</mat-label>
+                <input matInput (keyup)="update_emergency_details('address_line_1', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Address Line 2</mat-label>
+                <input matInput (keyup)="update_emergency_details('address_line_2', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>City</mat-label>
+                <input matInput (keyup)="update_emergency_details('city', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>District</mat-label>
+                <input matInput (keyup)="update_emergency_details('district', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+
+
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>State</mat-label>
+                <input matInput (keyup)="update_emergency_details('state', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Pincode</mat-label>
+                <input matInput (keyup)="update_emergency_details('pincode', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Country</mat-label>
+                <input matInput (keyup)="update_emergency_details('country', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Country code</mat-label>
+                <input matInput (keyup)="update_emergency_details('country_code', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+      </div>
+      <div>
+        <a class="add-more" (click)="addMoreEmergencyPerson()">+ Add more emergency person</a>
+      </div>
+      <hr>
+    </div>
+  </div>
+  
+  <div class="section contact">
+      
+      <div class="section-2">
+        <div class="forms" *ngFor="let care_person of data.care_person_details;let i=index">
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput (keyup)="update_care_person('name', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Relationship</mat-label>
+                <input matInput (keyup)="update_care_person('relationship', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Email id</mat-label>
+                <input matInput (keyup)="update_care_person('email_id', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+           
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Mobile no.</mat-label>
+                <input matInput (keyup)="update_care_person('mobile_no', $event, i)" />
+                <span matSuffix><i class="fa fa-phone"></i></span>
+              </mat-form-field>
+            </div>
+           
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Address</mat-label>
+                <input matInput (keyup)="update_care_person('address', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Address Line 1</mat-label>
+                <input matInput (keyup)="update_care_person('address_line_1', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Address Line 2</mat-label>
+                <input matInput (keyup)="update_care_person('address_line_2', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>City</mat-label>
+                <input matInput (keyup)="update_care_person('city', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>District</mat-label>
+                <input matInput (keyup)="update_care_person('district', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>State</mat-label>
+                <input matInput (keyup)="update_care_person('state', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Pincode</mat-label>
+                <input matInput (keyup)="update_care_person('pincode', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Country</mat-label>
+                <input matInput (keyup)="update_care_person('country', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Country code</mat-label>
+                <input matInput (keyup)="update_care_person('country_code', $event, i)" />
+                <span matSuffix><i class="fa fa-home"></i></span>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div>
+          <a class="add-more" (click)="addMoreCarePerson()">+ Add more care person detail</a>
+        </div>
+        <hr>
+      </div>
+    </div>
+      <div class="next">
+        <button class="next-but" (click)="next()" type="button">Add More Details</button>
+        <button class="create_patient_btn">Create Patient</button>
+      </div> -->

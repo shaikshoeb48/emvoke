@@ -1,0 +1,318 @@
+<!-- <div class="middle_section">
+    <div class="container">
+        <div class="row"> -->
+            <div class="col-sm-12 common_div_padding">
+                <div class="upper_box_wrapper">
+                    <div class="upper_box">
+                        <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                            <span style="display: inline-block;">Other Findings</span><br>
+                            <span class="badge badge-pill badge-primary mr-2" *ngFor="let symptom of selectedSymptoms" style="color: white">
+                                {{ symptom.term }}
+                            </span>
+                        </button>
+                        <div class="container " [ngClass]="currentClass">
+                            <div class="row upper_box_hr">
+                                <div class="col-sm-4 upper_box_heading_row p-2"  (click)="toggle()" style="cursor: pointer;">
+                                    <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                                    <label for=""><p class="upper_box_heading">Other Findings</p></label>
+                                </div>
+                                <div class="col-sm-8 upper_box_heading_row_search">
+                                    <label style="position: relative;" for="">
+                                        <img class="search_loader" id="loader_other_id" src="assets/loader.gif" alt="loader">
+                                        <input type="text" class="upper_box_search" 
+                                                #symptomValue placeholder="Search" (keyup)="searchSymptom(symptomValue.value)">
+                                        <i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i>
+                                    </label>
+                                    
+                                    <!-- <i style="padding-left: 6px;" class="fa fa-ellipsis-v" aria-hidden="true"></i> -->
+                                    <small class="add_symptom" *ngIf="noSearch" (click)="addSymptom(symptomValue.value)">+Add</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="added_pill" for="Dandruff" *ngFor="let symptom of selectedSymptoms; let i=index">
+                                        <p class="pill_text" (click)="setSymptom(i)">{{ symptom.term }}</p>
+                                        <img class="cross_icon" src="assets/cross.svg" (click)="removeSymptom(i)">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="symptoms.length === 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let symptom of displaySymptoms; let i=index" (click)="selectSymptom(i)">
+                                        <p class="pill_text">{{ symptom.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="symptoms.length !== 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let symptom of symptoms; let i=index" (click)="selectSymptom(i)">
+                                        <p class="pill_text">{{ symptom.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center" *ngIf="noSearch">
+                                <h6>No search Found</h6>
+                            </div>
+
+                           <!--  <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="lower_key_text">Note</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3" placeholder="Enter the prescription notes . . ."  ></textarea>
+                                </div>
+                            </div> -->
+                            <div class="row" style="padding-top: 10px; padding-bottom: 14px;">
+                                <div class="col-sm-12" style=" text-align: right;">
+                                    <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="right_nav" *ngIf="showRight && selectedSymptoms.length">
+                    <div class="right_nav_wrapper">
+                        <div class="row">
+                            <p class="textarea_heading_dynamic text-center" *ngIf="currentSymptomIndex >= 0 && selectedSymptoms.length">
+                                {{ selectedSymptoms[currentSymptomIndex].term }} 
+                                {{ selectedSymptoms[currentSymptomIndex].med_term ? "(" + selectedSymptoms[currentSymptomIndex].med_term + ")" : ""}}
+                            </p>
+                        </div>
+                        <!-- ----------1--------------
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Onset ( First symptom experienced )</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 d-flex">
+                                        <div>
+                                            <button class="btn_common" [ngClass]="symptomsOption[currentSymptomIndex].onset === 'yes' ? 'btn-primary' : '' "
+                                             (click)="addOption('yes', 'onset')">Yes</button>
+                                        </div>
+                                        <div>
+                                            <button class="btn_common" [ngClass]="symptomsOption[currentSymptomIndex].onset === 'no' ? 'btn-primary' : '' "
+                                             (click)="addOption('no', 'onset')">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- ------------------1---------------- -->
+                        <div class="row" *ngIf="medTerms.length">
+                            <div class="col-sm-12">
+                                <p class="textarea_heading_dynamic">Sub Terms (optional)
+                                    <span class="float-right">Total : {{ totalMedTerms }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="medTerms.length">
+                            <div class="col-sm-9">
+                                <div class="badge badge-primary termBadge"  (click)="prevTerms()">
+                                    Prev
+                                </div>
+                                <div class="badge badge-danger termBadge" (click)="nextTerms()">
+                                    Next
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="float-right">{{ curTermPage + 1}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row not_added_pill_row" >
+                                    <div class="col-sm-12">
+                                        <label class="added_pill" *ngIf="selectedSymptoms[currentSymptomIndex].med_term">
+                                            <p class="pill_text">
+                                             {{ selectedSymptoms[currentSymptomIndex].med_term }}
+                                            </p> 
+                                        </label>
+                                        <label class="not_added_pill" *ngFor="let medTerm of medTerms[curTermPage]; let i=index">
+                                            <p class="pill_text" (click)="selectMedTerm(medTerm,i)">
+                                             {{ medTerm }}
+                                            </p> 
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- ------------------2---------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Severity</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <form>
+                                            <div class="radio-group">
+                                                <input type="radio" id="option-one" name="selector" 
+                                                    [checked]="symptomsOption[currentSymptomIndex].severity === 'mild'">
+                                                <label class="severity_label"  (click)="addOption('mild', 'severity')">Mild</label>
+
+                                                <input type="radio" id="option-two" name="selector" 
+                                                    [checked]="symptomsOption[currentSymptomIndex].severity === 'moderator'">
+                                                <label class="severity_label" (click)="addOption('moderator', 'severity')">Moderate</label>
+
+                                                <input type="radio" id="option-three" name="selector"
+                                                    [checked]="symptomsOption[currentSymptomIndex].severity === 'severe'">
+                                                <label class="severity_label" (click)="addOption('severe', 'severity')">Severe</label>
+                                             </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- -----------------3-------------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Since </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('1 day', 'duration')" 
+                                                  [ngClass]="symptomsOption[currentSymptomIndex].duration === '1 day' ? 'btn-primary' : '' ">
+                                                    1 Day
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('2 day', 'duration')" 
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].duration === '2 day' ? 'btn-primary' : '' ">
+                                                    2 day
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('3 day', 'duration')"
+                                                   [ngClass]="symptomsOption[currentSymptomIndex].duration === '3 day' ? 'btn-primary' : '' ">
+                                                    3 Day
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('3+ day', 'duration')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].duration === '3+ day' ? 'btn-primary' : '' ">
+                                                    3+ day
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- -----------------4-------------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Frequency</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                            <div>
+                                                <button class="btn_common_since" [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'once' ? 'btn-primary' : '' " (click)="addOption('once', 'frequency')">
+                                                    1st time
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('twice', 'frequency')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'twice' ? 'btn-primary' : '' ">
+                                                    Twice
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('thrice', 'frequency')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'thrice' ? 'btn-primary' : '' ">
+                                                    thrice
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('more', 'frequency')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'more' ? 'btn-primary' : '' ">
+                                                    More
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- -----------------5-------------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">
+                                            Symptom Distress scale ( {{ symptomsOption[currentSymptomIndex].distress_scale }})
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="slidecontainer">
+                                            <input type="range" min="1" max="10" value="{{ symptomsOption[currentSymptomIndex].distress_scale }}" 
+                                            class="slider" id="myRange" #distress (change)="addOption(distress.value, 'distress_scale')">
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Prescription Notes</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <textarea class="lower_text_area" value="{{ symptomsOption[currentSymptomIndex].notes }}" 
+                                            rows="3" #notes (change)="addOption(notes.value, 'notes')"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Doctor Notes</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <textarea class="lower_text_area" rows="3" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ICD10 CODE -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="textarea_heading_dynamic">
+                                  ICD-10 Code : {{ selectedSymptoms[currentSymptomIndex].ICD_code }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+        

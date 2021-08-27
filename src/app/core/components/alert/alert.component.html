@@ -1,0 +1,22 @@
+	<div class="card">
+		<div class="card-body">
+			<h3 class="text-center">{{ title }}</h3>
+			<p class="text-muted">{{ message }}</p><br>
+			<div class="row" *ngFor="let item of extra | keyvalue">
+				<div class="col-sm-6 column">
+					<p>{{ item.key }}</p>
+				</div>
+				<div class="col-sm-6 column">
+					<p>{{ item.value }}</p>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-6">
+					<button class="btn btn-primary btn-block btn-sm mx-auto d-block alert-btn" (click)="onOkay()">{{ button1 }}</button>
+				</div>
+				<div class="col-md-6">
+					<button class="btn btn-danger btn-block btn-sm mx-auto d-block alert-btn" (click)="onCancel()">{{ button2 }}</button>
+				</div>
+			</div>
+		</div>
+	</div>

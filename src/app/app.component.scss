@@ -1,0 +1,180 @@
+.prelogin-container {
+  margin-top: 2rem;
+  h3 {
+    color: #7c76fe;
+  }
+  span {
+    color: #827b7b !important;
+  }
+}
+.postlogin-container {
+  .right-col {
+    margin-left: 230px;
+    padding: 4rem 0.5rem !important;
+    background-color: #FCFDFF !important;
+  }
+}
+.nav-sm .right-col {
+  margin-left: 70px !important;
+}
+
+// doctor queue style
+
+.doctor_name mat-card-title{
+  font-size: 16px;
+  color: #100c74;
+  text-transform: capitalize;
+  margin: 0px;
+  margin-top: 0px !important;
+  margin-left: -50px;
+}
+
+.doctor_name_head{
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+.card_dot_d {
+  // margin-top: 14px;
+  // margin-left: 16px;
+  height: 38px;
+  width: 38px;
+  background-color: #F8F9FF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+.card_icon_d{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;;
+}
+
+.doctor_btn_div button{
+  font-size: 12px;
+  border-radius: 0px;
+}
+
+.doctor_btn_div button i{
+  margin-right: 6px;
+}
+
+.all_doc_queue_nav{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.all_doc_top_com_margin{
+  margin-right: 20px !important;
+  font-size: 14px !important;
+}
+
+.all_doc_book_appointment{
+  border-radius: 0px;
+  padding: 0px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 14px;;
+}
+
+.all_doc_queue_name{
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.all_queue_outer{
+  margin-right: 20px !important;
+  box-shadow: none !important;
+}
+
+.card-list-content{
+  padding-right: 10px;
+}
+
+// box-shadow: 0px 2px 12px rgb(238, 238, 238) !important;
+
+.queue_inner_card{
+  border: none;
+  border-radius: 10px;
+  padding: 10px !important;
+}
+
+.queue_inner_card{
+  padding: 10px !important;
+}
+
+.queue_patient_name_{
+  position: relative;
+}
+.queue_patient_name_::after{
+    display: block;
+    content: '';
+    height: 2px;
+    background: #00CE7F;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 16px;
+    border-radius: 80px;
+}
+
+
+
+
+// In queue management folder - doctor component folder 
+
+.queue-mgmt-doctor__head_card{
+  width: 100%;
+  min-height: 70px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid rgb(240, 240, 240);
+  padding-left: 36px;
+  padding-right: 36px;
+}
+
+.queue-mgmt-doctor__doctor_wrapper{
+  padding-top: 24px;
+}
+
+.queue-mgmt-doctor__doctor_name{
+  margin-left: 10px;
+    padding-top: 6px;
+    font-weight: 400;
+    color: #100C74;
+}
+
+
+.queue-mgmt-doctor__datepicker{
+  padding-top: 18px;
+}
+
+.queue-mgmt-doctor__patient_search{
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.queue-mgmt-doctor__patient{
+  padding-top: 24px;
+}
+
+.queue-mgmt-doctor__toggle{
+  padding-top: 26px;
+}
+
+.queue-mgmt-doctor__patient_search .block{
+  margin-left: 20px;
+}
+
+@media only screen and (max-width:540px){
+  .queue-mgmt-doctor__patient_search .block{
+    width: 100%;
+  }
+}

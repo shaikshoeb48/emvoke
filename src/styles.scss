@@ -1,0 +1,516 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~aws-amplify-angular/theme.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import '../node_modules/flatpickr/dist/flatpickr.min.css';
+.body {
+  margin: 0px;
+  overflow-x: hidden;
+}
+a {
+  cursor: pointer;
+}
+*:focus {
+  outline: none !important;
+}
+.detail a,
+.expand,
+.paging_full_numbers a:hover,
+.site_title:focus,
+.site_title:hover,
+a,
+a:focus,
+a:hover {
+  text-decoration: none !important;
+}
+.menuTitle {
+  font-weight: bold;
+  font-size: 20px;
+}
+.postlogin-container {
+  color: #172b4d !important;
+  span {
+    color: #424242;
+  }
+}
+.mat-tab-body.mat-tab-body-active {
+  z-index: auto !important;
+}
+.cursor-move {
+  cursor: move;
+}
+/* Dialog Styles */
+.mat-dialog-container .dialog-content {
+  display: block;
+  margin: 0 -24px;
+  padding: 0 12px;
+  max-height: 65vh;
+  //overflow: auto;
+}
+/* Common Utilities */
+.bg-green {
+  background: #1abb9c !important;
+  border: 1px solid #1abb9c !important;
+  color: #fff;
+}
+.bg-red {
+  background: #e74c3c !important;
+  border: 1px solid #e74c3c !important;
+  color: #fff;
+}
+.btn-primary-outline {
+  border-color: #7c76fe !important;
+  color: #7c76fe !important;
+}
+.btn-primary {
+  background-color: #7c76fe !important;
+  border-color: #7c76fe !important;
+}
+.btn-search {
+  background-color: #aaaaaa !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+}
+.btn-green {
+  background-color: #e9f6eb !important;
+  border: none !important;
+  padding: 2px 18px 2px 18px !important;
+  span {
+    color: #71b17a !important;
+  }
+}
+.btn-purple {
+  background-color: #f4eafc !important;
+  border: none !important;
+  padding: 2px 18px 2px 18px !important;
+  span {
+    color: #ab99d6 !important;
+  }
+}
+.btn-blue {
+  border: none !important;
+  background-color: #e4effe !important;
+  padding: 2px 18px 2px 18px !important;
+  span {
+    color: #7ba8de !important;
+  }
+}
+.btn-orange {
+  border: none !important;
+  background-color: #fdeee8 !important;
+  padding: 2px 18px 2px 18px !important;
+  span {
+    color: #e3a995 !important;
+  }
+}
+.mat-stroked-button {
+  border-radius: 1rem !important;
+  line-height: 25px!important;
+}
+.font-weight-bold {
+  font-weight: bold !important;
+}
+.mt2 {
+  margin-top: 2em;
+}
+.mt4 {
+  margin-top: 4em;
+}
+.ml2 {
+  margin-left: 2em !important;
+}
+.ml12 {
+  margin-left: 12px;
+}
+.w-25 {
+  width: 25%;
+}
+.box-shadow-none {
+  box-shadow: none !important;
+}
+/* Form styles */
+form sup {
+  color: red;
+}
+.form-control {
+  background: #e7e6f1 !important;
+}
+input.mat-input-element:disabled {
+  background-color: inherit!important;
+}
+// input:not([type="search"]):not(#phone):not(.mat-input-element) {
+//   border-left: 3px solid #7c76fe;
+// }
+// select {
+//   border-left: 3px solid #7c76fe !important;
+// }
+.form-control.ng-invalid.ng-touched,
+.invalid-form .form-control.ng-invalid {
+  border-color: #dc3545 !important;
+}
+input[type="search"] {
+  padding: 0.4rem;
+  -webkit-appearance: button !important;
+  float: left;
+  border-radius: 0px!important;
+}
+.input-group .form-control {
+  padding: 0.25rem !important;
+}
+.invalid-feedback {
+  color: #dc3545;
+  display: block !important;
+}
+.btnGroup > button, .btnGroup > div > button {
+  margin-right: 0.5rem
+}
+/* Main Content Styles */
+.right-col {
+  min-height: 95vh;
+}
+.nav-md .main-container .right-col {
+  padding: 10px 20px 0;
+  margin-left: 230px;
+}
+.nav-sm .main-container .right-col {
+  padding: 10px 20px;
+  margin-left: 70px;
+  z-index: 2;
+}
+.centered {
+  position: fixed;
+  width: 100%;
+  top: 45%;
+  left: 33%;
+}
+body .main-container .right-col {
+  background: #f7f7f7;
+}
+@media (max-width: 991px) {
+  .nav-md .main-container .right-col {
+    margin-left: 0px;
+  }
+}
+/*Flex Styles*/
+.card-content {
+  margin: 0.5rem;
+}
+.fx-spacer {
+  flex: 1 1 auto;
+}
+.flex-row {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-items-center {
+  display: flex !important;
+  align-items: center;
+}
+.flex-items-justify {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flex-column1 {
+  display: flex;
+  flex-direction: column;
+}
+.flex-column2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+/*Text styles */
+.text-phone {
+  color: #424242 !important;
+}
+.text-time {
+  color: #999999 !important;
+}
+.text-title {
+  color: #100c74 !important;
+}
+.text-mode {
+  color: #00ce7f !important;
+}
+.cursor-pointer {
+  cursor: pointer !important;
+}
+/* Calendar styles */
+.mat-datepicker-toggle .mat-icon-button {
+  display: none !important;
+}
+/* Slide Styles */
+.lp-slide {
+  font-size: 12px;
+  color: #9f9f9f;
+}
+/*Scrollbar Styles*/
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(143, 141, 141, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cccccc;
+}
+
+
+
+// confirm code component css
+
+.confirm_outer_wrapper{
+  padding: 0px !important;
+}
+
+.all_comm_input_box{
+  border: none !important;
+  background-color: #EAEEFF !important;
+  color: #16118F !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-left: 2px solid #7C76FE !important;
+}
+
+.all_comm_input_box:focus , .all_comm_input_box:active{
+  box-shadow: none !important;
+}
+.all_comm_btn{
+  border: none !important;
+  border-radius: 0px !important;
+  width: 100px !important;
+  box-shadow: 0px 6px 18px rgb(194, 190, 255) !important;
+}
+
+
+// ----------- prescription right nav --------------
+.right_nav{
+  width: 290px;
+  min-height: 120vh;
+  border-top: 1px solid rgb(246, 246, 255);
+  padding-left: 10px;
+  padding-right: 10px;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 50px;
+  background-color: #FDFEFF;
+  border-left: 1px solid #EEEEEE;
+}
+
+
+.toast-center-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.toast-top-center {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-bottom-center {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-top-full-width {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-bottom-full-width {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+.toast-top-left {
+  top: 12px;
+  left: 12px;
+}
+.toast-top-right {
+  top: 12px;
+  right: 12px;
+}
+.toast-bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+.toast-bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+/* toast styles */
+.toast-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-left: 10px
+}
+.toast-message {
+  margin-top: 5px;
+    word-wrap: break-word;
+    float: right;
+    /* margin-top: -20px; */
+    margin-right: 50px;
+    /* margin-right: 30px; */
+    font-size: 20px;
+    font-weight: 500;
+}
+.toast-message a,
+.toast-message label {
+  color: black;
+}
+.toast-message a:hover {
+  color: #CCCCCC;
+  text-decoration: none;
+}
+.toast-close-button {
+  position: relative;
+  right: 0.3em;
+  top: -0.12em;
+  float: right;
+  font-size: 35px;
+  font-weight: 500;
+  color: black;
+  text-shadow: 0 1px 0 #ffffff;
+  /* opacity: 0.8; */
+}
+.toast-close-button:hover,
+.toast-close-button:focus {
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.4;
+}
+/*Additional properties for button version
+ iOS requires the button element instead of an anchor tag.
+ If you want the anchor version, it requires `href="#"`.*/
+button.toast-close-button {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  margin-top: -5px;
+  border: 0;
+}
+.toast-container {
+  pointer-events: none;
+  position: fixed;
+  z-index: 999999;
+}
+.toast-container * {
+  box-sizing: border-box;
+}
+.toast-container .ngx-toastr {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 20px 15px 15px 50px;
+  width: 300px;
+  border-radius: 3px 3px 3px 3px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  background-size: 24px;
+  box-shadow: 0 0 12px #999999;
+  color: black;
+}
+.toast-container .ngx-toastr:hover {
+  box-shadow: 0 0 12px #000000;
+  opacity: 1;
+  cursor: pointer;
+}
+/* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/info-circle.svg */
+.toast-info {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cpath fill='rgb(91, 192, 222)' d='M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z'/%3E%3C/svg%3E");
+}
+/* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/times-circle.svg */
+.toast-error {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cpath fill='rgb(217, 83, 79)' d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z'/%3E%3C/svg%3E");
+}
+/* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/check.svg */
+.toast-success {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cpath fill='rgb(92, 184, 92)' d='M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z'/%3E%3C/svg%3E");
+}
+/* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/exclamation-triangle.svg */
+.toast-warning {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512' width='576' height='512'%3E%3Cpath fill='rgb(240, 173, 78)' d='M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z'/%3E%3C/svg%3E");
+}
+.toast-container.toast-top-center .ngx-toastr,
+.toast-container.toast-bottom-center .ngx-toastr {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.toast-container.toast-top-full-width .ngx-toastr,
+.toast-container.toast-bottom-full-width .ngx-toastr {
+  width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ngx-toastr {
+  background-color: #030303;
+  pointer-events: auto;
+}
+.toast-success {
+  background-color: white;
+}
+.toast-error {
+  background-color: white;
+}
+.toast-info {
+  background-color: white;
+}
+.toast-warning {
+  background-color: white;
+}
+.toast-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 6px;
+  background-color:#007bff
+  ;
+  opacity: 0.4;
+}
+/* Responsive Design */
+@media all and (max-width: 240px) {
+  .toast-container .ngx-toastr.div {
+    padding: 8px 8px 8px 50px;
+    width: 11em;
+  }
+  .toast-container .toast-close-button {
+    right: -0.2em;
+    top: -0.2em;
+  }
+}
+@media all and (min-width: 241px) and (max-width: 480px) {
+  .toast-container .ngx-toastr.div {
+    padding: 8px 8px 8px 50px;
+    width: 18em;
+  }
+  .toast-container .toast-close-button {
+    right: -0.2em;
+    top: -0.2em;
+  }
+}
+@media all and (min-width: 481px) and (max-width: 768px) {
+  .toast-container .ngx-toastr.div {
+    padding: 15px 15px 15px 50px;
+    width: 25em;
+  }
+}

@@ -1,0 +1,17 @@
+<div #box class="resizable-draggable" 
+    [style.width.px]="width" 
+    [style.height.px]="height" 
+    [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
+    [class.active]="status === 1 || status === 2"
+    (mousedown)="setStatus($event, 2)"
+    (window:mouseup)="setStatus($event, 0)"
+>
+    <!-- <div class="resize-action" (mousedown)="setStatus($event, 1)"></div> -->
+    <!-- <span>{{width | number:'1.0-0'}}px</span>
+    <span>{{height | number:'1.0-0'}}px</span>
+    <span>({{left}}, {{top}})</span> -->
+    <span class="mute_wrapper"><label class="call_circle call_mute"><img class="m_image" src="../../../assets/mute.svg" alt=""></label></span>
+    <span class="end_wrapper"><label class="call_circle call_end"><img class="c_image" src="../../../assets/end_video_call.svg" alt=""></label></span>
+    <span class="video_wrapper"><label class="call_circle video_call"><img class="v_image" src="../../../assets/v_call.svg" alt=""></label></span>
+    <img class="rezise_window" src="../../../assets/resize_video.svg" alt="">
+</div>

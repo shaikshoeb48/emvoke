@@ -1,0 +1,124 @@
+  <div class="col-sm-12 common_div_padding" >
+    <div class="upper_box_wrapper">
+        <div class="upper_box">
+            <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                <span style="display: inline-block;">Procedures</span><br>
+                <span class="badge badge-pill badge-primary mr-2" *ngFor="let procedure of selectedProcedure" style="color: white">
+                    {{ procedure.term }}
+                </span>
+            </button>
+            <div class="container " [ngClass]="currentClass" >
+                <div class="row upper_box_hr">
+                    <div class="col-sm-4 upper_box_heading_row"  (click)="toggle()">
+                        <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                        <label for=""><p class="upper_box_heading">Procedures</p></label>
+                    </div>
+                    <div class="col-sm-8 upper_box_heading_row_search">
+                        <label style="position: relative;" for="">
+                            <img class="search_loader" id="loader_procedure_id" src="assets/loader.gif" alt="loader">
+                            <input type="text" class="upper_box_search" #procedureValue 
+                           (keyup)="searchProcedure(procedureValue.value)" placeholder="Search"><i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i></label>
+                        <small class="add_symptom" *ngIf="noSearch" (click)="addProcedure(procedureValue.value)">+Add</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="added_pill" for="Dandruff" *ngFor="let procedure of selectedProcedure; let i=index">
+                            <p class="pill_text" (click)="setProcedure(i)">{{ procedure.term }}</p>
+                            <img class="cross_icon" src="assets/cross.svg" (click)="removeProcedure(i)">
+                        </label>
+                    </div>
+                </div>
+                <div class="row not_added_pill_row" *ngIf="procedures.length === 0">
+                    <div class="col-sm-12">
+                        <label class="not_added_pill" for="Dandruff" *ngFor="let procedure of displayProcedure ; let i=index" (click)="selectProcedure(i)">
+                            <p class="pill_text">{{ procedure.term }}</p>
+                        </label>
+                    </div>
+                </div>
+                 <div class="row not_added_pill_row" *ngIf="procedures.length !== 0">
+                    <div class="col-sm-12">
+                        <label class="not_added_pill" for="Dandruff" *ngFor="let procedure of procedures ; let i=index" (click)="selectProcedure(i)">
+                            <p class="pill_text">{{ procedure.term }}</p>
+                        </label>
+                    </div>
+                </div>
+                 <div class="text-center" *ngIf="noSearch">
+                    <h6>No search Found</h6>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-sm-12">
+                        <p class="lower_key_text">Note</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" placeholder="Enter the Investigation notes . . ."  ></textarea>
+                    </div>
+                </div> -->
+                 <div class="row" style="padding-top: 10px; padding-bottom: 14px; ">
+                    <div class="col-sm-12" style=" text-align: right;">
+                        <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="right_nav"  *ngIf="showRight && selectedProcedure.length">
+    <div class="right_nav_wrapper">
+        <div class="row text-center">
+            <p class="textarea_heading_dynamic" *ngIf="currentProcedureIndex >= 0 && selectedProcedure.length">
+                {{ selectedProcedure[currentProcedureIndex].term }}
+            </p>
+        </div>
+         <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Procedures timing</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input class="lower_text_area" type="date" name="" id="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Nursing Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" value="{{ procedureOptions[currentProcedureIndex].notes.nursing_notes }}" 
+                                rows="3" #notes (change)="addNotes(notes.value, 'nursing_notes')">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Patient Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" value="{{ procedureOptions[currentProcedureIndex].notes.patient_notes }}" 
+                                rows="3" #pat_notes (change)="addNotes(pat_notes.value, 'patent_notes')">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

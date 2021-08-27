@@ -1,0 +1,384 @@
+<div class="steps row medical_history-cont">
+    <form [formGroup]="medicalHistoryForm">
+        <div class="step" [ngClass]="{'minimized': currentTab != 'medical_problems'}" (click)="switchTab('medical_problems')">
+            <div class="step-header">
+                <div class="header">Medical Problems</div>
+                <div class="subheader" *ngFor="let medical_problem of medical_history?.medical_problems"><span>{{medical_problem.term}}</span><span class="medical_duration" *ngIf="medical_problem.duration"> {{medical_problem.duration}}</span></div>
+                <div class="subheader" *ngFor="let medication of medical_history?.medications"><span>{{medication.name}}</span><span class="medical_duration" *ngIf="medication.duration?.month">Month(s): {{medication.duration.month}}</span><span class="medical_duration" *ngIf="medication.duration?.year">Year(s): {{medication.duration.year}}</span>
+                    <span class="medical_duration" *ngIf="medication.duration?.dose">Dose: {{medication.duration.dose}}</span><span class="medical_duration" *ngIf="medication.duration?.interval">Interval: {{medication.duration.interval}}</span>
+                </div>
+            </div>
+            <div class="step-content one" (click)="backprop($event)">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 4px;padding-right: 0px;padding-top: 16px;">
+                            <mat-form-field floatLabel="never" appearance="outline">
+                                <input formControlName="medicalProblem" matInput class="search_medical_problem_m" (keyup)="medicalProblemSearch(medicalProblems.value)" #medicalProblems [matAutocomplete]="auto1" type="text" placeholder="Search medical problems">
+                                <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="medicalProblemSelected($event.option.value)">
+                                    <mat-option *ngFor="let medicalProblem of modalData?.medicalProblems" [value]="medicalProblem">
+                                        <span>{{medicalProblem?.term}}</span>
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <span *ngIf="showCustomAddMedicalProblem" (click)="customAddMedicalProblem()" matSuffix class="add-icon"><i class="fa fa-plus-circle"></i></span>
+                            </mat-form-field>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="problem_pill" *ngFor="let mPItems of medical_history?.medical_problems; let i=index" [ngClass]="{'duration-select': mPSelectedIndex == i}" (click)="chooseDuration(i)">{{mPItems.term}}<span class="fa fa-times remove-icon" [ngClass]="{'selected-remove': mPSelectedIndex == i}" (click)="medicalProblemRemove(i)"></span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" *ngIf="medical_history?.medical_problems[mPSelectedIndex]">
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <h6>Duration</h6>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="duration_pill" [ngClass]="{'duration-select': medical_history?.medical_problems[mPSelectedIndex]?.duration == duration}" *ngFor="let duration of durations" (click)="selectDuration(duration)">{{duration}}</label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 4px;">
+                            <label style="margin-bottom: 10px;margin-left: 16px;">If you have taken any medication search below.</label>
+                            <mat-form-field floatLabel="never" appearance="outline">
+                                <input formControlName="medications" matInput class="search_medical_problem_m" (input)="medicationsSearch($event)" [matAutocomplete]="auto2" type="text" placeholder="Search medication">
+                                <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="medicationSelected($event.option.value)">
+                                    <mat-option *ngFor="let medication of modalData?.medications" [value]="medication">
+                                        <span>{{medication?.name}}</span>
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <span *ngIf="showCustomAddMedication" (click)="customAddMedication()" matSuffix class="add-icon"><i class="fa fa-plus-circle"></i></span>
+                            </mat-form-field>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="problem_pill" *ngFor="let mItems of medical_history?.medications; let i=index" [ngClass]="{'duration-select': mSelectedIndex == i}" (click)="chooseDurationMedication(i)">{{mItems.name}}<span class="fa fa-times remove-icon" [ngClass]="{'selected-remove': mSelectedIndex == i}" (click)="medicationsRemove(i)"></span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" *ngIf="medical_history?.medications[mSelectedIndex]">
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <label style="margin-bottom: 10px;">Duration.</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <input formControlName="medicationsDurationMonth" (input)="medicationDurationInput($event, 'month')" class="dur_box" type="text">
+                                </div>
+                                <div class="col-sm-7">
+                                    <label for="">Month</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-sm-5">
+                                    <input formControlName="medicationsDurationYear" (input)="medicationDurationInput($event, 'year')" class="dur_box" type="text">
+                                </div>
+                                <div class="col-sm-7">
+                                    <label for="">Year</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-sm-12"><label for="">Dose</label></div>
+
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <!-- <label for="">Dose</label>  -->
+                                <div class="col-sm-5">
+                                    <input formControlName="medicationsDurationDose" (input)="medicationDurationInput($event, 'dose')" class="dur_box" type="text">
+                                </div>
+                                <div class="col-sm-7">
+                                    <select id="cars" class='dur_box' (change)="medicationsDurationIntervalChange($event)" formControlName="medicationsDurationInterval">
+				  <option *ngFor="let interval of medicationsDuration; let i=index" [value]="interval.key">{{interval.value}}</option>
+				</select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                            <label style="margin-bottom: 10px;">Select medical problem - Notes.</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <textarea formControlName="medicalHistoryNotes" (input)="medicalHistoryNotesInput($event)" class='medical_textarea' rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" type="button" *ngIf="!isHideSubmit" (click)="submit()">Save</button>
+                        <button class="next-btn" type="button" (click)="next('allergies')">Next</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- allergies -->
+        <div class="step" [ngClass]="{'minimized': currentTab != 'allergies'}" (click)="switchTab('allergies')">
+            <div class="step-header">
+                <div class="header">Allergies</div>
+                <div class="subheader" *ngFor="let gAllergy of medical_history?.allergies.general_allergies"><span>{{gAllergy}}</span></div>
+                <div class="subheader" *ngFor="let dAllergy of medical_history?.allergies.drug_allergies"><span>{{dAllergy.name}}</span></div>
+            </div>
+            <div class="step-content two" (click)="backprop($event)">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <label>Do you have any allergies ?</label><label><button class="allerg_yes_btn" (click)="changeHasAllergies(true)" [ngClass]="{'button-active': medical_history.allergies.has_allergies}">Yes</button></label><label><button class="allerg_no_btn" (click)="changeHasAllergies(false)" [ngClass]="{'button-active': !medical_history.allergies.has_allergies}">No</button></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="medical_history.allergies.has_allergies">
+                        <div class="col-sm-6">
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <h6>General Allergies</h6>
+                            </div>
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <input class="search_medical_problem_m" formControlName="generalAllergies" (keyup.enter)="generalAllergiesAdd($event)" type="text" placeholder="Search general allergies">
+                            </div>
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <label class="problem_pill" *ngFor="let gAllergy of medical_history?.allergies.general_allergies; let i=index">{{gAllergy}}<span class="fa fa-times remove-icon" (click)="allergyGeneralRemove(i)"></span></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <h6>Drug Allergies</h6>
+                            </div>
+                            <div style="padding-left: 4px;padding-right: 16px;padding-top: 16px;">
+                                <mat-form-field floatLabel="never" appearance="outline">
+                                    <input formControlName="drugAllergies" matInput class="search_medical_problem_m" (input)="drugAllergiesSearch($event)" [matAutocomplete]="auto3" type="text" placeholder="Search drug allergies">
+                                    <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="drugAllergiesSelected($event.option.value)">
+                                        <mat-option *ngFor="let dAllergy of modalData?.allergies.drug_allergies" [value]="dAllergy">
+                                            <span>{{dAllergy?.name}}</span>
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <span *ngIf="showCustomAddDrugAllergies" (click)="customAddDrugAllergies()" matSuffix class="add-icon"><i class="fa fa-plus-circle"></i></span>
+                                </mat-form-field>
+                            </div>
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <label class="problem_pill" *ngFor="let dAllergy of medical_history?.allergies.drug_allergies; let i=index">{{dAllergy.name}}<span class="fa fa-times remove-icon" (click)="allergyDrugRemove(i)"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7" *ngIf="medical_history.allergies.has_allergies">
+                        <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                            <label style="margin-bottom: 10px;">Allergies Notes</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <textarea formControlName="drugAllergiesNotes" (input)="drugAllergiesNotesInput($event)" class='medical_textarea' rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" type="button" *ngIf="!isHideSubmit" (click)="submit()">Save</button>
+                        <button class="next-btn" type="button" (click)="next('lifestyle')">Next</button>
+                    </div>
+                </div>
+                <!-- <button class="next-btn">Next</button> -->
+            </div>
+        </div>
+        <!--  -->
+        <!--  -->
+        <div class="step" [ngClass]="{'minimized': currentTab != 'lifestyle'}" (click)="switchTab('lifestyle')">
+            <div class="step-header">
+                <div class="header">Lifestyle</div>
+                <div class="subheader" *ngFor="let lifestyle of medical_history?.lifestyle"><span>{{lifestyle}}</span></div>
+            </div>
+            <div class="step-content three" (click)="backprop($event)">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <h6>Lifestyle Details</h6>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                           <!--  <input formControlName="lifeStyle" class="search_medical_problem_m" (keyup.enter)="lifeStyleAdd($event)" type="text" placeholder="Enter Lifestyle"> -->
+
+                           <select (change)="lifeStyleAdd($event)" formControlName="lifeStyle" class="search_medical_problem_m" >
+                               <option value="">Select Lifestyle</option> 
+                               <option *ngFor="let lifestyle of lifestyleList" [value]="lifestyle" >
+                                   {{ lifestyle }}
+                               </option>
+                               <option value="other">Others, Specify</option> 
+                           </select>
+                           <input class="search_medical_problem_m" (keyup.enter)="lifeStyleAdd($event)" type="text" placeholder="Enter Lifestyle" *ngIf="isLifestyleOther"> 
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="problem_pill" *ngFor="let lifestyle of medical_history?.lifestyle; let i=index">{{lifestyle}}<span class="fa fa-times remove-icon" (click)="lifestyleRemove(i)"></span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                            <label style="margin-bottom: 10px;"> Notes</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <textarea formControlName="lifeStyleNotes" (input)="lifestyleNotesInput($event)" class='medical_textarea' rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" type="button" *ngIf="!isHideSubmit" (click)="submit()">Save</button>
+                        <button class="next-btn" type="button" (click)="next('procedure')">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="step" [ngClass]="{'minimized': currentTab != 'procedure'}" (click)="switchTab('procedure')">
+            <div class="step-header">
+                <div class="header">Procedure</div>
+                <div class="subheader" *ngFor="let procedure of medical_history?.procedure.procedures"><span>{{procedure.term}}</span><span class="medical_duration" *ngIf="procedure.duration"> {{procedure.duration}}</span></div>
+            </div>
+            <div class="step-content three" (click)="backprop($event)">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <label>Have you undergone any procedures ?</label><label><button class="allerg_yes_btn" [ngClass]="{'button-active': medical_history.procedure.procedure_undergone == 'yes'}" (click)="changeHasProcedureUndergone('yes')">Yes</button></label><label><button class="allerg_no_btn" [ngClass]="{'button-active': medical_history.procedure.procedure_undergone == 'no'}" (click)="changeHasProcedureUndergone('no')">No</button></label><label><button class="dont_no_btn" [ngClass]="{'button-active': medical_history.procedure.procedure_undergone == 'dont_know'}" (click)="changeHasProcedureUndergone('dont_know')">Don't know</button></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="medical_history.procedure.procedure_undergone == 'yes'">
+                        <div class="col-sm-7">
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <h6>Which procedures have you had ?</h6>
+                            </div>
+                            <div style="padding-left: 4px;padding-right: 0px;padding-top: 16px;">
+                                <mat-form-field floatLabel="never" appearance="outline">
+                                    <input class="search_medical_problem_m" matInput formControlName="procedure" (input)="procedureSearch($event)" [matAutocomplete]="auto4" type="text" placeholder="Search procedure">
+                                    <mat-autocomplete #auto4="matAutocomplete" (optionSelected)="procedureSelected($event.option.value)">
+                                        <mat-option *ngFor="let procedure of modalData?.procedures" [value]="procedure">
+                                            <span>{{procedure?.term}}</span>
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <span *ngIf="showCustomAddProcedure" (click)="customAddProcedure()" matSuffix class="add-icon"><i class="fa fa-plus-circle"></i></span>
+                                </mat-form-field>
+                            </div>
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <label class="problem_pill" *ngFor="let procedure of medical_history?.procedure.procedures; let i=index" [ngClass]="{'duration-select': pSelectedIndex == i}" (click)="chooseProcedureDuration(i)">{{procedure.term}}<span class="fa fa-times remove-icon" [ngClass]="{'selected-remove': pSelectedIndex == i}" (click)="procedureRemove(i)"></span></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5" *ngIf="medical_history?.procedure.procedures[pSelectedIndex]">
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <h6>Duration</h6>
+                            </div>
+                            <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                <label class="duration_pill" [ngClass]="{'duration-select': medical_history?.procedure.procedures[pSelectedIndex]?.duration == duration}" *ngFor="let duration of procedureDurations" (click)="selectDurationProcedure(duration)">{{duration}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                            <label style="margin-bottom: 10px;"> Notes</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <textarea class='medical_textarea' formControlName="procedureNotes" (input)="procedureNotesInput($event)" rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" type="button" *ngIf="!isHideSubmit" (click)="submit()">Save</button>
+                        <button class="next-btn" type="button" (click)="next('risk_factor')">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step" [ngClass]="{'minimized': currentTab != 'risk_factor'}" (click)="switchTab('risk_factor')">
+            <div class="step-header">
+                <div class="header">Risk Factor</div>
+                <div class="subheader" *ngFor="let risk_factor of medical_history?.risk_factor.risk_factors"><span>{{risk_factor}}</span></div>
+            </div>
+            <div class="step-content three" (click)="backprop($event)">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <h6>Any high risk factors?</h6>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <input class="search_medical_problem_m" formControlName="riskFactor" (keyup.enter)="riskFactorAdd($event)" type="text" placeholder="Enter Risk factor">
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <label class="problem_pill" *ngFor="let risk_factor of medical_history?.risk_factor.risk_factors; let i=index">{{risk_factor}}<span class="fa fa-times remove-icon" (click)="riskFactorRemove(i)"></span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7">
+                        <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                            <label style="margin-bottom: 10px;"> Notes</label>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;">
+                            <textarea class='medical_textarea' formControlName="riskFactorNotes" (input)="riskFactorNotesInput($event)" rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;">
+                        <button class="next-btn" type="button" *ngIf="!isHideSubmit" (click)="submit()">Save</button>
+                        <button class="next-btn" (click)="next('other')">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step" [ngClass]="{'minimized': currentTab != 'other'}" (click)="switchTab('other')">
+            <div class="step-header">
+                <div class="header">Other</div>
+                <div class="subheader">other info</div>
+            </div>
+            <div class="step-content three" (click)="backprop($event)">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <h6>Any hospitalization records?</h6>
+                        </div>
+                        <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                            <input class="search_medical_problem_m" formControlName="otherHospitalizationRecord" (input)="otherHospitalizationRecordInput($event)" form type="text" placeholder="">
+                        </div>
+                        <div class="row" style="padding-bottom: 20px;">
+                            <div class="col-sm-12">
+                                <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                                    <label style="margin-bottom: 10px;"> Notes</label>
+                                </div>
+                                <div style="padding-left: 16px;padding-right: 16px;">
+                                    <textarea class='medical_textarea' formControlName="otherHospitalizationRecordNotes" (input)="otherHospitalizationRecordNotesInput($event)" rows="4" cols="50"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                    <h6>Any significant medical history?</h6>
+                                </div>
+                                <div style="padding-left: 16px;padding-right: 16px;padding-top: 16px;">
+                                    <input class="search_medical_problem_m" formControlName="otherMedicalHistory" (input)="otherMedicalHistoryInput($event)" type="text" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 20px;">
+                            <div class="col-sm-12">
+                                <div style="padding-left: 16px;padding-right: 16px; padding-top: 10px;">
+                                    <label style="margin-bottom: 10px;"> Notes</label>
+                                </div>
+                                <div style="padding-left: 16px;padding-right: 16px;">
+                                    <textarea class='medical_textarea' formControlName="otherMedicalHistoryNotes" (input)="otherMedicalHistoryNotesInput($event)" rows="4" cols="50"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-sm-7">
+
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;" *ngIf="!isHideSubmit">
+                        <button class="close-btn" type="button" (click)="submit()">Submit</button>
+                    </div>
+                    <div class="col-sm-5" style="text-align: right; padding-top: 74px;" *ngIf="isHideSubmit">
+                        <button class="close-btn" type="button" (click)="nextv2()">Next</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

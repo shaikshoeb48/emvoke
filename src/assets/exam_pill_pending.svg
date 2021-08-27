@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="75" height="21" viewBox="0 0 75 21">
+  <g id="Group_1504" data-name="Group 1504" transform="translate(-100 -190)">
+    <path id="Path_1228" data-name="Path 1228" d="M10.5,0h54a10.5,10.5,0,0,1,0,21h-54a10.5,10.5,0,0,1,0-21Z" transform="translate(100 190)" fill="#ffefef" opacity="0.72"/>
+    <text id="Pending" transform="translate(114 205)" fill="#ff2f2f" font-size="13" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Pending</tspan></text>
+  </g>
+</svg>

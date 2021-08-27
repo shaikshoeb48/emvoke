@@ -1,0 +1,28 @@
+<nav style="margin-top: 88px !important;">
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
+      aria-selected="true">Child Growth</a>
+    <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Development</a>
+      <a class="nav-link" id="nav-examination-tab" data-toggle="tab" href="#nav-examination" role="tab" aria-controls="nav-examination" aria-selected="false">Examination</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <app-child-growth></app-child-growth>
+  </div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="row">
+      <div class="col-12">
+        <app-development></app-development>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="nav-examination" role="tabpanel" aria-labelledby="nav-examination-tab">
+    <div class="row">
+        <div class="col-12">
+            <app-examination></app-examination>
+        </div>
+    </div>
+</div>
+</div>

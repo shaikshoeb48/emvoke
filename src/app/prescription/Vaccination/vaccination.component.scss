@@ -1,0 +1,176 @@
+body{
+    padding: 0px;
+    margin: 0px;
+    overflow-x: hidden;
+}
+
+.vaccine_top_section{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 40px;
+    margin-top: 80px !important;
+}
+
+.common_text{
+    padding-bottom: 10px;
+    font-weight: 600;
+    color: #100C74;
+}
+
+.search_loader{
+    width: 22px;
+    margin-right: 10px;
+    margin-top: -4px;
+    position: absolute;
+    top: 18px;
+    left: -32px;
+    display: none;
+  }
+
+.box_common{
+    border: 1px solid #DCDCDC;
+    border-radius: 3px;
+    padding: 2px;
+    height: 30px;
+    width: 192px;
+}
+
+.s_common_btn{
+    border: none;
+    padding: 3px 12px 3px 12px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+.green_btn{
+    background-color: #F4FDF8;
+}
+
+.red_btn{
+    background-color: #FEF5F6;
+}
+
+.grey_btn{
+    background-color: #FBFBFC;
+}
+
+
+.status_pill{
+    width: 152px;
+    height: 74px;
+    padding: 3px !important;
+}
+
+.inner_div{
+    width: 140px;
+    height: 100%;
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.vaccine_table_sec{
+    overflow-x: scroll;
+}
+
+.vaccine_head_div{
+    width: 230px !important;
+}
+
+.pill_green{
+    background-color: #F4FDF8;
+}
+
+.pill_red{
+    background-color: #FEF5F6;
+}
+
+.pill_grey{
+    background-color: #FBFBFC;
+}
+
+.create_chart_btn{
+    border: 1px solid #7C76FE;
+    color: #7C76FE;
+    background-color: white;
+    border-radius: 3px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.send_alert_btn{
+    background-color: #7C76FE;
+    border-radius: 3px;
+    color: white;
+    margin-left: 10px;
+    border: none;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.search_icon{
+    position: absolute;
+    right: 8px;
+    top: 7px;
+}
+
+.vaccine_name_col{
+    width: 300px;
+}
+
+.all_column{
+    width: 180px !important;
+}
+
+.cal_logo{
+    position: absolute;
+    bottom: 7px;
+    right:7px;
+    width: 14px;
+}
+
+.dot_green{
+    background-color: #2DD372;
+}
+
+.vaccine_name{
+    font-size: 10px;
+    color: #818181;
+    padding-bottom: 4px;
+}
+
+.pill_c_s{
+    margin: 0px;
+    padding-left: 18px;
+}
+
+.given_txt{
+    font-size: 14px;
+    font-weight: 600;
+    color: #2E2E3B;
+    margin-top: 4px;
+    float: left;
+    margin-bottom: 4px;
+}
+
+.status{
+    float: right;
+}
+
+.date_text{
+    font-size: 12px;
+    color: #818181;
+}
+
+.g_dot_logo{
+    position: absolute;
+    top: 10px;
+    left: 6px;
+    width: 7px;
+}
+
+.bordered{
+    border: solid 1px blue ;
+}

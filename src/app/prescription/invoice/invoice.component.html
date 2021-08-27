@@ -1,0 +1,296 @@
+<div class="body">
+<div class="invoice_outer_wrapper">
+  <div class="invoice_middle_wrapper">
+      <div class="row inpud_and_pdf_row">
+          <div class="col-sm-6">
+              <div class="invoice_input_card">
+                  <div class="row ">
+                      <div class="col-sm-6">
+                          <p class="invoice_common_p">Invoice No.</p>
+                          <input disabled type="text" placeholder="SDT_001" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-6">
+                          <p class="invoice_common_p">Invoice date</p>
+                          <input disabled type="text" [value]="date" class="invoice_common_st">
+                      </div>
+                  </div>
+                  <hr class="invoice_h_row" />
+                  <div class="row ">
+                      <div class="col-sm-12">
+                          <p class="invoice_common_p">Select Item</p>
+                          <select name="category" id="invoice_item_id" #serviceSelect class="invoice_common_st"
+                           (change)="selectService($event.target.value)">
+                           <option [selected]="true" value="-1">Select</option>
+                            <option *ngFor="let service of services; let i=index" value="{{ i }}">
+                              {{ service.name }}
+                            </option>
+                          </select>
+                      </div>
+                  </div>
+                  <hr class="invoice_h_row" />
+                  <div class="row" *ngIf="addedServices.length">
+                      <div class="col-sm-4">
+                          <p class="invoice_common_p">Item</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">Quantity</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">GST(%)</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">Amount</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">Action</p>
+                      </div>
+                  </div>
+                  <div class="row invoice_added_row bottom-border"
+                   *ngFor="let service of addedServices; let i=index">
+                      <div class="col-sm-4">
+                          <input disabled type="text" value="{{ service.name }}" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-2">
+                          <input (keyup)="setQuantity(quantity.value, i)" #quantity type="tel"
+                           value="{{ service.quantity }}" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-2">
+                          <input [disabled]="editIndex != i" #gst type="number" value="{{ service.GST }}" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-2">
+                          <input [disabled]="editIndex != i" type="text" value="{{ service.rate }}" class="invoice_common_st">
+                          <span class="float-right my-2 text-muted">Total : </span>
+                      </div>
+                      <div class="col-sm-2" style="padding: 0">
+                          <button class="invoice_row_edit" *ngIf="editIndex != i" (click)="editService(i)">
+                            <small>Edit</small>
+                          </button>
+                          <button class="invoice_row_edit" *ngIf="editIndex==i" (click)="saveService(i, gst.value)">
+                            <small>Save</small>
+                          </button>
+                          <button class="invoice_row_delete" (click)="deleteService(i)">
+                            <small>Delete</small>
+                          </button>
+                          <span class="float-right m-2 text-muted">Rs {{ service.amount }} /-</span>
+                      </div>
+                  </div>
+
+                  <hr class="invoice_h_row" />
+                  <div class="row invoice_added_row" *ngIf="addedServices.length">
+                      <div class="col-sm-6">
+                          Total Discount
+                      </div>
+                      <div class="col-sm-2">
+                          
+                      </div>
+                      <div class="col-sm-3">
+                          <input type="text" (change)="setDiscount(discount.value)" #discount [value]="totalDiscount" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-1">
+                          %
+                      </div>
+                  </div>
+
+                  <div class="row invoice_added_row" *ngIf="addedServices.length">
+                      <div class="col-sm-6">
+                          Roundoff Deduction
+                      </div>
+                      <div class="col-sm-2">
+                          
+                      </div>
+                      <div class="col-sm-3">
+                          <input disabled type="text" [value]="roundoffDeduction" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-1">
+                          Rs
+                      </div>
+                  </div>
+
+                  <div class="row invoice_added_row" *ngIf="addedServices.length">
+                      <div class="col-sm-6">
+                          Total Amount
+                      </div>
+                      <div class="col-sm-2">
+                          
+                      </div>
+                      <div class="col-sm-3">
+                          <input disabled type="text" [value]="totalAmount" class="invoice_common_st">
+                      </div>
+                      <div class="col-sm-1">
+                          Rs
+                      </div>
+                  </div>
+
+                  <hr class="invoice_h_row" /> 
+
+                  <div class="row invoice_added_row" *ngIf="paymentModeList.length">
+                      <div class="col-sm-3">Payment Mode :</div>
+                      <div class="col-sm-5">
+                          <select name="category" class="invoice_common_st"
+                           (change)="selectPayment($event.target.value)">
+                              <option *ngFor="let mode of paymentModeList; let i=index" value="{{ i }}">
+                                {{ mode.paymentMode }}
+                              </option>
+                            </select>
+                      </div>
+                      <div class="col-sm-4" style="text-align: right;">
+                          <button class="create_invoice_btn" (click)="generateInvoice()"
+                           [disabled]="!addedServices.length">
+                            Generate Invoice
+                          </button>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="row">
+                  <div class="col-sm-12" style="text-align: right; margin-bottom: 10px;">
+                      <button class="pdf_top_btn" [useExistingCss]="true" printSectionId="print-section" ngxPrint>
+                        Print
+                      </button>
+                      <button class="pdf_top_btn">Language</button>
+                      <button class="pdf_top_btn">Option</button>
+                  </div>
+              </div>
+              <div class="invoice_pdf_card" #pdfContent id="print-section">
+                  <div class="row">
+                      <div class="col-sm-6">
+                          <img  src="{{ originURL }}/assets/icon.png" width="50%">
+                      </div>
+                      <div class="col-sm-6" style="text-align: right;">
+                          Invoice
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-sm-6" style="padding-left: 26px; padding-top: 10px;">
+                          Dr. {{ doctorData?.first_name }} {{ doctorData?.last_name}}<br>
+                          Contact : {{ doctorData?.email }} <br>
+                          {{ clinicData?.address}}
+                      </div>
+                      <div class="col-sm-6" style="padding-left: 26px; padding-top: 10px;">
+                          <h6><u> Patient Details </u></h6>
+                          {{ patientData?.first_name}} {{ patientData?.last_name}} <br>
+                          {{ patientData?.contact_details[0].phone_number }} <br>
+                          {{ patientData?.address}}
+                      </div>
+                  </div>
+                  <hr class="invoice_h_row" /> 
+                  <div class="row" style="margin-bottom: 40px;">
+                      <div class="col-sm-6">
+                          Invoice No. :- SDT_001
+                      </div>
+                      <div class="col-sm-6" style="text-align: right;">
+                          Invoice Date :- {{ date }}
+                      </div>
+                  </div>
+                   
+                  <div class="row ">
+                      <div class="col-sm-4">
+                          <p class="invoice_common_p">Item</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">Quantity</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">GST(%)</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">Amount</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">Total</p>
+                      </div>
+                  </div>
+                  <hr class="invoice_h_row" />
+                  <div class="row invoice_added_row" *ngFor="let service of addedServices; let i=index">
+                      <div class="col-sm-4">
+                          <p class="invoice_common_p">{{ service.name }}</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">{{ service.quantity }}</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">{{ service.GST }}</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">{{ service.rate }}</p>
+                      </div>
+                      <div class="col-sm-2">
+                          <p class="invoice_common_p">{{ service.amount }}</p>
+                      </div>
+                  </div>
+                  <hr class="invoice_h_row" />
+                  <div class="row">
+                      <div class="col-sm-6">
+                          <!-- <img src="assets/qr.png" alt="" width="40%"> -->
+                          <ngx-qrcode [elementType]="qrCode.elementType"
+                           [errorCorrectionLevel]="qrCode.correctionLevel" [value]="qrCode.value" cssClass="qrCode">
+                            
+                          </ngx-qrcode>
+                          <br>
+                          <span *ngIf="paymentModeList.length">
+                            Payment Mode : {{ paymentModeList[paymentMode].paymentMode }}
+                          </span>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="row">
+                              <div class="col-sm-8">
+                                  <p class="invoice_common_p">Total net price</p>
+                              </div>
+                              <div class="col-sm-4">
+                                  <p class="invoice_common_p">{{ netAmount }}</p>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-8">
+                                  <p class="invoice_common_p">Discount (%)</p>
+                              </div>
+                              <div class="col-sm-4">
+                                  <p class="invoice_common_p">{{ totalDiscount }}</p>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-8">
+                                  <p class="invoice_common_p">Roundoff Reduction</p>
+                              </div>
+                              <div class="col-sm-4">
+                                  <p class="invoice_common_p">{{ roundoffDeduction }}</p>
+                              </div>
+                          </div>
+                          <hr class="invoice_h_row" />
+                          <div class="row">
+                              <div class="col-sm-8">
+                                  <p class="invoice_common_p">After Tax Total</p>
+                              </div>
+                              <div class="col-sm-4">
+                                  <p class="invoice_common_p">{{ totalAmount }} Rs/-</p>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-12"><br>
+                                  <h6>GST Breakout</h6>
+                                  <table class="border-table">
+                                    <tbody *ngFor="let val of getKeys(GSTBreakout)" class="table-div">
+                                      <tr *ngIf="GSTBreakout[val].cgst" class="table-tr">
+                                          <td class="px-2">CGST ({{ val / 2 }} %)</td>
+                                          <td class="float-right px-2">{{ GSTBreakout[val].cgst }}</td>
+                                      </tr>
+                                      <tr *ngIf="GSTBreakout[val].cgst" class="table-tr">
+                                          <td class="px-2">SGST ({{ val / 2 }} %)</td>
+                                          <td class="float-right px-2">{{ GSTBreakout[val].sgst }}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>    
+                              </div>
+                          </div>   
+                      </div>
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,69 @@
+/* Stepper Styles */
+#doctorSignUp {
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+  ::ng-deep .mat-horizontal-content-container {
+    padding: 0px !important;
+  }
+}
+
+.cursor{
+  cursor: pointer;
+}
+
+.common_input_box{
+  border: none;
+  background-color: #EAEEFF !important;
+  color: #16118F;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left: 2px solid #7C76FE;
+}
+
+.common_input_box:focus , .common_input_box:active{
+  box-shadow: none !important;
+}
+
+.doc_signup_outer_wrapper{
+  padding: 0px;
+}
+
+.input-group-prepend{
+  padding-right: 24px;
+}
+
+.all_comm_btn{
+  border: none !important;
+  border-radius: 0px !important;
+  width: 100px !important;
+  box-shadow: 0px 6px 18px rgb(194, 190, 255) !important;
+}
+
+.common_input_box_add{
+  border: none;
+  background-color: #DEF3D1 !important;
+  color: #74CE3E !important;
+}
+
+.common_input_box_delete{
+  border: none;
+  background-color: #FCE0DF !important;
+  color: #F42B2B;
+}
+
+
+.common_input_box_add:focus , .common_input_box_add:active{
+  box-shadow: none !important;
+}
+.common_input_box_delete:focus , .common_input_box_delete:active{
+  box-shadow: none !important;
+}
+
+.no_btn{
+  visibility: hidden !important;
+}
+
+.edu_margin{
+  margin-bottom: 10px;
+}

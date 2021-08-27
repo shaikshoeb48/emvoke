@@ -1,0 +1,21 @@
+<div>
+  <button type="button" class="close close-position" (click)="closeModal()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="search">
+    <img  src="assets/Vaccination/search.png" alt="">
+    <input type="text" id="search-bar" [formControl]="searchInput" placeholder="Search any vaccine …" (keyup)="searchVaccine($event.target.value)">
+</div>
+  <ul style="list-style-type:none;overflow-y: auto;height: 400px;padding:10px;">
+    <li *ngFor="let data of modalDataList">
+      <input class="checkbox" type="checkbox" (change)="dataSelected($event)" value="{{data.option_name}}"><label class="vacci-name">{{data.option_name}}</label>
+      <span [style.color]= "data.option_status == 'Active' ? 'green' : data.option_status == 'Inactive' ? 'red': 'yellow'" class="status">{{data.option_status}}</span>
+      <!-- green-active red-inactive  yellow-non-us   -->
+    </li>
+  </ul>
+ <!--<div class="customVaccine"><i class="fa fa-plus"></i>Add custom Vaccine</div>--> 
+ 
+ 
+  <button id="add"(click)="addSelectedVaccine()"class="btn btn-primary">ADD</button>
+ 
+</div>

@@ -1,0 +1,120 @@
+  <div class="col-sm-12 common_div_padding" >
+    <div class="upper_box_wrapper">
+        <div class="upper_box">
+            <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                <span style="display: inline-block;">Investigations</span><br>
+                <span class="badge badge-pill badge-primary mr-2" *ngFor="let inves of selectedInves" style="color: white">
+                    {{ inves.term }}
+                </span>
+            </button>
+            <div class="container " [ngClass]="currentClass" >
+                <div class="row upper_box_hr" >
+                    <div class="col-sm-4 upper_box_heading_row"  (click)="toggle()">
+                        <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                        <label for=""><p class="upper_box_heading">Investigation</p></label>
+                    </div>
+                    <div class="col-sm-8 upper_box_heading_row_search">
+                        <label style="position: relative;" for="">
+                            <img class="search_loader" id="loader_investigation_id" src="assets/loader.gif" alt="loader">
+                            <input type="text" class="upper_box_search" #invesValue 
+                           (keyup)="searchInves(invesValue.value)" placeholder="Search"><i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i></label>
+                        <small class="add_symptom" *ngIf="noSearch" (click)="addInves(invesValue.value)">+Add</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="added_pill" for="Dandruff" *ngFor="let inves of selectedInves; let i=index">
+                            <p class="pill_text" (click)="setInves(i)">{{ inves.term }}</p>
+                            <img class="cross_icon" src="assets/cross.svg" (click)="removeInves(i)">
+                        </label>
+                    </div>
+                </div>
+                <div class="row not_added_pill_row" *ngIf="investigations.length === 0">
+                    <div class="col-sm-12">
+                        <label class="not_added_pill" for="Dandruff" *ngFor="let inves of displayInves ; let i=index" (click)="selectInves(i)">
+                            <p class="pill_text">{{ inves.term }}</p>
+                        </label>
+                    </div>
+                </div>
+                 <div class="row not_added_pill_row" *ngIf="investigations.length !== 0">
+                    <div class="col-sm-12">
+                        <label class="not_added_pill" for="Dandruff" *ngFor="let inves of investigations ; let i=index" (click)="selectInves(i)">
+                            <p class="pill_text">{{ inves.term }}</p>
+                        </label>
+                    </div>
+                </div>
+                 <div class="text-center" *ngIf="noSearch">
+                    <h6>No search Found</h6>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-sm-12">
+                        <p class="lower_key_text">Note</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" placeholder="Enter the Investigation notes . . ."  ></textarea>
+                    </div>
+                </div> -->
+                 <div class="row" style="padding-top: 10px; padding-bottom: 14px;">
+                    <div class="col-sm-12" style=" text-align: right;">
+                        <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="right_nav"  *ngIf="showRight && selectedInves.length">
+    <div class="right_nav_wrapper">
+        <div class="row text-center">
+            <p class="textarea_heading_dynamic" *ngIf="currentInvesIndex >= 0 && selectedInves.length">
+                {{ selectedInves[currentInvesIndex].term }}
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Nursing Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" value="{{ invesOptions[currentInvesIndex].notes.nursing_notes }}" 
+                                rows="3" #notes (change)="addNotes(notes.value, 'nursing_notes')"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Doctor Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" value="{{ invesOptions[currentInvesIndex].notes.doctor_notes }}" 
+                                rows="3" #doc_notes (change)="addNotes(doc_notes.value, 'doctor_notes')"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <select id="labs" class="lower_text_area" style="margin-top: 20px;" #lab (change)="addOption(lab.value , 'name')">
+                            <option selected="true" disabled="disabled">Select medical lab</option>
+                            <option value="101">Dr Lalit Labs</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

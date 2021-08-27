@@ -1,0 +1,17 @@
+.nav-flex {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  align-items: center;
+}
+.nav-pills .nav-link.active {
+  background-color: #ffffff;
+  color: gray;
+  border: 1px solid #cccccc;
+}
+.nav-pills .nav-link {
+  color: gray;
+}
+.tab-content {
+  border-right: 1px solid #cccccc;
+}

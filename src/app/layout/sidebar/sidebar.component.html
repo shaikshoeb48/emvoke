@@ -1,0 +1,72 @@
+<div class="col-md-3 left_col menu_fixed" id="sideMenu">
+  <div class="left_col">
+    <div class="navbar nav_title">
+      <a href="index.html" class="site_title">
+        <i class="fa fa-plus"></i>
+        <span > LookPlush Clinic</span>
+      </a>
+    </div>
+    <div class="clearfix"></div>
+
+    <!-- menu profile quick info. -->
+    <div class="profile clearfix menu_profile">
+      <div class="profile_pic">
+        <span class="avatar_dot">
+            <img *ngIf="clinicLogo" [src]=clinicLogo alt="..." class="img-circle profile_img avatar_inner_dot" />
+            <img *ngIf="!clinicLogo"  src="assets/avatar.svg" alt="..." class="img-circle profile_img avatar_inner_dot_non_logo" />
+        </span>
+
+      </div>
+      <div class="profile_info">
+        <span>Welcome, <label>{{userName}}</label></span>
+        <!-- <h2>{{userName}}</h2> -->
+      </div>
+    </div>
+    <!-- /menu profile quick info -->
+
+    <!-- sidebar menu -->
+    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" style="margin-top: 10px;">
+      <div class="menu_section">
+        <h3>General</h3>
+        <ul class="nav side-menu">
+          <li *ngFor="let menuItem of menuItems" routerLinkActive="current-page active">
+            <a [id]="menuItem.menuId + 'li'"  (click)="anchorClicked($event)" [routerLink]="menuItem.menuUrl"
+              *ngIf="(menuItem.subMenus.length === 0 && menuItem.menuName != 'Sign Out')">
+              <i class="{{menuItem.menuIcon}}"></i>
+              {{menuItem.menuName}}
+            </a>
+            <a [id]="menuItem.menuId + 'li'" (click)="anchorClicked($event)" (click)="signOut()"
+              *ngIf="(menuItem.menuName == 'Sign Out')">
+              <i class="{{menuItem.menuIcon}}"></i>
+              {{menuItem.menuName}}
+            </a>
+            <ng-template #submenu [ngIf]="(menuItem.subMenus.length !== 0)">
+              <a [id]="menuItem.menuId + 'li'" (click)="anchorClicked($event)"><i class="{{menuItem.menuIcon}}"></i>
+                {{menuItem.menuName}} <span id="{{menuItem.menuId}}chevron" class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li *ngFor="let subMenuItem of menuItem.subMenus" routerLinkActive="current-page">
+                  <a [routerLink]="subMenuItem.subMenuUrl">{{subMenuItem.subMenuName}}</a>
+                </li>
+              </ul>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /sidebar menu -->
+    <!-- <div class="sidebar-footer hidden-small">
+        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Settings">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="FullScreen">
+          <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Lock">
+          <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="" href="login.html" data-original-title="Logout">
+          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+        </a>
+      </div> -->
+  </div>
+</div>

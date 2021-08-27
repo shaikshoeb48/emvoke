@@ -1,0 +1,316 @@
+<!-- <div class="body"> -->
+<!-- <div class="row"> -->
+<div class="add_p_outer_wraper">
+    <div class="add_p_card_quick">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-12">
+                <p class="create_q_p_heading">Create Patient</p>
+                      
+            </div>
+            <!-- <div class="col-sm-3 col-12">
+
+            </div> -->
+            <div class="col-sm-12 col-md-3 col-12" style="position: relative;">
+                <!-- <img class="quick_search_icon" src="assets/quick_search.svg" alt=""> -->
+                <!-- <input type="text" class="quick_search" placeholder="Search Patient"> -->
+                <app-search-patient style="width: 100%;"></app-search-patient>
+            </div>
+            <div class="col-sm-12 col-md-3 col-12" >
+                <button (click)="goToQueueMgmt()" class="quick_q_management_btn">Queue Management</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12 col-lg-12 ">
+                <form [formGroup]="quickForm" class="quickForm">
+                    <div class="row quick_form_data">
+                        <div class="col-sm-6 col-md-3 col-12">
+                            <label for="f_name">First Name <sup class="red">*</sup></label> <br>
+                            <input type="text" class="create_patient_common_input" formControlName="q_first_name" [readonly]="disableQuickForm">
+                            <small class="text-danger" *ngIf="isQuickFormValid('q_first_name') && !disableQuickForm">Enter First Name</small>
+                        </div>
+                        <div class="col-sm-6 col-md-3  col-12">
+                            <label for="f_name">Middle Name</label><br>
+                            <input type="text" class="create_patient_common_input" formControlName="q_middle_name" [readonly]="disableQuickForm">
+                        </div>
+                        <div class="col-sm-6 col-md-3  col-12">
+                            <label for="f_name">Last Name <sup class="red">*</sup></label><br>
+                            <input type="text" class="create_patient_common_input" formControlName="q_last_name" [readonly]="disableQuickForm">
+                            <small class="text-danger" *ngIf="isQuickFormValid('q_last_name') && !disableQuickForm">Enter Last Name</small>
+                        </div>
+                        <div class="col-sm-6 col-md-3  col-12">
+                            <label for="f_name">Gender <sup class="red">*</sup></label><br>
+                            <select formControlName="q_gender">
+                              <option value="m">Male</option>
+                              <option value="f">Female</option>
+                              <option value="o">Others</option>
+                          </select>
+                            <small class="text-danger" *ngIf="isQuickFormValid('q_gender') && !disableQuickForm">Enter Gender</small>
+                        </div>
+                    </div>
+                    <div class="row quick_form_data" style="margin-top: 24px; margin-bottom: 34px;">
+                        <div class="col-sm-6 col-md-3 col-12">
+                            <label for="f_name">DOB <sup class="red">*</sup></label><br>
+                            <input type="date" class="create_patient_common_input" formControlName="q_dob" [readonly]="disableQuickForm">
+                            <small class="text-danger" *ngIf="isQuickFormValid('q_dob') && !disableQuickForm">Enter DOB</small>
+                        </div>
+                        <div class="col-sm-6 col-sm-5 col-12">
+                            <label for="f_name">Phone No. <sup class="red">*</sup></label><br>
+                            <select formControlName="q_country_code">
+                              <option value="+91">+91</option>
+                          </select>
+                            <input type="text" class="patient_phone_number" formControlName="q_number" [readonly]="disableQuickForm">
+                            <small class="text-danger" *ngIf="isQuickFormValid('q_number') && !disableQuickForm">Enter Number </small>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a (click)="showDetailedForm()" *ngIf="!detailedForm">Save & Show all fields</a>
+                            <button *ngIf="!detailedForm" class="create_patient_btn" data-toggle="modal" data-target="#exampleModal" [disabled]="!quickForm.valid" (click)="onSubmitQuickPatient()">
+                             Create Patient
+                          </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div *ngIf="detailedForm">
+
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item" (click)="tabChanged(0)">
+                    <a class="nav-link" ngClass="{{ selectedTab == 0 ? 'active' : '' }}">Personal Information</a>
+                </li>
+                <li class="nav-item" (click)="tabChanged(1)">
+                    <a class="nav-link" ngClass="{{ selectedTab == 1 ? 'active' : '' }}">Family History</a>
+                </li>
+                <li class="nav-item" (click)="tabChanged(2)">
+                    <a class="nav-link" ngClass="{{ selectedTab == 2 ? 'active' : '' }}">Medical History</a>
+                </li>
+                <li class="nav-item" (click)="tabChanged(3)">
+                    <a class="nav-link" ngClass="{{ selectedTab == 3 ? 'active' : '' }}">Emergency Contact</a>
+                </li>
+                <!--  <li class="nav-item" (click)="tabChanged(4)">
+                    <a class="nav-link">Policy</a>
+                  </li> -->
+            </ul>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="add_p_inner_card_quick">
+
+
+                        <app-personal-info [patientData]="patientData" (notifyNext)="tabChangeEmit($event)" *ngIf="selectedTab == 0"></app-personal-info>
+
+                        <app-family-history (notifyNext)="tabChangeEmit($event)" [isHideSubmit]="true" *ngIf="selectedTab == 1" [data]="data"></app-family-history>
+
+
+                        <app-medical-history (notifyNext)="tabChangeEmit($event)" [isHideSubmit]="true" *ngIf="selectedTab == 2" [data]="data"></app-medical-history>
+            
+                        <app-emergency-contact [patientData]="patientData" (notifyNext)="tabChangeEmit($event)" *ngIf="selectedTab == 3"></app-emergency-contact>
+
+                        <!-- <app-policy (notifyNext)="tabChangeEmit($event)" *ngIf="selectedTab == 4"></app-policy> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
+<!-- </div> -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" *ngIf="!newUserModalData.name">
+        <div class="modal-body">
+          <h5 class="text-center">Loading... Please wait</h5>
+        </div>
+      </div>
+      <div class="modal-content" *ngIf="newUserModalData.name">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+          <button type="button" (click)="onCloseModal()" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <span class="quick_p_dot">
+                        <img class="dot_icon" src="assets/new_user_quick.svg" alt="">
+                    </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <p class="model_s_head">Patient Created successfully !</p>
+                        <!--     <p class="patient_token">Token No - 1123</p> -->
+                    </div>
+                </div>
+            </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-sm-3">
+                        <div class="quick_inner_block">
+                            <div class="d-flex">
+                                <div>
+                                    <label class="quick_inner_dot">
+                                    <p class="dot_inner_val">{{ newUserModalData?.initials }}</p>
+                                </label>
+                                </div>
+                                <div>
+                                    <label style="margin-left: 12px; margin-top: 8px">
+                                  {{ newUserModalData?.name }}
+                                </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="quick_inner_block">
+                            <div class="d-flex">
+                                <div>
+                                    <label class="quick_inner_dot">
+                                    <img class="dot_inner_val" src="assets/quick_cal.svg" alt="">
+                                </label>
+                                </div>
+                                <div>
+                                    <label style="margin-left: 12px; margin-top: 8px">
+                                  {{ newUserModalData?.date }}
+                                </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="quick_inner_block">
+                            <div class="d-flex">
+                                <div>
+                                    <label class="quick_inner_dot">
+                                    <img class="dot_inner_val" src="assets/quick_ph.svg" alt="">
+                                </label>
+                                </div>
+                                <div>
+                                    <label style="margin-left: 12px; margin-top: 8px">
+                                  {{ newUserModalData?.phone_number }}
+                                </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="row justify-content-center" style="margin-top: 40px; margin-bottom: 40px;">
+                    <div class="col-sm-3">
+                        <button class="quick_comm_btn quick_book" data-dismiss="modal" aria-label="Close" (click)="bookAppointment()">
+                      Book Appointment
+                    </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="quick_comm_btn quick_queue" data-dismiss="modal" aria-label="Close" (click)="goToQueueMgmt()">
+                      Go to Queue Management
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <!-- </div> -->
+
+      <div class="modal-content" *ngIf="!newUserModalData.name && quickCall">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <span class="quick_p_dot">
+                        <img class="dot_icon" src="assets/new_user_quick.svg" alt="">
+                    </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <p class="model_s_head">Patient Won't able to create due to some technical issues</p>
+                        <!--     <p class="patient_token">Token No - 1123</p> -->
+                    </div>
+                </div>
+            </div>
+
+                <div class="row justify-content-center" style="margin-top: 40px; margin-bottom: 40px;">
+                    <div class="col-sm-12">
+                        <button class="quick_comm_btn quick_queue">Go to Queue Management</button>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+      <!-- </div> -->
+
+    <!-- </div>
+</div>
+ -->
+<!-- 
+
+
+<div class="add_patient_info_wrapper">
+
+  <div class="col-lg-12 mb-3 " style="padding: 0px;">
+    <span class="title">Add Patient Information <span>New User</span></span>
+  </div>
+  <div class="col-lg-12  dialog-content add_patient_info_card">
+    <mat-tab-group (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span><i [ngClass]="{'color-ink': selectedTab == 0}" class="fa fa-check-circle-o"></i><span class="title-tab">Personal Information</span></span>
+        </ng-template>
+        <div class="item">
+          <app-personal-info (notifyNext)="tabChangeEmit($event)"></app-personal-info>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span><i [ngClass]="{'color-ink': selectedTab == 1}" class="fa fa-check-circle-o"></i><span class="title-tab">Family history</span></span>
+        </ng-template>
+        <div class="item">
+          <app-family-history (notifyNext)="tabChangeEmit($event)" [isHideSubmit]="true" *ngIf="selectedTab == 1" [data]="data"></app-family-history>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span><i [ngClass]="{'color-ink': selectedTab == 2}" class="fa fa-check-circle-o"></i><span class="title-tab">Medical history</span></span>
+        </ng-template>
+        <div class="item">
+            <app-medical-history (notifyNext)="tabChangeEmit($event)" [isHideSubmit]="true" *ngIf="selectedTab == 2" [data]="data"></app-medical-history>        
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span><i [ngClass]="{'color-ink': selectedTab == 3}" class="fa fa-check-circle-o"></i><span class="title-tab">Emergency contact</span></span>
+        </ng-template>
+        <div class="item">
+          <app-emergency-contact (notifyNext)="tabChangeEmit($event)"></app-emergency-contact>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span><i [ngClass]="{'color-ink': selectedTab == 4}" class="fa fa-check-circle-o"></i><span class="title-tab">Policy</span></span>
+        </ng-template>
+        <div>
+          <app-policy (notifyNext)="tabChangeEmit($event)"></app-policy>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+ -->
+
+

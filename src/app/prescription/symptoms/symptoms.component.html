@@ -1,0 +1,565 @@
+<!--<div class="middle_section">
+    <div class="container"> -->
+       <!--  <div class="row">  -->
+            <div class="col-sm-12 common_div_padding">
+                <div class="upper_box_wrapper">
+                    <div class="upper_box">
+                        <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                            <span style="display: inline-block;">Symptoms</span><br>
+                            <span class="badge badge-pill badge-primary mr-2" *ngFor="let symptom of selectedSymptoms; let i=index" style="color: white">
+                                {{ symptom.term }} 
+                                <small>
+                                     {{ symptomsOption[i].location }}, {{  symptomsOption[i].severity }}, {{  symptomsOption[i].duration }} 
+                                </small>
+                            </span>
+                        </button>
+                        <div class="container " [ngClass]="currentClass">
+                            <div class="row upper_box_hr">
+                                <div class="col-sm-4 upper_box_heading_row p-2"  (click)="toggle()" style="cursor: pointer;">
+                                    <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                                    <label for=""><p class="upper_box_heading">Symptoms</p></label>
+                                </div>
+                                <div class="col-sm-8 upper_box_heading_row_search">
+                                    <label style="position: relative;" for="">
+                                        <img class="search_loader" id="loader_id" src="assets/loader.gif" alt="loader">
+                                        <input type="text" class="upper_box_search" 
+                                                #symptomValue placeholder="Search" (keyup)="searchSymptom(symptomValue.value)">
+                                        <i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i>
+                                    </label>
+                                    
+                                    <!-- <i style="padding-left: 6px;" class="fa fa-ellipsis-v" aria-hidden="true"></i> -->
+                                    <small class="add_symptom" *ngIf="noSearch" (click)="addSymptom(symptomValue.value)">+Add</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="added_pill" for="Dandruff" *ngFor="let symptom of selectedSymptoms; let i=index">
+                                        <p class="pill_text" (click)="setSymptom(i)">{{ symptom.term }}</p>
+                                        <img class="cross_icon" src="assets/cross.svg" (click)="removeSymptom(i)">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="symptoms.length === 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let symptom of displaySymptoms; let i=index" (click)="selectSymptom(i)">
+                                        <p class="pill_text">{{ symptom.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="symptoms.length !== 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let symptom of symptoms; let i=index" (click)="selectSymptom(i)">
+                                        <p class="pill_text">{{ symptom.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center" *ngIf="noSearch">
+                                <h6>No search Found</h6>
+                            </div>
+
+                            <!-- <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="lower_key_text">Note</p>
+                                </div>
+                            </div> -->
+                           <!--  <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3" #prescription_notes placeholder="Enter the prescription notes . . ."  ></textarea>
+                                </div>
+                            </div>  -->
+                            <div class="row" style="padding-top: 10px; padding-bottom: 14px; ">
+                                <div class="col-sm-12" style=" text-align: right;">
+                                    <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right_nav" *ngIf="showRight && selectedSymptoms.length">
+                    <div class="right_nav_wrapper">
+                        <div class="row">
+                            <p class="textarea_heading_dynamic text-center" *ngIf="currentSymptomIndex >= 0 && selectedSymptoms.length">
+                                {{ selectedSymptoms[currentSymptomIndex].term }}
+                            </p>
+                        </div>
+                        <!-- ----------1--------------
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Onset ( First symptom experienced )</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 d-flex">
+                                        <div>
+                                            <button class="btn_common" [ngClass]="symptomsOption[currentSymptomIndex].onset === 'yes' ? 'btn-primary' : '' "
+                                             (click)="addOption('yes', 'onset')">Yes</button>
+                                        </div>
+                                        <div>
+                                            <button class="btn_common" [ngClass]="symptomsOption[currentSymptomIndex].onset === 'no' ? 'btn-primary' : '' "
+                                             (click)="addOption('no', 'onset')">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- ------------------2---------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Severity</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <form>
+                                            <div class="radio-group">
+                                                <input type="radio" id="option-one" name="selector"
+                                                    [checked]="symptomsOption[currentSymptomIndex].severity === 'mild'">
+                                                <label class="severity_label"  (click)="addOption('mild', 'severity')">Mild</label>
+
+                                                <input type="radio" id="option-two" name="selector" 
+                                                    [checked]="symptomsOption[currentSymptomIndex].severity === 'moderator'">
+                                                <label class="severity_label" (click)="addOption('moderator', 'severity')">Moderate</label>
+
+                                                <input type="radio" id="option-three" name="selector"
+                                                    [checked]="symptomsOption[currentSymptomIndex].severity === 'severe'">
+                                                <label class="severity_label" (click)="addOption('severe', 'severity')">Severe</label>
+                                             </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- -----------------3-------------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Since </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('1 day', 'duration')" 
+                                                  [ngClass]="symptomsOption[currentSymptomIndex].duration === '1 day' ? 'btn-primary' : '' ">
+                                                    1 Day
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('2 day', 'duration')" 
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].duration === '2 day' ? 'btn-primary' : '' ">
+                                                    2 day
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('3 day', 'duration')"
+                                                   [ngClass]="symptomsOption[currentSymptomIndex].duration === '3 day' ? 'btn-primary' : '' ">
+                                                    3 Day
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('3+ day', 'duration')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].duration === '3+ day' ? 'btn-primary' : '' ">
+                                                    3+ day
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- -----------------4-------------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Frequency</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-12 d-flex">
+                                            <div>
+                                                <button class="btn_common_since" [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'once' ? 'btn-primary' : '' " (click)="addOption('once', 'frequency')">
+                                                    1st time
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('twice', 'frequency')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'twice' ? 'btn-primary' : '' ">
+                                                    Twice
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('thrice', 'frequency')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'thrice' ? 'btn-primary' : '' ">
+                                                    thrice
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn_common_since" (click)="addOption('more', 'frequency')"
+                                                    [ngClass]="symptomsOption[currentSymptomIndex].frequency === 'more' ? 'btn-primary' : '' ">
+                                                    More
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- -----------------5-------------------- -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">
+                                            Symptom Distress scale ( {{ symptomsOption[currentSymptomIndex].distress_scale }} )
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="slidecontainer">
+                                            <input type="range" min="0" max="10" value="{{ symptomsOption[currentSymptomIndex].distress_scale }}" 
+                                            class="slider" id="myRange" #distress (change)="addOption(distress.value, 'distress_scale')">
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Prescription Notes</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <textarea class="lower_text_area" value="{{ symptomsOption[currentSymptomIndex].notes }}" 
+                                            rows="3" #notes (change)="addOption(notes.value, 'notes')"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="textarea_heading">Doctor Notes</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <textarea class="lower_text_area" rows="3" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+           <!--  <div class="right_nav" *ngIf="showRight">
+                <div class="right_nav_wrapper">
+                    <p class="textarea_heading text-center" *ngIf="currentSymptomIndex >= 0 && selectedSymptoms.length">{{ selectedSymptoms[currentSymptomIndex].term }}</p>
+                     <p class="textarea_heading">Location</p>
+                     <div class="row">
+                        <div class="col-sm-3">
+                            <div class="row right_select">
+                                <div class="col-sm-12" (click)="addOption('arm', 'location')">
+                                    <img src="assets/arm.png" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <small>Arm</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="row right_select">
+                                <div class="col-sm-12" (click)="addOption('leg', 'location')">
+                                    <img src="assets/leg.png" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="row right_select">
+                                <div class="col-sm-12">
+                                    <small>Leg</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="row right_select">
+                                <div class="col-sm-12" (click)="addOption('face', 'location')">
+                                    <img src="assets/face.png" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12" (click)="addOption('arm', 'location')">
+                                    <small>Face</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="row right_select mb-2">
+                                <div class="col-sm-12" (click)="addOption('chest', 'location')">
+                                    <img src="assets/chest.png" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <small>Chest</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Onset</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                   <div class="form-check form-check-inline">
+                                      <input class="form-check-input" name="onset" type="radio" value="yes" (click)="addOption('yes', 'onset')">
+                                      <label class="form-check-label" style="font-size: 12px;">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" name="onset" type="radio" value="No" (click)="addOption('no', 'onset')">
+                                      <label class="form-check-label" style="font-size: 12px;">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Frequency</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                   <div class="form-check form-check-inline">
+                                      <input class="form-check-input" name="frequency" type="radio" value="once" (click)="addOption('once', 'frequency')">
+                                      <label class="form-check-label" style="font-size: 12px;">Once</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" name="frequency" type="radio" value="twice" (click)="addOption('twice', 'frequency')">
+                                      <label class="form-check-label" style="font-size: 12px;">Twice</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" name="frequency" type="radio" value="thrice" (click)="addOption('thrice', 'frequency')">
+                                      <label class="form-check-label" style="font-size: 12px;">Thrice</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" name="frequency" type="radio" value="more" (click)="addOption('more', 'frequency')">
+                                      <label class="form-check-label" style="font-size: 12px;">More</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Severity</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                   <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="severity" value="mild" (click)="addOption('mild', 'severity')">
+                                      <label class="form-check-label" style="font-size: 12px;">Mild</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="severity" value="moderate" (click)="addOption('moderate', 'severity')">
+                                      <label class="form-check-label" style="font-size: 12px;">Morderate</label>
+                                    </div>
+                                     <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="severity" value="severe" (click)="addOption('severe', 'severity')">
+                                      <label class="form-check-label" style="font-size: 12px;">Severe</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Since</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="duration" value="1" (click)="addOption('1 day', 'duration')">
+                                      <label class="form-check-label" style="font-size: 12px;">1 Day</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="duration" value="2" (click)="addOption('2 days', 'duration')">
+                                      <label class="form-check-label" style="font-size: 12px;">2 Days</label>
+                                    </div>
+                                     <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="duration" value="3" (click)="addOption('3 Days', 'duration')">
+                                      <label class="form-check-label" style="font-size: 12px;">3 Days</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="duration" value="4" (click)="addOption('4 Days', 'duration')">
+                                      <label class="form-check-label" style="font-size: 12px;">4 Days</label>
+                                    </div>
+                                     <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="duration" value="5" (click)="addOption('5 Days', 'duration')">
+                                      <label class="form-check-label" style="font-size: 12px;">5 days</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Distress Scale</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption(1, 'distress_scale')">1</span>
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption(2, 'distress_scale')">2</span>
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption(3, 'distress_scale')">3</span>
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption(4, 'distress_scale')">4</span>
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption(5, 'distress_scale')">4+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Event Trigger</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption('accident', 'event_triggered')">
+                                        Accident
+                                   </span>
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption('breakup', 'event_triggered')">
+                                        Breakup
+                                   </span>
+                                   <span class="badge badge-pill badge-primary mr-1" style="color: white; cursor: pointer;" (click)="addOption('pcm', 'event_triggered')">
+                                        PCM in 11
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Prescription Notes</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3" #notes (change)="addOption(notes.value, 'notes')" >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Doctor Notes</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3" >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        <!-- </div>
+    </div>
+</div> -->
+
+<!-- <div class="right_nav">
+    <div class="right_nav_wrapper">
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Prescription Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" >
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="textarea_heading">Doctor Notes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="lower_text_area" rows="3" >
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        console.log("click");
+        this.classList.toggle("active_div");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        } 
+      });
+    }
+</script> -->
+
+<!-- 
+
+appointment/patient-all
+get -->
+
+

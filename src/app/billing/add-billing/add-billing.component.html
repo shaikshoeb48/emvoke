@@ -1,0 +1,784 @@
+<div class="row">
+  <div class="col-sm-12">
+      <div class="main_wrapper">
+          <div class="billing_account_section_main_wrapper">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 style="float:left;">
+                Billing Account Details
+              </h4>
+              <div *ngIf="accountExist" style="float:right">
+                <button
+                  *ngIf="!billingAccountForm.get('isEditable').value"
+                  class="btn btn-secondary align-items-sm-end"
+                  (click)="onEditBillingAccountDetails()"
+                >
+                  Edit
+                </button>
+                <button
+                  *ngIf="billingAccountForm.get('isEditable').value"
+                  class="btn btn-primary"
+                  (click)="onUpdateBillingAccountDetails()"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <form [formGroup]="billingAccountForm" (ngSubmit)="submitAccountDetails()">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group row">
+                  <div class="col-lg-4 ">
+                    <div class="row">
+                      <div class="col-sm-5 ">
+                        <label class="billing_account_label" for="gstNo"
+                          >Registered Name<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          type="input"
+                          class="form-control billing-input-fields"
+                          id="registeredName"
+                          formControlName="registeredName"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.registeredName.errors" class="invalid-feedback">
+                            Registered Name is required
+                        </div>
+                        <!-- <div class="invalid-feedback" *ngIf="isFieldValid('email')">
+                            <div *ngIf="registeredName.hasError">
+                              Email address is required
+                            </div>
+                            <div *ngIf="signinForm.controls['email'].hasError('email')">
+                              Invalid email address
+                            </div>
+                          </div> -->
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("registeredName").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 ">
+                    <div class="row">
+                      <div class="col-sm-5 ">
+                        <label class="billing_account_label" for="gstin">GSTIN<sup>*</sup> :</label>
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="gstin"
+                          formControlName="gstin"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.gstin.errors" class="invalid-feedback">
+                            GSTIN Name is required
+                        </div>
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("gstin").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 ">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="panNo"
+                          >PAN No<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="panNo"
+                          formControlName="panNo"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.panNo.errors" class="invalid-feedback">
+                            PAN No is required
+                        </div>
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("panNo").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="drugLicense"
+                          >DRUG License No<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="drugLicense"
+                          formControlName="drugLicense"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.drugLicense.errors" class="invalid-feedback">
+                            Drug License No is required
+                        </div>
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("drugLicense").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="bankAccountNo"
+                          >Bank Account No :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="bankAccountNo"
+                          formControlName="bankAccountNo"
+                        />
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("bankAccountNo").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="ifscCode"
+                          >IFSC Code :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="ifscCode"
+                          formControlName="ifscCode"
+                        />
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("ifscCode").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5 ">
+                        <label class="billing_account_label" for="currency"
+                          >Currency :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <!-- <input
+                                type="input"
+                                *ngIf="billingAccountForm.get('isEditable').value"
+                                class="form-control billing-input-fields"
+                                id="currency"
+                                formControlName="currency"
+                              /> -->
+
+                        <select
+                          id="currency"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          formControlName="currency"
+                          #mySelect
+                        >
+                          <option
+                            [ngValue]="country"
+                            [selected]="country == defaultCurrency"
+                            *ngFor="let country of countryCurrencyCode"
+                            >{{ currency[country] }}</option
+                          >
+                        </select>
+
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("currency").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="fssaiLicense"
+                          >FSSAI License No<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="fssaiLicense"
+                          formControlName="fssaiLicense"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.fssaiLicense.errors" class="invalid-feedback">
+                          FSSAI License No is required
+                        </div>
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("fssaiLicense").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="phoneNo"
+                          >Phone No<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id="phoneNo"
+                          formControlName="phoneNo"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.phoneNo.errors" class="invalid-feedback">
+                          Phone No is required
+                        </div>
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("phoneNo").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="emailAddress"
+                          >Email Address<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <input
+                          type="input"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          class="form-control billing-input-fields"
+                          id=" emailAddress"
+                          formControlName="emailAddress"
+                        />
+                        <div *ngIf="submittedBillingForm && billingform.emailAddress.errors" class="invalid-feedback">
+                            <div *ngIf="billingform.emailAddress.errors.required" >Email is required</div>
+                            <div *ngIf="billingform.emailAddress.errors.email">Email must be a valid email address</div>
+                        </div>
+                        <p
+                          class="text-content-billing-account"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("emailAddress").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="Address"
+                          >Address<sup>*</sup> :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <textarea
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          style="width: 100%;height: 160px;"
+                          formControlName="address"
+                          class="billing-textarea-fields"
+                        ></textarea>
+                        <div *ngIf="submittedBillingForm && billingform.address.errors" class="invalid-feedback">
+                            Address is required
+                          </div>
+                        <div>
+                          <p
+                            class="text-content-billing-account billing-textarea-saved-fields"
+                            *ngIf="!billingAccountForm.get('isEditable').value"
+                          >
+                            {{ billingAccountForm.get("address").value }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <label class="billing_account_label" for="disclaimer"
+                          >Disclaimer :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <textarea
+                          rows="4"
+                          id="disclaimer"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          formControlName="disclaimer"
+                          class="billing-textarea-fields"
+                          style="width: 100%;height: 160px;"
+                        ></textarea>
+                        <p
+                          class="text-content-billing-account billing-textarea-saved-fields"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("disclaimer").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-sm-5 ">
+                        <label class="billing_account_label" for="tagline"
+                          >Tagline :</label
+                        >
+                      </div>
+                      <div class="col-sm-7">
+                        <textarea
+                          rows="4"
+                          id="tagline"
+                          *ngIf="billingAccountForm.get('isEditable').value"
+                          formControlName="tagline"
+                          class="billing-textarea-fields"
+                          style="width: 100%;height: 160px;"
+                        ></textarea>
+                        <p
+                          class="text-content-billing-account billing-textarea-saved-fields"
+                          *ngIf="!billingAccountForm.get('isEditable').value"
+                        >
+                          {{ billingAccountForm.get("tagline").value }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!accountExist" class="row">
+              <div class="col-sm-12">
+                <button class="btn btn-primary" type="submit">
+                  Add account
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <ng-container *ngIf="accountExist">
+          <div class="pricing_section_main_wrapper">
+            <h4>
+              Pricing Template
+            </h4>
+          <hr>
+          <div class="row temp_filter_wrapper">
+            <div class="col-sm-12">
+              <div class="row ">
+                <div class="col-md-12 col-lg-4">
+                  <button
+                    class="temp_normal_buttons "
+                    *ngIf="!editAll"
+                    (click)="onEditAll()"
+                  >
+                    Edit All
+                  </button>
+                  <button
+                    class="temp_row_update_all"
+                    *ngIf="editAll"
+                    (click)="onSaveAll()"
+                  >
+                    Update All
+                  </button>
+                </div>
+                <div class="col-md-12 col-lg-4">
+                  <button class="temp_normal_buttons  " (click)="filePicker.click()">
+                    Import to CSV
+                  </button>
+                </div>
+                <div class="col-md-12 col-lg-4 ">
+                  <button class="temp_normal_buttons " (click)="onExportData()">
+                    Export Data
+                  </button>
+                </div>
+
+                <input type="file" #filePicker (change)="onFileSelect($event.target)" />
+              </div>
+            </div>
+
+            <hr />
+          </div>
+          <div class="row temp_table_wrapper">
+            <div class="col-sm-12 table-responsive">
+              <form [formGroup]="addBillingItemForm" (ngSubmit)="onAddNewItem()">
+                <table class="table  ">
+                  <thead class="thead-light temp_table_head">
+                    <tr>
+                      <th scope="col" style="min-width:150px;">HSN Code</th>
+                      <th scope="col" style="min-width:140px;">Category</th>
+                      <th scope="col" style="min-width:140px;">Item</th>
+                      <th scope="col" style="min-width:140px;">Rate</th>
+                      <th scope="col" style="min-width:140px;">GST(Tax in %)</th>
+                      <th scope="col" style="min-width:140px;">Cess(Tax in %)</th>
+                      <th scope="col" style="min-width:140px;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr formGroupName="billingItemData">
+                      <td>
+                        <input
+                          required
+                          type="text"
+                          name="HSN"
+                          id="HSN_id"
+                          placeholder="Enter HSN code"
+                          formControlName="itemHSNCode"
+                          class="temp_common_st"
+                        />
+                        <div
+                          class="help-block"
+                          *ngIf="
+                            !addBillingItemForm.get('billingItemData.itemHSNCode')
+                              .valid && submitted
+                          "
+                        >
+                          Please enter a HSN code
+                        </div>
+                      </td>
+
+                      <td>
+                        <select
+                          required
+                          name="category"
+                          id="category"
+                          class="temp_common_st"
+                          formControlName="itemCategory"
+                          [value]="defaultCategory"
+                          style="max-width: max-content; padding:6px;min-width: 120px;"
+                        >
+                          <option value="null" disabled="true" [selected]="true"
+                            >select</option
+                          >
+                          <option
+                            [value]="item.value"
+                            *ngFor="let item of itemCategoryData | keyvalue"
+                            >{{ item.value }}</option
+                          >
+                        </select>
+                        <div
+                          class="help-block"
+                          *ngIf="
+                            !addBillingItemForm.get('billingItemData.itemCategory')
+                              .valid && submitted
+                          "
+                        >
+                          Please enter a Category
+                        </div>
+                      </td>
+                      <td>
+                        <div style="position: relative;">
+                          <input
+                            required
+                            type="text"
+                            name="itemName"
+                            id="itemName"
+                            placeholder="search..."
+                            formControlName="itemName"
+                            class="temp_common_st temp_search_item"
+                          />
+                          <img
+                            class="temp_search_icon"
+                            src="assets/search.svg"
+                            alt=""
+                          />
+
+                          <div
+                            class="help-block"
+                            *ngIf="
+                              !addBillingItemForm.get('billingItemData.itemName')
+                                .valid && submitted
+                            "
+                          >
+                            Please enter an item
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <input
+                          required
+                          type="text"
+                          name="rate"
+                          id="rate"
+                          placeholder="Enter Rate"
+                          formControlName="itemRate"
+                          class="temp_common_st"
+                        />
+                        <div
+                          class="help-block"
+                          *ngIf="
+                            !addBillingItemForm.get('billingItemData.itemRate').valid &&
+                            submitted
+                          "
+                        >
+                          Please enter a valid rate
+                        </div>
+                      </td>
+                      <td>
+                        <input
+                          required
+                          type="text"
+                          name="gst"
+                          id="gst"
+                          placeholder="Enter GST"
+                          formControlName="itemGst"
+                          class="temp_common_st"
+                        />
+                        <div
+                          class="help-block"
+                          *ngIf="
+                            !addBillingItemForm.get('billingItemData.itemGst').valid &&
+                            submitted
+                          "
+                        >
+                          Please enter a valid tax %
+                        </div>
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          name="cess"
+                          id="cess"
+                          placeholder="Enter Cess"
+                          formControlName="itemCess"
+                          class="temp_common_st"
+                        />
+                        <!-- <div
+                              class="help-block"
+                              *ngIf="
+                                !addBillingItemForm.get('billingItemData.itemCess').valid &&
+                                submitted
+                              "
+                            >
+                              Please enter a valid CESS
+                            </div> -->
+                      </td>
+                      <td>
+                        <button class="temp_add_new_btn" type="submit">
+                          Add item
+                        </button>
+                      </td>
+                    </tr>
+                    <ng-container
+                      formArrayName="tableRows"
+                      *ngFor="let group of getFormControls.controls; let i = index"
+                    >
+                      <tr *ngIf="!group.get('isEditable').value">
+                        <td>
+                          <p class="temp_common_p">
+                            {{ group.get("itemHSNCode").value }}
+                          </p>
+                        </td>
+                        <td>
+                          <p class="temp_common_p">
+                            {{ group.get("itemCategory").value }}
+                          </p>
+                        </td>
+                        <td>
+                          <p class="temp_common_p">{{ group.get("itemName").value }}</p>
+                        </td>
+                        <td>
+                          <p class="temp_common_p">{{ group.get("itemRate").value }}</p>
+                        </td>
+                        <td>
+                          <p class="temp_common_p">{{ group.get("itemGst").value }}</p>
+                        </td>
+                        <td>
+                          <p class="temp_common_p">{{ group.get("itemCess").value }}</p>
+                        </td>
+                        <td>
+                          <button
+                            class="temp_row_edit"
+                            type="button"
+                            (click)="onEditItem(group)"
+                          >
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="group.get('isEditable').value" [formGroupName]="i">
+                        <td>
+                          <input
+                            type="text"
+                            name="HSN"
+                            id="HSN_id"
+                            formControlName="itemHSNCode"
+                            placeholder="Enter HSN code"
+                            class="temp_common_st"
+                          />
+                          <div
+                            class="help-block"
+                            *ngIf="!group.get('itemHSNCode').valid && updateItem"
+                          >
+                            Please enter a HSN code
+                          </div>
+                        </td>
+                        <td>
+                          <select
+                            name="category"
+                            id="category_id"
+                            class="temp_common_st"
+                            formControlName="itemCategory"
+                            style="max-width: max-content; padding:6px;min-width: 120px;"
+                          >
+                            <option
+                              [value]="itemCat.value"
+                              *ngFor="let itemCat of itemCategoryData | keyvalue"
+                            >
+                              {{ itemCat.value }}</option
+                            >
+                          </select>
+                        </td>
+                        <td>
+                          <div style="position: relative;">
+                            <input
+                              type="text"
+                              name="itemName"
+                              id="itemName_id"
+                              formControlName="itemName"
+                              class="temp_common_st temp_search_item"
+                            />
+                            <img
+                              class="temp_search_icon"
+                              src="assets/search.svg"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            class="help-block"
+                            *ngIf="!group.get('itemName').valid && updateItem"
+                          >
+                            Please enter a valid item
+                          </div>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="itemRate"
+                            id="itemRate_id"
+                            formControlName="itemRate"
+                            placeholder="Enter Rate"
+                            class="temp_common_st"
+                          />
+                          <div
+                            class="help-block"
+                            *ngIf="!group.get('itemRate').valid && updateItem"
+                          >
+                            Please enter a valid rate
+                          </div>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="itemGst"
+                            id="itemGst_id"
+                            formControlName="itemGst"
+                            placeholder="Enter GST"
+                            class="temp_common_st"
+                          />
+                          <div
+                            class="help-block"
+                            *ngIf="!group.get('itemGst').valid && updateItem"
+                          >
+                            Please enter a valid GST %
+                          </div>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="itemCess"
+                            id="itemRate_id"
+                            formControlName="itemCess"
+                            placeholder="Enter Cess"
+                            class="temp_common_st"
+                          />
+                          <!-- <div
+                                class="help-block"
+                                *ngIf="!group.get('itemCess').valid && updateItem"
+                              >
+                                Please enter a valid Cess
+                              </div> -->
+                        </td>
+                        <td>
+                          <button
+                            name="update"
+                            (click)="onUpdateItem(group, i)"
+                            class="temp_row_update"
+                            type="button"
+                          >
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                          </button>
+
+                          <button class="temp_row_delete" (click)="deleteRow(i)">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        </ng-container>
+        </div>
+
+  </div>
+</div>

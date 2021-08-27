@@ -1,0 +1,550 @@
+<div class="body">
+    <section class="print_pdf">
+        <div class="print_page_wrapper">
+            <div class="row">
+                <div class="col-sm-4 left_section">
+                    <div class="p_left_inner_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <button style="font-size: 12px;" routerLink="invoice" class="btn btn-primary">Add Bill / Payment</button>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <a style="font-size: 14px;">See previous Bill / Payment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- -------------------000000000000000 -->
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <p class="c_text">Follow up <span>(20-10-2020)</span></p>
+                                    </div>
+                                    <div class="col-sm-4 reset_link">
+                                        <a class="c_text ">Reset</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-sm-12 d-flex'>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '3 day'}" (click)="setFollowUp('3 day')">3 day</button>
+                                        </div>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '5 day'}" (click)="setFollowUp('5 day')">5 day</button>
+                                        </div>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '1 weeks'}" (click)="setFollowUp('1 weeks')">1 week</button>
+                                        </div>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '2 weeks'}" (click)="setFollowUp('2 weeks')">2 week</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class='col-sm-12 d-flex'>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '1 Month'}" (click)="setFollowUp('1 Month')">1 month</button>
+                                        </div>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '45 days'}" (click)="setFollowUp('45 days')">45 day</button>
+                                        </div>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '3 Months'}" (click)="setFollowUp('3 Months')">3 month</button>
+                                        </div>
+                                        <div>
+                                            <button class="follow_btn" [ngClass]="{'follow_btn_active' : followUp === '6 Months'}" (click)="setFollowUp('6 Months')">6 month</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class='col-sm-12'>
+                                        <div>
+                                            <input class="follow_btn" type="date" #dateValue (change)="setFollowUp(dateValue.value)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class='col-sm-12'>
+                                        <div>
+                                            <textarea #followUpText (change)="addFollowUpText(followUpText.value)" class="l_textarea follow_btn" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- 00000000000000000000000000 -->
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <p class="c_text">Referral</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-sm-12'>
+                                        <div>
+                                            <select id="doctor" class="ref_lab follow_btn" #refDoctorValue (change)="setRefDoctor(refDoctorValue.value)">
+                                                <option value="">Select Doctor</option>
+                                                <option value="Dr Lalit" >Dr lalit </option>
+                                                <option value="Dr Anil">Dr Anil </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class='col-sm-12'>
+                                        <div>
+                                            <textarea #notesValue (change)="setNotes(notesValue.value)" class="l_textarea follow_btn" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 right_section">
+                    <div class="p_left_inner_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: right;">
+                                <span class="float-left">
+                                   <button class="btn btn-primary btn-sm" (click)="backToPrescription()">Back</button>
+                                </span>
+                                <span class="float-left">
+                                   <!-- <button class="btn btn-danger btn-sm ml-1" (click)="downloadPdf()">Download</button> -->
+                                   <button class="btn btn-danger btn-sm ml-1" [useExistingCss]="true" printSectionId="print-section" ngxPrint (click)="complete()">
+                                        Print
+                                   </button>
+                                </span>
+                                <!--  <span class="float-left">
+                                   <button class="btn btn-danger btn-sm ml-1" (click)="downloadPdf()">Download</button>
+                                </span> -->
+
+                                <span class="float-right">
+                                    <div class="dropdown">
+                                      <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Option</button>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="form-check ml-1">
+                                          <input class="form-check-input"  [checked]="customizeOption['vitals']" (click)="setOption($event, 'vitals')"  type="checkbox">
+                                          <label class="form-check-label">Vitals</label>
+                                        </div>
+                                        <div class="form-check ml-1">
+                                            <input class="form-check-input"  (change)="checkField($event,'signature')" checked type="checkbox">
+                                            <label class="form-check-label">Signature</label>
+                                          </div>
+                                        <div class="form-check ml-1">
+                                          <input class="form-check-input" type="checkbox" value="">
+                                          <label class="form-check-label">Pharmacist Note</label>
+                                        </div>
+                                        <div class="form-check ml-1">
+                                          <input class="form-check-input" type="checkbox" value="">
+                                          <label class="form-check-label">Medical History</label>
+                                        </div>
+                                        <div class="form-check ml-1"  *ngIf="patientData?.allergies?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['allergies']"  (click)="setOption($event, 'allergies')" type="checkbox">
+                                          <label class="form-check-label">Allergies</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.symptoms?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['symptoms']"  (click)="setOption($event, 'symptoms')" type="checkbox">
+                                          <label class="form-check-label">Symptoms</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.findings?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['findings']" (click)="setOption($event, 'findings')" type="checkbox">
+                                          <label class="form-check-label">Findings</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.procedure?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['procedure']" (click)="setOption($event, 'procedure')" type="checkbox">
+                                          <label class="form-check-label">Procedure</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.investigations?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['investigations']" (click)="setOption($event, 'investigations')" type="checkbox">
+                                          <label class="form-check-label">Investigations</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.medicines?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['medicines']" (click)="setOption($event, 'medicines')" type="checkbox">
+                                          <label class="form-check-label">Medicines</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.instructions?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['instructions']" (click)="setOption($event, 'instructions')" type="checkbox">
+                                          <label class="form-check-label">Instructions</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="data?.diagnosis?.length">
+                                          <input class="form-check-input" [checked]="customizeOption['diagnosis']" (click)="setOption($event, 'diagnosis')" type="checkbox">
+                                          <label class="form-check-label">Diagnosis</label>
+                                        </div>
+                                        <div class="form-check ml-1" *ngIf="doctorData?.speciality?.length">
+                                            <input class="form-check-input"  (change)="checkField($event,'speciality')" checked type="checkbox">
+                                            <label class="form-check-label">Speciality</label>
+                                          </div>
+                                          <div class="form-check ml-1" *ngIf="doctorData?.specialization?.length">
+                                            <input class="form-check-input"  (change)="checkField($event,'specialization')" checked type="checkbox">
+                                            <label class="form-check-label">Specialization</label>
+                                          </div>
+                                          <div class="form-check ml-1">
+                                            <input class="form-check-input"  (change)="checkField($event,'clinicTimings')" checked type="checkbox">
+                                            <label class="form-check-label">Clinic Timings</label>
+                                          </div>
+                                          <div class="form-check ml-1">
+                                            <input class="form-check-input"  (change)="checkField($event,'disclaimer')" checked type="checkbox">
+                                            <label class="form-check-label">Disclaimer</label>
+                                          </div>
+                                        <div class="form-check ml-1" *ngIf="clinicLogo">
+                                            <input class="form-check-input"  (change)="checkField($event,'logo')" checked type="checkbox">
+                                            <label class="form-check-label">Clinic Logo</label>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div #pdfContent id="print-section">
+
+                            <div class="row">
+                                <div class="col-sm-12 main_pdf_outer">
+                                    <div class="main_pdf_div">
+                                        <div class="row">
+                                            <div class="col-sm-6 doc_detail">
+                                                <div class="row pl-2 ml-1" *ngIf="clinicLogo && customizeOption['logo']">
+                                                    <div class="col-sm-4">
+                                                        <img [src]="clinicLogo" class="img-thumbnail" style="border:none" alt="" />
+                                                    </div>
+                                                </div>
+                                                <h5>{{ clinicData?.name }}</h5>
+                                                <p>Registration No : 12354</p>
+                                                <p>Address : <span>{{ clinicData.address }}</span></p>
+                                            </div>
+                                            <div class="col-sm-6 doc_detail pt-2">
+                                                <p>
+                                                    Doctor Name: Dr. {{ doctorData?.first_name }} {{ doctorData?.last_name}}
+                                                </p>
+                                                <p>Contact :
+                                                    <span *ngIf="doctorData?.contact_details.length">
+                                                    {{ doctorData?.contact_details[0].country_code }} 
+                                                    {{ doctorData?.contact_details[0].phone_number }}
+                                                    </span>
+
+                                                    <span *ngIf="!doctorData?.contact_details.length">
+                                                        {{ doctorData?.phone_number }}
+                                                    </span>
+                                                </p>
+                                                <p>
+                                                    Email : {{ doctorData?.email }}
+                                                </p>
+                                                <p *ngIf="customizeOption['speciality']">
+                                                    Speciality : {{doctorData?.speciality}}
+                                                </p>
+                                                <p *ngIf="customizeOption['specialization']">
+                                                    Specialization : {{doctorData?.specialization}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-8  doc_detail">
+                                                <label>Name : </label><label>{{ patientData.first_name }} <span>{{ patientData.last_name }}</span></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Date : </label><label>{{ data?.appointment_date}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-8 doc_detail">
+                                                <label>Age/Sex : </label><label><span>{{ age }}</span> years / <span>{{ patientData.gender }}</span></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Mobile : {{ patientData?.contact_details[0]?.country_code }}</label>
+                                                <label>{{ patientData?.contact_details[0]?.phone_number }}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 sideborderright">
+                                                <div class="row">
+                                                    <div class="col-sm-12 doc_detail " *ngIf="customizeOption['symptoms'] && data?.symptoms.length">
+                                                        <h5><span class="content-headings">Symptoms:</span></h5>
+                                                        <div>
+                                                            <ul>
+                                                                <li *ngFor="let symptom of data.symptoms">
+                                                                    <strong>{{ symptom.symptom_name}}</strong>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6" *ngIf="symptom.frequency">
+                                                                            <p>Frequency : {{ symptom.frequency }}</p>
+                                                                        </div>
+                                                                        <div class="col-sm-6" *ngIf="symptom.duration">
+                                                                            <p>Duration : {{ symptom.duration }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12" *ngIf="symptom.location">
+                                                                            <p>Location : {{ symptom.location }}</p>
+                                                                        </div>
+                                                                        <div class="col-sm-12" *ngIf="symptom.severity">
+                                                                            <p>Severity : {{ symptom.severity }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12 doc_detail" *ngIf="customizeOption['examination_findings'] && data?.examination_findings.length">
+                                                        <h5><span class="content-headings">Examination Findings:</span></h5>
+                                                        <ol>
+                                                            <li *ngFor="let val of examinationFindingsObj">
+                                                                <strong>
+                                                                    {{ val.finding_name }}
+                                                                    {{ val.mid_term ? '(' + val.mid_term + ')' : '' }}
+                                                                </strong>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6" *ngIf="val.frequency">
+                                                                        <p>Frequency : {{ val.frequency }}</p>
+                                                                    </div>
+                                                                    <div class="col-sm-6" *ngIf="val.duration">
+                                                                        <p>Duration : {{ val.duration }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12" *ngIf="val.location">
+                                                                        <p>Location : {{ val.location }}</p>
+                                                                    </div>
+                                                                    <div class="col-sm-12" *ngIf="val.severity">
+                                                                        <p>Severity : {{ val.severity }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12 doc_detail" *ngIf="customizeOption['findings'] && data?.findings.length">
+                                                        <h5> <span class="content-headings">Findings:</span></h5>
+                                                        <ol>
+                                                            <li *ngFor="let val of findingsObj">
+                                                                <strong>
+                                                                    {{ val.finding_name }}
+                                                                    {{ val.mid_term ? '(' + val.mid_term + ')' : '' }}
+                                                                </strong>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6" *ngIf="val.frequency">
+                                                                        <p>Frequency : {{ val.frequency }}</p>
+                                                                    </div>
+                                                                    <div class="col-sm-6" *ngIf="val.duration">
+                                                                        <p>Duration : {{ val.duration }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12" *ngIf="val.location">
+                                                                        <p>Location : {{ val.location }}</p>
+                                                                    </div>
+                                                                    <div class="col-sm-12" *ngIf="val.severity">
+                                                                        <p>Severity : {{ val.severity }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12 doc_detail" *ngIf="customizeOption['allergies'] && patientData?.allergies?.length">
+                                                        <h5><span class="content-headings">Allergies:</span></h5>
+                                                        <div *ngFor="let allergy of patientData.allergies">
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <p>
+                                                                        <b>{{ allergy.allergies_name }}</b>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-8" *ngIf="allergy.notes">
+                                                                    <p>Notes : {{ allergy.notes }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12 doc_detail" *ngIf="customizeOption['vitals'] && data?.patient_vital">
+                                                        <h5><span class="content-headings">Vitals:</span></h5>
+                                                        <div>
+                                                            <div class="row">
+                                                                <div class="col-sm-4" *ngFor="let vital of vitals">
+                                                                    <p><strong>{{ vital.name }}</strong> : {{ vital.value }} {{ vital.unit }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 sideborderleft">
+                                                <div class="row" *ngIf="customizeOption['investigation'] && data?.investigation.length">
+                                                    <div class="col-sm-6 doc_detail">
+                                                        <h5><span class="content-headings">Investigation</span></h5>
+                                                        <label><span >
+                                                            <ol>
+                                                                <li *ngFor="let inv of data.investigation; let i=index"><b>{{ inv.Investigation_name }}</b>
+                                                                    <div class="row">
+                                                                        <div class="col" *ngIf="investigationObj[i].nursing_notes">
+                                                                            <label>Nursing notes : {{ investigationObj[i].nursing_notes }}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col" *ngIf="investigationObj[i].doctors_notes">
+                                                        <label>Doctor notes : {{ investigationObj[i].doctors_notes }}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col" *ngIf="inv.name">
+                                                        <p>Lab : {{ inv.name }}</p>
+                                                    </div>
+                                                </div>
+                                                </li>
+                                                </ol>
+                                                </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 doc_detail" *ngIf="customizeOption['procedures'] && data?.procedures?.length">
+                                                <h5><span class="content-headings">Procedure:</span></h5>
+                                                <label><span>
+                                                            <ol>
+                                                                <li *ngFor="let val of data.procedures; let i=index">  <b>{{ val.procedure_name }}</b>
+                                                            
+                                                                    <div *ngIf="val.notes">
+                                                                        <div class="row" *ngIf="procedureObj[i].patient_notes">
+                                                                            <div class="col">
+                                                                                <label>Patient notes : {{ procedureObj[i].patient_notes }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="procedureObj[i].nursing_notes">
+                                            <div class="col">
+                                                <label>Nursing notes : {{ procedureObj[i].nursing_notes }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    </ol>
+                                    </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 doc_detail" *ngIf="customizeOption['diagnosis'] && data?.diagnosis?.length">
+                                    <h5><span class="content-headings">Diagnosis:</span></h5>
+                                    <label><span >
+                                                        <ul>
+                                                            <li *ngFor="let val of data.diagnosis">
+                                                                <b>{{ val.diagnosis_name }}</b>                   
+                                                                
+                                                                <div class="row">
+                                                                    <div class="col" *ngIf="val.notes"><label>Doctor notes : {{ val.notes }}</label></div>
+                            </div>
+                            </li>
+                            </ul>
+                            </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col doc_detail" *ngIf="customizeOption['medicines'] && data?.medicines.length">
+                            <h5><span class="content-headings">Medicines</span></h5>
+                            <div>
+                                <ol>
+                                    <li *ngFor="let medicine of data.medicines; let i=index">
+                                        <strong>{{ medicine.medicine_name }}</strong>
+                                        <div class="row">
+                                            <div class="col-sm-3" *ngIf="medicineObj[i].freq.value">
+                                                <label>Frequency: {{ medicineObj[i].freq.value }} {{ medicineObj[i].freq.unit }}</label>
+                                            </div>
+                                            <div class="col-sm-3" *ngIf="medicine.quantity">
+                                                <label>Quantity : {{ medicine.quantity }} <span> / {{ medicine.quantity_type }}</span></label>
+                                            </div>
+                                            <div class="col-sm-3" *ngIf="medicineObj[i].duration.value">
+                                                <label>Duration : {{ medicineObj[i].duration.value }} {{ medicineObj[i].duration.time }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="medicine.route">
+                                            <div class="col-sm-3"><label>Route : {{ medicine.route }}</label></div>
+                                        </div>
+                                        <div class="row" *ngIf="medicine.notes">
+                                            <div class="col-sm-12"><label>Notes : {{ medicine.notes }}</label></div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <footer class="footer row pt-5 pb-0 mb-0 ">
+                <div class="row">
+                    <div class="col-12 pl-3 ml-2 pt-2 mt-2 mb-0 pb-0">
+                        <div class="row px-2 mx-2">
+                            <div class="col-sm-6">
+                                <p *ngIf="customizeOption['clinicTimings']"> Clinic Timings : 10AM - 9PM</p>
+                            </div>
+                            <div class="col-sm-6" *ngIf="customizeOption['signature']">
+                                <div class="pl-3 ml-3 mx-auto px-auto">
+                                    <div class="row  pl-5 ml-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class=" bi bi-at " viewBox="0 0 16 16">
+                                            <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"/>
+                                          </svg><br>
+                                        <h6>Signature</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row pl-3 pt-2 mt-2 ml-2 text-center" *ngIf="customizeOption['disclaimer']">
+                            <div class="col">
+                                <p>Disclaimer : Contrary to what you might think, medical disclaimers don't apply to doctors and nurses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </footer>
+            <!-- <div class="row" *ngIf="followUp">
+                <div class="col-sm-12 doc_detail">
+                    <h6>Follow Up : <small>{{ followUp }}</small></h6>
+                </div>
+            </div>
+            <div class="row" *ngIf="notes">
+                <div class="col-sm-12 doc_detail">
+                    <h6>Notes : <small>{{ notes }}</small></h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 doc_detail">
+                    <h6>{{ refDoctor }}</h6>
+                </div>
+            </div>
+            <div class="row" *ngIf="signature">
+                <div class="col-sm-12 doc_detail">
+                    <h6>Signature : <small>{{ Signature }}</small></h6>
+                </div>
+            </div> -->
+
+        </div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>

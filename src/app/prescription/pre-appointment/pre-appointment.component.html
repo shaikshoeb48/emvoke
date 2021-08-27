@@ -1,0 +1,153 @@
+<div class="col-sm-12" style="text-align: right; height: 30px;">
+    <button type="button" class="close"  (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="steps">
+  <div class="step" [ngClass]="selected === i ? '' : 'minimized' " *ngFor="let appointment of data; let i=index" (click)="setSelected(i)">
+    <div class="step-header">
+      <div class="header">{{ appointment.appointment_date }} <!-- ( Receptionist : {{ appointment.receptionist_name}} ) --> </div>
+      <div class="subheader"> Diagnosis: <span *ngFor="let val of appointment.diagnosis">{{ val.diagnosis_name }} </span></div>
+     <!--  <div class="subheader">Vitals: <span *ngFor="let vital of allVitals[i]">
+        <span style="margin-right: 5px" *ngIf="vital.value">{{ vital.name }} : {{ vital.value }} {{ vital.unit }},</span>
+      </span></div> -->
+      <div class="subheader">Symptoms: <span *ngFor="let val of appointment.symptoms">{{ val.symptom_name }} </span></div>
+      <!-- <div class="subheader">Findings: <span *ngFor="let val of appointment.findings">{{ val.finding_name }} </span></div> -->
+    </div>
+    <div class="step-content one">
+      <!-- detailed view of history -->
+      <div class="row">
+         <div class="col-sm-12 right_section">
+            <div class="p_left_inner_wrapper">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: right;">
+                         <!-- <span class=""> -->
+                           <button class="btn btn-danger" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Print</button>
+                        <!-- </span> -->
+                    </div>
+                </div>
+                <div  #pdfContent id="print-section">
+                <div class="row">
+                    <div class="col-sm-12 main_pdf_outer">
+                        <div class="main_pdf_div" >
+                            <div class="row">
+                                <div class="col-sm-12 doc_detail">
+                                    <h5>{{ clinicData.name}} Clinic</h5>
+                                    <p>Address : <span>{{ clinicData.address }}</span></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-8  doc_detail">
+                                    <label>Name : </label><label>{{ patientData?.first_name }} <span> {{ patientData?.last_name }}</span></label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Date : </label><label>{{ appointment.appointment_date }}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 doc_detail">
+                                    <label>Age/Sex : </label><label><span>{{ age }}</span> years / <span>{{ patientData?.gender }}</span></label>
+                                </div>
+                                <div class="col-sm-4" >
+                                    <label>Mobile : </label><label> {{ patientData?.contact_details[0].phone_number }}</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6 doc_detail" *ngIf="appointment?.symptoms.length">
+                                    <h6>Symptoms</h6>
+                                    <p><span *ngFor="let symptom of appointment.symptoms">{{ symptom.symptom_name }} </span></p>
+                                </div>
+                                <div class="col-sm-6 doc_detail"  *ngIf="appointment?.medicines.length">
+                                    <h6>Medicines</h6>
+                                     <p><span *ngFor="let medicine of appointment.medicines">{{ medicine.medicine_name }} </span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 doc_detail" *ngIf="appointment?.findings.length">
+                                    <h6>Findings</h6>
+                                    <p><span *ngFor="let finding of appointment.findings">{{ finding.finding_name }} </span></p>
+                                </div>
+                                <div class="col-sm-6 doc_detail"  *ngIf="ppointment?.investigation.length">
+                                    <h6>Investigations</h6>
+                                     <p><span *ngFor="let inv of appointment.investigation">{{ inv.investigation_name }} </span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 doc_detail"  *ngIf="appointment?.procedures.length">
+                                    <h6>Procedure</h6>
+                                     <p><span *ngFor="let procedure of appointment.procedures">{{ procedure.procedure_name }} </span></p>
+                                </div>
+                                <div class="col-sm-6 doc_detail"  *ngIf="appointment?.examination_findings">
+                                    <h6>Examination Findings</h6>
+                                   <p><span *ngFor="let val of appointment.examination_findings">{{ val.finding_name }} </span></p>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-sm-6 doc_detail"  *ngIf="appointment?.diagnosis.length">
+                                    <h6>Diagnosis</h6>
+                                     <p><span *ngFor="let diagnosis of appointment.diagnosis">{{ diagnosis.diagnosis_name }} </span></p>
+                                </div>
+                                <div class="col-sm-6 doc_detail"  *ngIf="appointment?.instructions">
+                                    <h6>Instructions</h6>
+                                    <p>{{ appointment.instructions }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row" *ngIf="appointment.follow_up_days">
+                                <div class="col-sm-12 doc_detail">
+                                    <h6>Follow Up : <small>{{ appointment.follow_up_days }}</small></h6>
+                                    
+                                </div>
+                            </div>
+                             <div class="row" *ngIf="appointment.notes">
+                                <div class="col-sm-12 doc_detail">
+                                    <h6>Notes : <small>{{ appointment.notes }}</small></h6>
+                                    
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- allergies -->
+ <!--  <div class="step minimized">
+    <div class="step-header">
+      <div class="header">02 Dec 2019 ( Dr. Priyanka Sahney )</div>
+      <div class="subheader"> Mode: Offline, Timing: 12:30PM to 01:00PM  </div>
+      <div class="subheader"> Diagnosis: Allergic contact dermatitis </div>
+      <div class="subheader">Vitals: Pulse: 43 /min BP: 23/435 mmHg</div>
+      <div class="subheader">Itching Dry skin </div>
+      <div class="subheader">Findings: Dryness
+        Hyperpigmentation
+        Fundal Ht.: 44 cm</div>
+    </div>
+    <div class="step-content two"> -->
+       <!-- detailed view of history -->
+      <!-- <button class="next-btn">Next</button> -->
+   <!--  </div>
+  </div> -->
+  <!--  -->
+ <!--  <div class="step minimized">
+    <div class="step-header">
+      <div class="header">21 Dec 2019 ( Dr. Priyanka Sahney )</div>
+      <div class="subheader"> Mode: Offline, Timing: 12:30PM to 01:00PM  </div>
+      <div class="subheader"> Diagnosis: Allergic contact dermatitis </div>
+      <div class="subheader">Vitals: Pulse: 43 /min BP: 23/435 mmHg</div>
+      <div class="subheader">Itching Dry skin </div>
+      <div class="subheader">Findings: Dryness
+        Hyperpigmentation
+        Fundal Ht.: 44 cm</div>
+    </div> -->
+   <!--  <div class="step-content three"> -->
+      <!-- detailed view of history -->
+    <!-- </div> -->
+</div>

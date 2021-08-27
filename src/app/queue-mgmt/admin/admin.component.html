@@ -1,0 +1,126 @@
+<mat-card class="box-shadow-none p-0">
+	<mat-card-content class="filter-group all_doc_queue_nav">
+	 <!--<input [(ngModel)]="searchText" type="search" placeholder="Quick Search" />
+	  <button type="button" class="btn btn-search"><i class="fa fa-search"></i></button>-->
+	  <mat-form-field class="all_doc_top_com_margin">
+		<input matInput  placeholder="Select a Date" [matDatepicker]="picker" (focus)="picker.open()" 
+		[formControl]="appointmentDate" const INIT_DATA =[];
+		(dateChange)="updateData()">
+		 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		 <mat-datepicker #picker ></mat-datepicker>
+	  </mat-form-field>
+	  <button mat-stroked-button class="mr-0 all_doc_top_com_margin" [matMenuTriggerFor]="filtermenu">Filter</button>
+	  <mat-menu #filtermenu="matMenu">
+		<div mat-menu-item (click)="$event.stopPropagation();">
+		  <span>
+			<input style="margin-right: 10px;" type="checkbox" class="form-check-inline"  [checked]="allCheck" (change)="selectAll($event)">
+			Select All
+		  </span>
+		</div>
+		<div mat-menu-item *ngFor="let filterDet of filteredDoctor; let i=index" (click)="$event.stopPropagation();">
+		  <span>
+			<input style="margin-right: 10px;" type="checkbox" class="form-check-inline"  [checked]="filterDet.selected" value={{filterDet.doctor_name}}  (change)="checkThisDoctor($event,i)">
+			{{filterDet.doctor_name}}
+		  </span>
+		</div>
+	  </mat-menu>
+	  <button mat-stroked-button class="btn-green all_doc_top_com_margin" (click)="filterForAll('Seen')">Seen</button>
+	  <button mat-stroked-button class="btn-purple all_doc_top_com_margin" (click)="filterForAll('Consulting')">With-Doctor</button>
+	  <button mat-stroked-button class="btn-blue all_doc_top_com_margin" (click)="filterForAll('Queue')">Queue</button>
+	  <button mat-stroked-button class="btn-orange all_doc_top_com_margin" (click)="filterForAll('Cancelled')">Cancelled</button>
+	  <button class="btn btn-primary all_doc_book_appointment" (click)="onBookAppointment()"><i class="fa fa-arrow-circle-right"></i> Book
+		Appointment Now</button>
+	</mat-card-content>
+  </mat-card>
+
+  
+ 
+ 
+  <div style="padding-left: 20px;padding-right: 20px;" class="flex-board" cdkDropList [cdkDropListData]="cardData" (cdkDropListDropped)="drop($event)">
+	<div class="card-list cursor-move all_queue_outer" cdkDrag  *ngFor="let cardDet of cardData ; let j = index">
+	  <div class="flex-row">
+		<h3 class="mat-h3 text-title font-weight-bold cursor-pointer all_doc_queue_name" (click)="loadIndividualDet(cardDet)">
+		  Dr. {{cardDet.title }}
+		</h3>
+		<div class="lp-slide">
+		  Stop <mat-slide-toggle (change)="queueStatusUpdate($event, j)" [checked]="cardDet.queueStatus">
+		  </mat-slide-toggle> Active
+		  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Drag and Drop Menu">
+			<mat-icon class="text-title">more_vert</mat-icon>
+		  </button>
+		</div>
+	  </div>
+	  <mat-menu #menu="matMenu">
+		<button mat-menu-item (click)="filter('Seen', j)">
+		  <span>Seen</span>
+		</button>
+		<button mat-menu-item (click)="filter('Consulting', j)">
+		  <span>With-Doctor</span>
+		</button>
+		<button mat-menu-item (click)="filter('Queue', j)">
+		  <span>Queue</span>
+		</button>
+		<button mat-menu-item (click)="filter('Cancelled', j)">
+		  <span>Cancelled</span>
+		</button>
+	  </mat-menu>
+	  <!-- <div class="card-list-content" cdkDropList [id]="cardDet.id" [cdkDropListData]="cardDet.patients"
+		[cdkDropListConnectedTo]="cardIds" (cdkDropListDropped)="onDrop($event)"> -->
+	  <div class="card-list-content" cdkDropList [cdkDropListData]="cardDet.patients"
+		(cdkDropListDropped)="onDrop($event)">
+		<mat-card *ngFor="let pat of cardDet.patients; let i = index"  cdkDrag class="card-content queue_inner_card">
+		  <mat-card-content class="flex-row">
+			<div class="custom-placeholder" *cdkDragPlaceholder></div>
+			<div class="flex-column1 justify-content-between">
+			  <div class="flex-column1 mb-2">
+				<span>
+				  Token no: {{  pat.tokenNo }}
+				</span>
+				<span class="font-weight-bold text-title queue_patient_name_">
+				  {{pat.name}}
+				</span>
+			  </div>
+			  <div class="flex-column1">
+				<span>
+				  {{pat.gender}} , Age: {{pat.age}}
+				</span>
+				<span class="text-phone">
+				  <i class="fa fa-phone-square" aria-hidden="true"></i> {{pat.contactNo}}
+				</span>
+			  </div>
+			</div>
+			<div class="flex-column1 align-items-end" >
+				<div style="position: relative;">
+					<img class="queue_admin_sec_dot" src="assets/queue/queue_dot.svg" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                    <div class="dropdown-menu dropdown-menu-left dropdown_menu_custom" aria-labelledby="dropdownMenuReference">
+						<a class="dropdown-item" (click)="onClickVitals(pat)">Patient History</a>
+                      <a class="dropdown-item" *ngIf="pat.status != 'Cancelled' && pat.status != 'Consulting' && pat.status != 'Seen'" (click)="onCancelAppointment(pat, $event)">Cancel Appointment</a>
+                    </div>
+				</div>
+				
+			<!-- <div class="cancel" *ngIf="pat.status != 'Cancelled' && pat.status != 'Consulting' && pat.status != 'Seen'" (click)="onCancelAppointment(pat, $event)"><i class="fa fa-close"></i></div>           -->
+			  <div class="flex-column1 align-items-end">
+				  
+				<span class="text-time">
+				  <span class="text-mode">{{pat.mode}} </span> <i class="fa fa-clock-o" aria-hidden="true"></i>
+				  {{pat.appointmentdate}}
+				</span>
+			  </div>
+			  <button style="margin-top: 12px;" mat-stroked-button [ngClass]="queuemgmtservice.getStatusColor(pat.status)">
+				{{pat.status}}
+			  </button>
+			</div>
+		  </mat-card-content>
+		</mat-card>
+	  </div>
+	  <div class="row" *ngIf='!cardDet.patients.length'>
+		<div class="col-sm-12 queue_admin_no_data">
+			<img src="assets/queue_no_data.svg" alt="" width="94px">
+		  </div>
+	  </div>
+	</div>
+  </div>
+  <!-- <mat-paginator class="flex-center" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+		(page)="pageEvent = $event; onPaginateChange($event)">
+	  </mat-paginator> -->
+  

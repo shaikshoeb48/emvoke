@@ -1,0 +1,1136 @@
+<div *ngIf="!openPdf" class="row patient_profile_page">
+  <div class="col-sm-12">
+    <!-- top card with patient basic info -->
+    <div class="pp_card">
+      <div class="row" style="margin: 0px !important; border-bottom: 1px solid #E8E8E8; padding-bottom: 8px;">
+          <div class="col-sm-6 d-flex">
+            <!-- <div class="row"> -->
+              <div>
+                <label class="pp_ico_box" *ngIf="patientDetails.gender != 'f'">
+                  <img class="pp_ico_img" src="assets/pp_male_ico.svg" alt="">
+                </label>
+                <label class="pp_ico_box" *ngIf="patientDetails.gender == 'f'">
+                  <img class="pp_ico_img" src="assets/pp_female_ico.svg" alt="">
+                </label>
+              </div>
+              <div class="pp_name_wrapper">
+                <label class="pp_name">{{patientDetails.first_name}} {{patientDetails.last_name}}</label> <br />
+                <label style="margin: 0px;">
+                  <img class="pp_gender_img" src="assets/pp_gender_ico.svg" alt="">
+                  <span *ngIf="patientDetails.gender == 'm'" class=" doc_info">
+                    <label class="pp_gender">Male</label>
+                  </span>
+                  <span *ngIf="patientDetails.gender == 'f'" class=" doc_info">
+                    <label class="pp_gender">Female</label>
+                  </span>
+                  <span *ngIf="patientDetails.gender == 'o'" class=" doc_info">
+                    <label class="pp_gender">Other</label>
+                  </span>
+                </label>
+              </div>
+            <!-- </div> -->
+          </div>
+          <div class="col-sm-6" style="text-align: right;">
+            <button class="pp_book_btn" (click)="bookAppointment()">Book Appointment</button>
+          </div>
+      </div>
+      <!--  -->
+      <div class="row d-flex" style="margin: 0px; padding: 8px; padding-left: 16px;">
+        <div class=" d-flex pp_unber_detail">
+          <img src="assets/pp_mobile.svg">
+          <label>{{patientDetails.contact_details[0].phone_number}}</label>
+        </div>
+        <div class=" d-flex pp_unber_detail">
+          <img src="assets/pp_dob.svg">
+          <label>{{patientDetails.date_of_birth | date: 'dd/MMM/yyyy'}}</label>
+        </div>
+        <div class=" d-flex pp_unber_detail">
+          <img src="assets/pp_mail.svg">
+          <label>{{patientDetails.email_id}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="pp_call_to_action_row">
+      <div class="d-flex pp_all_btn_wrapper">
+        <button (click)='changeTab("prevConsult")'>Prev. Consult</button>
+        <button>Video Call</button>
+        <button>Start consult</button>
+        <button>Follow-up</button>
+        <button (click)='changeTab("chart")'>Charts</button>
+        <button (click)='changeTab("report")'>Reports</button>
+        <!-- <button>Charts</button>
+        <button>Medical History</button>
+        <button>Reports</button>
+        <button>Vaccination</button> -->
+        <button class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          More
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <!-- <a class="dropdown-item" href="#">Charts</a> -->
+          <a class="dropdown-item" href="#">Medical History</a>
+          <a class="dropdown-item" href="#">Vaccination</a>
+          <a class="dropdown-item" href="#">Certificates</a>
+          <a class="dropdown-item" href="#">Add Bill / Payment</a>
+        </div>
+        <button class="ml-auto" (click)='changeTab("profile")'>Profile</button>
+      </div>
+    </div>
+    <!-- prev consult tab -->
+    <div *ngIf="tab === 'prevConsult'" class="pp_full_area">
+      <div class="row" style="margin: 0px;">
+          <div class="col-sm-4 pp_pre_appointment">
+              <div class="row row_link_medical_history_appoint" style="margin-top: 10px;">
+                <div class="col-sm-1">
+                  <span class="dot_appoint">
+                    <span class="dot_appoint_inner"></span>
+                  </span>
+                </div>
+                <div class="col-sm-10 medical_history_inner">
+                  <p style="margin-left: 10px;" class="medical_history_text_appoint">Pre-Appointments</p>
+                  <!-- <a class="add_medical_history_text" (click)="openPreAppointment()">View All</a> -->
+                </div>
+              </div>
+              <!--  -->
+              <div class="row row_link_medical_history_appoint" style="margin-top: 6px;">
+                <div class="col-sm-12 medical_history_inner">
+                  <input type="checkbox" (change)="checkDateSearch($event)"> Search by Date
+                  <input type="date" [disabled]="!enableDateSearch" #searchDate
+                    class="form-control form-control-block form-control-sm" (change)="searchByDate(searchDate.value)">
+    
+    
+                  <div class="per_appointment_card" *ngFor="let appointment of visiblePrescription">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <label class="pre_app_time"><b>{{ appointment.appointment_date }}</b></label>
+                      </div>
+                    </div>
+                    <div *ngIf="appointment.symptoms.length">
+                      <small><b>Symptoms:</b></small>
+                      <small *ngFor="let symptom of appointment.symptoms">
+                        {{ symptom.symptom_name }}
+                      </small>
+                    </div>
+                    <div *ngIf="appointment.diagnosis.length">
+                      <small><b>Diagnosis:</b></small>
+                      <small *ngFor="let diag of appointment.diagnosis">
+                        {{ diag.diagnosis_name }}
+                      </small>
+                    </div>
+                    <div *ngIf="appointment.medicines.length">
+                      <small><b>Medicine:</b></small>
+                      <small *ngFor="let medicine of appointment.medicines">
+                        {{ medicine.medicine_name }}
+                      </small>
+                    </div>
+                  </div>
+    
+    
+                  <div *ngIf="visiblePrescription.length == 0" class="mt-2">
+                    <p class="text-center">No Appointments on this date</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row row_link_medical_history_appoint" style="margin-top: 6px;">
+                <div class="col-sm-12" style="text-align: center;">
+                  <a class="add_medical_history_text text-primary" (click)="openPreAppointment()">View All</a>
+                </div>
+              </div>
+
+          </div>
+          <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="pp_prev_consult_card">
+                  <div style="padding:12px 12px 0px 12px;"><h5>Vitals Trend</h5></div>
+                  <div style="padding:12px;">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col">02 Jan</th>
+                          <th scope="col">13 Jan</th>
+                          <th scope="col">13 Feb</th>
+                          <th scope="col">23 Mar</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Systolic (mmHg)</td>
+                          <td>45</td>
+                          <td>23</td>
+                          <td>45</td>
+                          <td>23</td>
+                          
+                        </tr>
+                        <tr>
+                          <td>Fundal Ht. (cm)</td>
+                          <td>455</td>
+                          <td>233</td>
+                          <td>452</td>
+                          <td>223</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="pp_prev_consult_card">
+                  <div style="padding:12px 12px 0px 12px;"><h5>Vaccinations</h5></div>
+                  <div style="padding:12px;">
+                   No vaccinations due !
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="pp_prev_consult_card">
+                  <div style="padding:12px 12px 0px 12px;"><h5>Casesheet</h5></div>
+                  <div style="padding:12px;">
+                   No casesheet !
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div *ngIf="tab === 'chart'" class="pp_full_area">
+      chart
+    </div>
+    <div *ngIf="tab === 'report'" class="pp_full_area">
+      report
+    </div>
+    <!-- end ***************************************************************************** -->
+    <!-- patient profile tab -->
+    <div *ngIf="tab === 'profile'" class="col-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="row">
+        <!-- <div class="col-12 col-sm-12 col-md-4 col-lg-4 prescription_outer_card">
+          
+        </div> -->
+  
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 all_data_right">
+          <div class="all_data_box">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link active all_data_tabs" id="home-tab" data-toggle="tab" href="#basic-details" role="tab"
+                  aria-controls="home" aria-selected="true">Basic Details</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link all_data_tabs" id="contact-tab" data-toggle="tab" href="#emergency-contact" role="tab"
+                  aria-controls="contact" aria-selected="false">Emergency Contact</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link all_data_tabs" id="vital-tab" data-toggle="tab" href="#vital" role="tab"
+                  aria-controls="vital" aria-selected="false">Patient Charts</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link all_data_tabs" id="report-tab" data-toggle="tab" href="#report" role="tab"
+                  aria-controls="report" aria-selected="false">Reports</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active all_data_common_pad" id="basic-details" role="tabpanel"
+                aria-labelledby="home-tab">
+                <div class="row py-3">
+                  <div class="col-sm-6  " style="color: #505155; padding-left: 20px; ">
+                    Personal Information
+                  </div>
+                  <div class="col-sm-6" style="text-align:right;">
+                    <!-- <button class="profile_upload_btn profile_upload_btn_color">Save</button> -->
+                    <button *ngIf="editEnable" class="profile_upload_btn" (click)="enableFields()">Edit</button>
+                    <button *ngIf="!editEnable" class="profile_upload_btn" (click)="disableFields()">Cancel</button>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">First name</label><br>
+                    <input readonly="true" class="upload_p_common_input" type="text" name="first_name"
+                      (keyup)="onChange($event)" [value]="patientDetails.first_name">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Middle name</label><br>
+                    <input [disabled]="editEnable" class="upload_p_common_input" type="text" name="middle_name"
+                      (keyup)="onChange($event)" [value]="patientDetails.middle_name">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Last name</label><br>
+                    <input readonly="true" class="upload_p_common_input" type="text" name="last_name"
+                      (keyup)="onChange($event)" [value]="patientDetails.last_name">
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Gender</label><br>
+                    <select disabled="true" class="upload_p_common_input" name="gender" (change)="onChange($event)"
+                      id="exampleFormControlSelect1">
+                      <option value="m" [selected]="patientDetails.gender == 'm'">Male</option>
+                      <option value="f" [selected]="patientDetails.gender == 'f'">Female</option>
+                      <option value="o" [selected]="patientDetails.gender == 'o'">Others</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Date of birth</label><br>
+                    <input readonly="true" class="upload_p_common_input" type="date" name="date_of_birth"
+                      (change)="onChange($event)" [value]="patientDetails.date_of_birth">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Age</label><br>
+                    <input readonly="true" class="upload_p_common_input" type="text" (keyup)="onChange($event)"
+                      [value]="age">
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Email</label><br>
+                    <input [disabled]="editEnable" class="upload_p_common_input" type="text" name="email_id"
+                      (keyup)="onChange($event)" [value]="patientDetails.email_id">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Occupation</label><br>
+                    <input [disabled]="editEnable" class="upload_p_common_input" type="text" name="occupation"
+                      (keyup)="onChange($event)" [value]="patientDetails.occupation">
+                  </div>
+                  <!-- new fiels added - not integrated with backend -->
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Nationality</label><br>
+                    <select [disabled]="editEnable" class="upload_p_common_input" name="nationality"
+                      (change)="onChange($event)">
+                      <option value="{{ nation }}" [selected]="nation == patientDetails.nationality"
+                        *ngFor="let nation of nationality">{{ nation }}</option>
+                    </select>
+                  </div>
+                  <!--  -->
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col" style="color: #505155; padding-left: 20px; ">
+                    Contact Details Info
+                  </div>
+                  <div class="col" style="color: #000000;">
+                    <button *ngIf="!editEnable" class="profile_upload_btn float-right" (click)="addNewContact()">Add
+                      new</button>
+                  </div>
+                  <div *ngFor="let contact of patientDetails.contact_details;let i=index" class="col-12 p-4">
+                    <div class="row">
+                      <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                        <label class="f_name_c" for="f_name">Type</label><br>
+                        <select [disabled]="editEnable || errorMsg[i]?.status == 1" class="upload_p_contact_input"
+                          name="contact_details" (change)="onChangeContact($event,i,'phone_type')"
+                          id="exampleFormControlSelect2">
+                          <option *ngFor="let type of contact_types" value="{{ type.value }}"
+                            [selected]="type.value == contact.phone_type">
+                            {{ type.text }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                        <label class="f_name_c" for="f_name">Country Code</label><br>
+                        <!-- <select [disabled]="editEnable || errorMsg[i]?.status == 1" class="upload_p_contact_input"
+                          name="contact_details" (change)="onChangeContact($event,i,'country_code')"
+                          id="exampleFormControlSelect3">
+                          <option *ngFor="let code of countryCodes" value="{{code.dial_code}}" 
+                           [selected]="code.dial_code == contact.country_code">
+                            {{code.dial_code}}
+                          </option>
+                        </select> -->
+                        <input [disabled]="editEnable || errorMsg[i].status == 1" class="upload_p_contact_input"
+                          type="text" (click)="onCountryCode(i)" [value]="contact.country_code" #ccInput
+                          (keyup)="searchCountryCode($event)">
+                        <div *ngIf="visibleCountryCodes && dropdownIndex == i" class="dropdown">
+                          <p *ngFor="let cc of countryCodeList" (click)="changeCountryCode(cc.dial_code,i, ccInput)">
+                            <small>{{ cc.dial_code }} {{ cc.name }}</small>
+                          </p>
+                          <p *ngIf="!countryCodeList.length"><small>No Result</small></p>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                        <label class="f_name_c" for="f_name">Mobile Number</label><br>
+                        <input #phno="ngModel" [disabled]="editEnable || errorMsg[i].status == 1"
+                          class="upload_p_contact_input" type="text" name="contact_details"
+                          (keyup)="onChangeContact($event,i,'phone_number')"  [pattern]="mobno"
+                          [(ngModel)]="contact.phone_number" maxlength="10" >
+  
+  
+  
+                        <div [hidden]="phno.valid || phno.untouched">
+                          <div class="text-danger" *ngIf="phno.errors && phno.errors.pattern">
+                            Phone Number is invalid
+                          </div>
+                        </div>
+  
+                      </div>
+  
+  
+  
+  
+  
+                      <div class="col-1" style="padding-top: 21px;" *ngIf="errorMsg[i]?.status != 1">
+                        <div class="pt-2">
+                          <svg (click)="removeContact(i)" *ngIf="!editEnable" width="1.5em" height="1.5em"
+                            viewBox="0 0 16 16" role="button" class="float-right bi bi-x-circle" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                              d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path fill-rule="evenodd"
+                              d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                            <path fill-rule="evenodd"
+                              d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                          </svg>
+                        </div>
+                      </div>
+  
+                      <!-- VERIFIED -->
+                      <div class="col-sm-3" *ngIf="errorMsg[i]?.status == 1">
+                        <label class="check_ico">
+                          <a class="check">
+                            <i class="fa fa-check"></i>
+                          </a>
+                        </label>
+                      </div>
+  
+                      <!-- NOT VERIFIED -->
+                      <div class="col-sm-4" *ngIf="errorMsg[i].status == 2">
+                        <p class="text-danger"><small>Number already Exist</small></p>
+                      </div>
+  
+  
+                      <!-- LOADER -->
+                      <div class="col-sm-3" *ngIf="errorMsg[i].status == 3">
+                        <img class="search_loader" id="loader_diagnosis_id" src="assets/loader.gif" alt="loader">
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+                <hr>
+  
+                <!-- new fiels added - not integrated with backend -->
+                <div *ngFor="let address of updatedAddress; let i=index">
+                  <div class="row p-2">
+                    <div class="col-sm-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Type</label> <br>
+                      <input type="radio" [disabled]="editEnable" style="margin-left:10px;"
+                        [checked]="address.address_type == 'home'" (change)="checkAddressType(i,'home', $event)">
+                      <label style="margin-left:10px;">Home</label>
+  
+                      <input type="radio" [disabled]="editEnable" style="margin-left:10px;"
+                        [checked]="address.address_type == 'office'" (change)="checkAddressType(i,'office', $event)">
+                      <label style="margin-left:10px;">Office</label>
+  
+                      <svg (click)="removeAddress(i)" class="float-right" *ngIf="!editEnable" width="1.5em" height="1.5em"
+                        viewBox="0 0 16 16" role="button" class="float-right bi bi-x-circle" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                          d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path fill-rule="evenodd"
+                          d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                        <path fill-rule="evenodd"
+                          d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                      </svg>
+  
+                    </div>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 1</label><br>
+                      <input class="upload_p_contact_input" type="text" [disabled]="editEnable"
+                        [value]="address.address_line1" (keyup)="updateAddressField('address_line1', $event, i)">
+                    </div>
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 2</label><br>
+                      <input class="upload_p_contact_input" type="text" [disabled]="editEnable"
+                        [value]="address.address_line2" (keyup)="updateAddressField('address_line2', $event, i)">
+                    </div>
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 3</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        [value]="address.address_line3" (keyup)="updateAddressField('address_line3', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">District</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.district"
+                        (keyup)="updateAddressField('district', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">City</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.city"
+                        (keyup)="updateAddressField('city', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">State</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.state"
+                        (keyup)="updateAddressField('state', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Pincode</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.pin_code"
+                        (keyup)="updateAddressField('pin_code', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Country</label><br>
+                      <input class="upload_p_common_input" type="text" [disabled]="editEnable" [value]="address.country"
+                        (keyup)="updateAddressField('country', $event, i)">
+                    </div>
+                  </div>
+                </div>
+                <div class="row p-2" *ngIf="!editEnable">
+                  <div class="col-md-12">
+                    <a (click)="addAddress()">+ Add More</a>
+                  </div>
+                </div>
+                <!-- <div class="row p-2" *ngFor="let proof of legalProof; let i=index">
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Type</label><br>
+                    <select  class="upload_p_common_input" name="nationality" (change)="updateProof($event,i,'type')">
+                      <option *ngFor="let type of proofTypes" [value]="type.value" [selected]="type.value == proof.type">
+                        {{ type.text }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="f_name_c" for="f_name">Number</label><br>
+                    <input class="upload_p_common_input" type="text" name="type_number" [value]="proof.number" (keyup)="updateProof($event, i, 'number')">
+                  </div>
+                  <div class="col-1 col-md-1" style="padding-top: 21px;">
+                    <div class="pt-2">
+                      <svg (click)="removeLegalProof(i)" *ngIf="!editEnable" width="1.5em" height="1.5em" viewBox="0 0 16 16" role="button" class="float-right bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                      </svg>
+                    </div>                      
+                  </div>
+                  
+                  
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-12">
+                    <a (click)="addLegalProof()">+ Add More</a>
+                  </div>
+                </div> -->
+                <!--  -->
+                <hr>
+                <div class="col-12" style="text-align: right; padding-right: 0px; ">
+                  <button class="btn btn-primary" [disabled]="editEnable" (click)="onSubmit()">Submit</button>
+                </div>
+              </div>
+  
+  
+  
+  
+              <!--  <div class="tab-pane fade all_data_common_pad" id="family-history" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row py-3">
+                  <div class="col-sm-6  " style="color: #505155; padding-left: 22px; ">
+                    Family History
+                  </div>
+                  <div class="col-sm-6" style="text-align:right;">
+                   
+                    <button class="profile_upload_btn" (click)="editHistory()">Edit</button>
+                    
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-12">
+                    <label class="f_name_c" for="f_name">Family History Notes</label><br>
+                    <textarea [disabled]="true" class="upload_p_contact_input" type="text"
+                      [(ngModel)]="patientDetails.family_history.family_history_notes"></textarea>
+                  </div>
+                </div>
+                <div class="row py-1">
+                  <div class="col-sm-12" style="color: #505155; padding-left: 22px;">
+                    Illnesses
+                  </div>
+                </div>
+                <div *ngIf="patientDetails.family_history.illnesses">
+                  <div style="padding: 0px; margin: 0px;margin-left: 22px; margin-bottom: 16px;"  *ngFor="let detail of patientDetails.family_history.illnesses">
+                    <div class="col-lg-12 row bg-light" style="margin-top: 10px;margin-bottom: 10px;">
+                      <div class="col-lg-12 mx-auto text-center p-3">
+                        {{detail.conceptFsn}}
+                        <hr>
+                      </div>
+                      <div class="col-lg-6 p-2">
+                        <label class="col-lg-4 font-weight-light">Term</label>
+                        <span class="col-lg-8 doc_info">: {{detail.term}}</span>
+                      </div>
+                      <div class="col-lg-6 p-2">
+                        <label class="col-lg-4 font-weight-light">Members: &nbsp;</label>
+                        <span *ngIf="detail.family_members.Father">Father&nbsp;</span>
+                        <span *ngIf="detail.family_members.Mother">Mother&nbsp;</span>
+                        <span *ngIf="detail.family_members.Wife">Wife&nbsp;</span>
+                        <span *ngIf="detail.family_members.Brother">Brother&nbsp;</span>
+                        <span *ngIf="detail.family_members.Sister">Sister&nbsp;</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="!patientDetails.family_history.illnesses">
+                  <p class="font-weight-light text-center">Not Available</p>
+                </div>
+              </div> -->
+  
+  
+              <!--           <div class="tab-pane fade all_data_common_pad" id="medical-history" role="tabpanel" aria-labelledby="contact-tab" >
+                <div class="row py-3">
+                  <div class="col-sm-6" style="color: #505155; padding-left: 22px;">
+                    Medical History
+                  </div>
+                  <div class="col-sm-6" style="text-align:right;">
+                    
+                    <button class="profile_upload_btn" (click)="editHistory()">Edit</button>
+                    
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-sm-12 p-3" style="color: #505155; padding-left: 22px;">
+                    Chronic Disease History
+                  </div>
+                  <div class="col-12 px-3">
+                    <div class="col-12" style="padding: 0px;">
+                      <label class="f_name_c" for="f_name">Chronic Disease History Notes</label><br>
+                      <textarea [disabled]="true" class="upload_p_contact_input"
+                        [(ngModel)]="patientDetails.medical_history.chronic_disease_history.notes"></textarea>
+                    </div>
+                    <div class="col-sm-12 p-3" style="color: #505155; padding: 0px;">
+                      Medical problems:
+                      <span *ngIf="patientDetails.medical_history.chronic_disease_history.medical_problems">None</span>
+                    </div>
+                    <div *ngFor="let problem of patientDetails.medical_history.chronic_disease_history.medical_problems"
+                      class="col-6 px-4">
+                      <div class="col-lg-12 row bg-light py-3">
+                        <div class="col-lg-12 mx-auto text-center">
+                          {{problem.conceptFsn}}
+                          <hr>
+                        </div>
+                        <div class="p-2">
+                          <span class="col-lg-8 doc_info">Term: {{problem.term}}</span>
+                        </div>
+                        <div class="p-2">
+                          <span class="col-lg-8 doc_info">Duration: {{problem.duration}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 p-3" style="color: #505155; padding-left: 22px;">
+                    <hr>
+  
+                    Current Allergies
+                  </div>
+                  <div class="col-12 px-3">
+                    <div class="col-12" style="padding: 0px;">
+                      <label class="f_name_c" for="f_name">Current Allergies Notes</label><br>
+                      <textarea [disabled]="true" class="upload_p_contact_input"
+                        [(ngModel)]="patientDetails.medical_history.current_allergies.drug_allergies_notes"></textarea>
+                    </div>
+                    <div class="row p-3">
+                      <div class="col-6" style="color: #505155; margin-left: 22px;">
+                        Drug Allergies:
+                        <span *ngIf="patientDetails.medical_history.current_allergies.drug_allergies">None</span>
+                      </div>
+                      <div class="col-6" style="color: #505155; margin-left: 22px;">
+                        General Allergies:
+                        <span *ngIf="patientDetails.medical_history.current_allergies.drug_allergies">None</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div *ngFor="let problem of patientDetails.medical_history.current_allergies.drug_allergies"
+                        class="col-6 px-4">
+                        <div class="col-lg-12 row bg-light py-3">
+                          <div class="col-lg-12 mx-auto text-center">
+                            {{problem.name}}
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngFor="let problem of patientDetails.medical_history.current_allergies.general_allergies"
+                        class="col-6 px-4">
+                        <div class="col-lg-12 row bg-light py-3">
+                          <div class="col-lg-12 mx-auto text-center">
+                            {{problem.name}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 p-3" style="color: #505155; margin-left: 10px;">
+                    <hr>
+                    Current Medication:
+                    <span *ngIf="patientDetails.medical_history.current_medication">None</span>
+                  </div>
+                  <div class="col-12">
+                    <div *ngFor="let problem of patientDetails.medical_history.current_medication" class="col-12 px-4">
+                      <div class="col-lg-12 row bg-light py-3">
+                        <div class="col-lg-12 mx-auto text-center">
+                          {{problem.name}}
+                          <hr>
+                        </div>
+                        <div class="p-2">
+                          <span class="col-lg-8 doc_info">Duration: {{problem.duration.interval}}
+                            {{problem.duration.dose}} time(s) since {{problem.duration.month}} month(s) &
+                            {{problem.duration.year}} year(s)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 p-3" style="color: #505155; padding-left: 22px;">
+                    <hr>
+                    Menstruation Notes
+                  </div>
+                  <div class="col-12 px-3">
+                    <label class="f_name_c" for="f_name">Menstruation Notes</label><br>
+                    <textarea [disabled]="true" class="upload_p_contact_input"
+                      [(ngModel)]="patientDetails.medical_history.menstruation_notes"></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 p-3" style="color: #505155; padding-left: 22px;">
+                    <hr>
+                    Notes
+                  </div>
+                  <div class="col-12 px-3">
+                    <div >
+                      <label class="f_name_c" for="f_name">Lifestyle Notes</label><br>
+                      <textarea [disabled]="true" class="upload_p_contact_input"
+                        [(ngModel)]="patientDetails.medical_history.notes.lifestyle.notes"></textarea>
+                    </div>
+                    <div >
+                      <label class="f_name_c" for="f_name">Risk Factors Notes</label><br>
+                      <textarea [disabled]="true" class="upload_p_contact_input"
+                        [(ngModel)]="patientDetails.medical_history.notes.risk_factor.risk_factor_notes"></textarea>
+                    </div>
+                    <div >
+                      <label class="f_name_c" for="f_name">Other Hospitalisation Notes</label><br>
+                      <textarea [disabled]="true" class="upload_p_contact_input"
+                        [(ngModel)]="patientDetails.medical_history.notes.others.other_hospitalization_record_notes"></textarea>
+                    </div>
+                    <div >
+                      <label class="f_name_c" for="f_name">Other Medical History Notes</label><br>
+                      <textarea [disabled]="true" class="upload_p_contact_input"
+                        [(ngModel)]="patientDetails.medical_history.notes.others.other_medical_history_notes"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 p-3" style="color: #505155; padding-left: 22px;">
+                    <hr>
+                    Previous Surgeries
+                  </div>
+                  <div class="col-12">
+                    <label class="f_name_c" for="f_name">Previous Surgeries Notes</label><br>
+                    <textarea [disabled]="true" class="upload_p_contact_input"
+                      [(ngModel)]="patientDetails.medical_history.prev_surgeries.procedure_notes"></textarea>
+                  </div>
+                  <div class="row p-3">
+                    <div class="col-6" style="color: #505155; padding-left: 22px;">
+                      Procedures:
+                      <span *ngIf="patientDetails.medical_history.prev_surgeries.procedures">None</span>
+                    </div>
+                  </div>
+                  <div *ngFor="let problem of patientDetails.medical_history.prev_surgeries.procedures"
+                    class="col-12 " style="margin-left: 14px;">
+                    <div class="col-lg-12 row bg-light py-3">
+                      <div class="col-lg-12 mx-auto text-center">
+                        {{problem.conceptFsn}}
+                        <hr>
+                      </div>
+                      <div class="p-2">
+                        <span class="col-lg-8 doc_info">Term: {{problem.term}}</span>
+                      </div>
+                      <div class="p-2">
+                        <span class="col-lg-8 doc_info">Duration: {{problem.duration}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+  
+  
+              <div class="tab-pane fade all_data_common_pad" id="emergency-contact" role="tabpanel"
+                aria-labelledby="contact-tab">
+                <div class="row py-3">
+                  <div class="col-sm-6" style="color: #505155; padding-left: 22px;">
+                    Contact Information
+                  </div>
+                  <div class="col-sm-6" style="text-align:right;">
+                    <!-- <button class="profile_upload_btn profile_upload_btn_color">Save</button> -->
+                    <button *ngIf="editEnable" class="profile_upload_btn" (click)="enableFields()">Edit</button>
+                    <button *ngIf="!editEnable" class="profile_upload_btn" (click)="disableFields()">Cancel</button>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-12">
+                    <p>Emergency Person</p>
+                  </div>
+                </div>
+                <div *ngFor="let ec of patientDetails?.emergency_person_details; let i=index">
+                  <div class="row p-2">
+                    <div class="col-sm-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Type</label> <br>
+                      <input type="radio" [disabled]="editEnable" style="margin-left:10px;"
+                        (change)="onChangeEmergency(i,'home')" [checked]="ec.address_type == 'home'">
+                      <label style="margin-left:10px;">Home</label>
+  
+                      <input type="radio" [disabled]="editEnable" style="margin-left:10px;"
+                        (change)="onChangeEmergency(i,'office')" [checked]="ec.address_type == 'office'">
+                      <label style="margin-left:10px;">Office</label>
+  
+                      <svg (click)="removeEmergencyDetail(i)" class="float-right" *ngIf="!editEnable" width="1.5em"
+                        height="1.5em" viewBox="0 0 16 16" role="button" class="float-right bi bi-x-circle"
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                          d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path fill-rule="evenodd"
+                          d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                        <path fill-rule="evenodd"
+                          d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                      </svg>
+  
+                    </div>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Name</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'name')" [value]="ec.name">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Email Id</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'email_id')" [value]="ec.email_id">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Relationship</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'relationship')"
+                        [value]="ec.relationship">
+                    </div>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 1</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'address_line1')"
+                        [value]="ec.address_line1">
+                    </div>
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 2</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'address_line2')"
+                        [value]="ec.address_line2">
+                    </div>
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 3</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'address_line3')"
+                        [value]="ec.address_line3">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Mobile no.</label><br>
+                      <input class="upload_p_common_input" type="text" name="">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Country</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'country')" [value]="ec.country">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">State</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'state')" [value]="ec.state">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Pincode</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'pin_code')" [value]="ec.pin_code">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">District</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'district')" [value]="ec.district">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">City</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        name="emergency_person_details" (change)="onChange($event,i,'city')" [value]="ec.city">
+                    </div>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-12">
+                    <a (click)="createEmptyEmergencyDetails()">+ Add More</a>
+                  </div>
+                </div>
+                <hr>
+                <!--  -->
+                <div class="row p-2">
+                  <div class="col-md-12">
+                    <p>Care Person</p>
+                  </div>
+                </div>
+  
+                <div *ngFor="let address of updatedCarePerson; let i=index">
+                  <div class="row p-2">
+                    <div class="col-sm-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Type</label> <br>
+                      <input type="radio" [disabled]="editEnable" style="margin-left:10px;"
+                        [checked]="address.address_type == 'home'"
+                        (change)="checkCarePersonAddressType(i,'home', $event)">
+                      <label style="margin-left:10px;">Home</label>
+  
+                      <input type="radio" [disabled]="editEnable" style="margin-left:10px;"
+                        [checked]="address.address_type == 'office'"
+                        (change)="checkCarePersonAddressType(i,'office', $event)">
+                      <label style="margin-left:10px;">Office</label>
+  
+                      <svg (click)="removeCarePerson(i)" class="float-right" *ngIf="!editEnable" width="1.5em"
+                        height="1.5em" viewBox="0 0 16 16" role="button" class="float-right bi bi-x-circle"
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                          d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path fill-rule="evenodd"
+                          d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                        <path fill-rule="evenodd"
+                          d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                      </svg>
+  
+                    </div>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Name</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.name"
+                        (keyup)="updateCarePersonField('name', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Email Id</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.email_id"
+                        (keyup)="updateCarePersonField('email_id', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Relationship</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text"
+                        [value]="address.relationship" (keyup)="updateCarePersonField('relationship', $event, i)">
+                    </div>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 1</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        [value]="address.address_line1" (keyup)="updateCarePersonField('address_line1', $event, i)">
+                    </div>
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 2</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        [value]="address.address_line2" (keyup)="updateCarePersonField('address_line2', $event, i)">
+                    </div>
+                    <div class="col-md-12 py-1">
+                      <label class="f_name_c" for="f_name">Address Line 3</label><br>
+                      <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                        [value]="address.address_line3" (keyup)="updateCarePersonField('address_line3', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Mobile no.</label><br>
+                      <input class="upload_p_common_input" type="text" [value]="address.phone_number"
+                        (keyup)="updateCarePersonField('phone_number', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Country</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.country"
+                        (keyup)="updateCarePersonField('country', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">State</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.state"
+                        (keyup)="updateCarePersonField('state', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">Pincode</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.pin_code"
+                        (keyup)="updateCarePersonField('pin_code', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">District</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.district"
+                        (keyup)="updateCarePersonField('district', $event, i)">
+                    </div>
+                    <div class="col-md-4 py-1">
+                      <label class="f_name_c" for="f_name">City</label><br>
+                      <input [disabled]="editEnable" class="upload_p_common_input" type="text" [value]="address.city"
+                        (keyup)="updateCarePersonField('city', $event, i)">
+                    </div>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-md-12">
+                    <a (click)="addCarePerson()">+ Add More</a>
+                  </div>
+                </div>
+                <!-- <hr> -->
+                <!--  -->
+                <!--     <div class="row">
+                  <div class="col-12" style="color: #505155; padding-left: 22px;">
+                    Contact Details
+                  </div>
+                  <div class="col-12 p-4">
+                    <div *ngFor="let detail of patientDetails.emergency_person_details" class="row">
+                      <div class="col-2">
+                        <label class="f_name_c" for="f_name">Type</label><br>
+                        <select [disabled]="editEnable" class="upload_p_contact_input" [(ngModel)]="detail.phone_type"
+                          name="emergency_person_details" (change)="onChange($event,0,'phone_type')"
+                          id="exampleFormControlSelect2">
+                          <option value="mobile">Mobile</option>
+                          <option value="telephone">Telephone</option>
+                        </select>
+                      </div>
+                      <div class="col-4">
+                        <label class="f_name_c" for="f_name">Country Code</label><br>
+                        <select [disabled]="editEnable" class="upload_p_contact_input" [(ngModel)]="detail.country_code"
+                          name="emergency_person_details" (change)="onChange($event,0,'country_code')"
+                          id="exampleFormControlSelect3">
+                          <option *ngFor="let code of countryCodes" value="{{code.dial_code}}">{{code.dial_code}}</option>
+                        </select>
+                      </div>
+                      <div class="col-4">
+                        <label class="f_name_c" for="f_name">Mobile Number</label><br>
+                        <input [disabled]="editEnable" class="upload_p_contact_input" type="text"
+                          name="emergency_person_details" (change)="onChange($event,0,'phone_number')"
+                          [(ngModel)]="detail.phone_number">
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-12" style="text-align: right;">
+                  <button class="btn btn-primary" [disabled]="editEnable" (click)="onSubmit()">Submit</button>
+                </div>
+              </div>
+  
+  
+              <div class="tab-pane fade show active all_data_common_pad" id="vital" role="tabpanel"
+                aria-labelledby="vital-tab">
+  
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <input type="radio" name="vital" [checked]="selectedVital == 'BP'" (change)="setVital('BP')">
+                      <label for="" class="ml-1">Blood Pressure</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <input type="radio" name="vital" [checked]="selectedVital == 'sugar'" (change)="setVital('sugar')">
+                      <label for="" class="ml-1">Sugar</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <input type="radio" name="vital" [checked]="selectedVital == 'temp'" (change)="setVital('temp')">
+                      <label for="" class="ml-1">Temprature</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <input type="radio" name="vital" [checked]="selectedVital == 'spo2'"
+                      (change)="setVital('spo2')">
+                      <label for="" class="ml-1">SPO2</label>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-sm-12">
+                    <plotly-plot *ngIf="selectedVital == 'BP'" [data]="BPChart?.data" [layout]="BPChart?.layout"
+                      [config]="chartConfig"></plotly-plot>
+  
+                    <plotly-plot *ngIf="selectedVital == 'sugar'" [data]="sugarChart?.data" [layout]="sugarChart?.layout"
+                      [config]="chartConfig"></plotly-plot>
+  
+                    <plotly-plot *ngIf="selectedVital == 'temp'" [data]="tempChart?.data" [layout]="tempChart?.layout"
+                      [config]="chartConfig"></plotly-plot>
+  
+                    <plotly-plot *ngIf="selectedVital == 'spo2'" [data]="SPO2Chart?.data" [layout]="SPO2Chart?.layout"
+                      [config]="chartConfig"></plotly-plot>  
+                  </div>
+                </div>
+              </div>
+  
+  
+  
+              <div class="tab-pane fade show active all_data_common_pad" id="report" role="tabpanel"
+                aria-labelledby="report-tab">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end=-=-=-=-=-=-=-=**************************************************** -->
+  </div>
+</div>
+<!-- -------------------------------------------------------------------------- -->
+<!-- <div *ngIf="!openPdf" class="row detail_section_main_wrapper"> -->
+  <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row detail_section_top_1">
+      <div class="col-sm-12 col-md-4 col-12 detail_section_top_1_1">
+        <div class="row">
+          <label class="col-lg-4 col-md-4 col-sm-4 col-4  font-weight-light detail_label">First Name</label>
+          <span class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: {{patientDetails.first_name}}</span>
+        </div>
+        <div class="row">
+          <label class="col-lg-4 col-md-4 col-sm-4 col-4 font-weight-light detail_label">Gender</label>
+          <span *ngIf="patientDetails.gender == 'm'" class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: Male</span>
+          <span *ngIf="patientDetails.gender == 'f'" class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: Female</span>
+          <span *ngIf="patientDetails.gender == 'o'" class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: Others</span>
+        </div>
+        <div class="row">
+          <label class="col-lg-4 col-md-4 col-sm-4 col-4 font-weight-light detail_label">Date of Birth</label>
+          <span class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: {{patientDetails.date_of_birth | date:
+            'dd/MMM/yyyy'}}</span>
+        </div>
+
+      </div>
+      <div class="col-sm-12 col-md-4 col-12 detail_section_top_1_2">
+        <div class="row">
+          <label class="col-lg-4 col-md-4 col-sm-4 col-4 font-weight-light detail_label">Last Name</label>
+          <span class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: {{patientDetails.last_name}}</span>
+        </div>
+        <div class="row">
+          <label class="col-lg-4 col-md-4 col-sm-4 col-4 font-weight-light detail_label">Phone No.</label>
+          <span class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">:
+            {{patientDetails.contact_details[0].phone_number}}</span>
+        </div>
+        <div class="row">
+          <label class="col-lg-4 col-md-4 col-sm-4 col-4 font-weight-light detail_label">Email</label>
+          <span class="col-lg-8 col-md-8 col-sm-8 col-8 doc_info">: {{patientDetails.email_id}}</span>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-3">
+        <div class="row row_link_medical_history" (click)="openPatientHistory()">
+          <div class="col-sm-3">
+            <span class="dot">
+              <img class="medical_history_icon" src="assets/health.svg" alt="">
+            </span>
+          </div>
+          <div class="col-sm-9 medical_history_inner">
+            <p class="medical_history_text">Patient Medical History</p>
+          </div>
+        </div><br>
+        <button class="btn btn-primary btn-sm btn-block" (click)="bookAppointment()">
+          Book Appointment
+        </button>
+      </div>
+    </div>
+  </div> -->
+  
+<!-- </div> -->
+
+<app-prescription-pdf *ngIf="openPdf" [data]="allData" (closePreview)="openPdfPreview()"></app-prescription-pdf>

@@ -1,0 +1,55 @@
+<div class="book_app_outer_wraper">
+    <div class="book_app_inner_wraper">
+        <div class="row" id="bookAppSearch">
+            <div class="col-sm-9 ">
+                <form [formGroup]="searchForm" class="{{formOneClass}}">
+                    <div class="flex-row book_patient_search_wrapper">
+                        <input autocomplete="off" type="search" (keyup)="searchTerm$.next($event.target.value)" #search class=" book_patient_search_box" formControlName="search" id="search" placeholder="Search patient name, phone no. and email..." />
+                        <img class="book_patient_search_icon" src="../../assets/patient_search.svg" alt="">
+                        <!-- <button class="btn btn-search"><i class="fa fa-search"></i></button> -->
+                    </div>
+                    <div class="invalid-feedback" *ngIf="isFieldValid('search')">
+                        Please enter patient detail to search
+                    </div>
+                    <div class="invalid-feedback" *ngIf="submitted">
+                        Entry does not exist.Please add new user
+                    </div>
+                </form>
+                <div class="searchList" *ngIf="searchResults;">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action" *ngFor="let result of searchResults | slice:0:9">
+                            <a (click)="bookAppointment(result)">
+                                <div class="flex-row">
+                                    <span>{{ result.first_name }}</span>
+                                    <span class="float-right">{{ result.contact_details[0].phone_number}}</span>
+                                    <i class="fa fa-calendar-check-o"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div *ngIf='!searchResults && searchForm.get("search").touched'>
+                    <span class='text-muted flex-items-justify'>No Patient Found</span>
+                </div>
+                <!-- <ul class="list-group">
+          <li class="list-group-item list-group-item-action">
+            <a class="btn btn-secondary" (click)="addNewPatient()">
+              <i class="fa fa-plus"></i> Add New Patient
+            </a>
+          </li>
+        </ul> -->
+            </div>
+            <!-- <div class="col-lg-12 mt-2" *ngIf ="submitted">
+        <button type="button" *ngIf ="!searchDataExists" (click)="addNewPatient()" class="btn btn-primary mr-2">Add New</button>
+        <button type="button" *ngIf ="searchDataExists" (click)="bookAppointment()" class="btn btn-primary">Book Appointment</button>
+      </div> -->
+            <!-- </div>
+    </div> -->
+            <div class="col-sm-3">
+                <button class="create_patient_btn" (click)="addNewPatient()"><img class="create_patient_icon" src="../../assets/add_patient.svg" alt=""> Add New Patient</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,248 @@
+<!-- <amplify-authenticator [signUpConfig]="signUpConfig" [hide]="['Greetings']"></amplify-authenticator> -->
+<div class="col-lg-12 mb-4">
+    <h4 class="site_main_line"><b>Clinic Sign Up</b></h4>
+    <!-- <span>Welcome, Book appointments with your favourite doctors</span> -->
+</div>
+<mat-horizontal-stepper labelPosition="bottom" #stepper class="col-lg-10 mb-5" id="clinicSignUp">
+    <!-- Step 1 -->
+    <mat-step [stepControl]="formOneGrp">
+        <form [formGroup]="formOneGrp" class="{{formOneClass}}">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="common_headline" for="clinicName">Clinic Name<sup>*</sup></label>
+                    <input type="text" class="form-control common_input_box" id="clinicName" formControlName="name" placeholder="Clinic name">
+                    <div class="invalid-feedback" *ngIf="isFirstFormValid('name')">
+                        Clinic name is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="common_headline" for="phone">Phone Number<sup>*</sup>
+                        <span class="text-primary ml-4 cursor" (click)="addContact()">Add</span>
+                    </label>
+                    <div *ngFor="let contact of contact_details; let i=index" class="mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend w-25">
+                                <select class="form-control common_input_box" [value]="contact.phone_type" (change)="updateContact($event.target.value, i, 'phone_type')"> 
+                                    <option value="mobile">Mobile</option>
+                                    <option value="telephone">Telephone</option>
+                                </select>
+                            </div>
+                            <div class="input-group-prepend signup_cntry_code w-25 ml-4">
+                                <input class="upload_p_contact_input" type="text" (click)="onCountryCode(i)" [value]="contact.country_code" #ccInput (keyup)="searchCountryCode($event)">
+                                <div *ngIf="visibleCountryCodes && dropdownIndex == i" class="cntry_code_dropdown">
+                                    <label class="cntry_code_dropoption" *ngFor="let cc of countryCodeList" (click)="changeCountryCode(cc.dial_code,i, ccInput)">
+                                        <small>{{ cc.dial_code }} {{ cc.name }}</small><hr class="hr_class">
+                                    </label>
+                                    <br>
+                                    <label *ngIf="!countryCodeList.length"><small>No Result</small></label>
+                                </div>
+                                <!-- <input type="text" (keyup)="searchCountryCode($event)" (change)="updateContact($event.target.value, i, 'country_code')" placeholder="countryCode" matInput [formControl]="myControl4" [matAutocomplete]="auto4" class="form-control">
+                                <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete">
+                                    <mat-option (click)="updateContact(option.dial_code, i, 'country_code')" *ngFor="let option of filteredOptions4 | async" [value]="option.dial_code">
+                                        {{option.dial_code}} {{option.code}}
+                                    </mat-option>
+                                </mat-autocomplete> -->
+
+                                <!-- <input type="text" class="form-control" id="countryCode" placeholder="countryCode" autocomplete="off" (keyup)="searchCountryCode($event)">
+                                <div *ngIf="visibleCountryCodes" class="dropdown">
+                                    <p *ngFor="let cc of countryCodeList">
+                                        <small>{{ cc.dial_code }} {{ cc.name }}</small>
+                                    </p> -->
+                                <!-- <p *ngIf="!countryCodeList.length"><small>No Result</small></p> -->
+                                <!-- </div> -->
+                                <!-- <select id="countryCode" class="form-control common_input_box" [value]="contact.country_code" (change)="updateContact($event.target.value, i, 'country_code')">
+                                    <option value="{{ctryCode.dial_code}}" *ngFor="let ctryCode of ctryCodes">
+                                      {{ctryCode.dial_code}}
+                                    </option>
+                                </select> -->
+                            </div><br>
+
+                            <span class="text-danger ml-4 cursor" (click)="removeContact(i)">
+                                <small>Remove</small>
+                            </span>
+                        </div>
+                        <div class="input-group mt-1">
+                            <input type="text" class="form-control common_input_box" id="phone" placeholder="Phone Number" [value]="contact.phone_number" (keyup)="updateContact($event.target.value, i, 'phone_number')">
+                        </div>
+                    </div>
+                    <!--  <div class="invalid-feedback" >
+                        Phone number is required
+                    </div> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="common_headline" for="email">Email<sup>*</sup></label>
+                    <input type="email" class="form-control common_input_box" id="email" formControlName="email" placeholder="Email">
+                    <div class="invalid-feedback" *ngIf="isFirstFormValid('email')">
+                        <div *ngIf="formOneGrp.controls['email'].hasError('required')">
+                            Email address is required
+                        </div>
+                        <div *ngIf="formOneGrp.controls['email'].hasError('email')">
+                            Invalid email address
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label class="common_headline" for="password">Password<sup>*</sup></label>
+                    <input type="password" class="form-control common_input_box" id="password" formControlName="password" placeholder="Password">
+                    <div class="invalid-feedback" *ngIf="isFirstFormValid('password')">
+                        Password is required
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="common_headline" for="confirmPwd">Confirm Password<sup>*</sup></label>
+                    <input type="password" class="form-control common_input_box" id="confirmPwd" formControlName="confirmPwd" placeholder="Confirm Password">
+                    <div class="invalid-feedback" *ngIf="isFirstFormValid('confirmPwd')">
+                        <div *ngIf="formOneGrp.controls['confirmPwd'].hasError('required')">
+                            Confirm Password is required
+                        </div>
+                        <div *ngIf="formOneGrp.controls['confirmPwd'].hasError('mustMatch')">
+                            Passwords does not match
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary next_btn" (click)="onSubmitFormOne()">Next</button>
+            <div class="mt-3">
+                <span class="common_text">Already have an account?</span><a class="common_text" routerLink="/auth/signin"> Login</a>
+            </div>
+        </form>
+    </mat-step>
+    <!-- Step 2 -->
+    <mat-step [stepControl]="formTwoGrp">
+        <form [formGroup]="formTwoGrp" class="{{formTwoClass}}">
+            <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Speciality" aria-label="Number" matInput [formControl]="myControl1" [matAutocomplete]="anotherAuto" id="speciality" required>
+                <mat-autocomplete autoActiveFirstOption #anotherAuto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <div class="invalid-feedback" *ngIf="((myControl1.untouched && isFormTwoSubmitted) || (myControl1.invalid && myControl1.touched))">
+                Speciality is required
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label for="address1">Address<sup>*</sup></label>
+                    <input type="text" class="form-control common_input_box" id="address1" formControlName="address" placeholder="Street1">
+                    <div class="invalid-feedback" *ngIf="isSecondFormValid('address')">
+                        Address is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <input type="text" class="form-control common_input_box" id="address2" formControlName="address2" placeholder="Street2">
+                    <div class="invalid-feedback" *ngIf="isSecondFormValid('address2')">
+                        Address2 is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="City" aria-label="Number" matInput [formControl]="myControl2" [matAutocomplete]="auto" id="city" required>
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <div class="invalid-feedback" *ngIf="((myControl2.untouched && isFormTwoSubmitted) || (myControl2.invalid && myControl2.touched))">
+                        City is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>State</mat-label>
+                        <input type="text" placeholder="State" aria-label="Number" matInput [formControl]="myControl3" [matAutocomplete]="state" required>
+                        <mat-autocomplete autoActiveFirstOption #state="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- <input type="text" class="form-control common_input_box" id="state" formControlName="state" placeholder="State">-->
+                    <div class="invalid-feedback" *ngIf="((myControl3.untouched && isFormTwoSubmitted) || (myControl3.invalid && myControl3.touched))">
+                        state is required
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control common_input_box" id="pincode" formControlName="pincode" placeholder="Pincode">
+                    <div class="invalid-feedback" *ngIf="isSecondFormValid('pincode')">
+                        pincode is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <input type="text" class="form-control common_input_box" id="country" formControlName="country" placeholder="country">
+                    <div class="invalid-feedback" *ngIf="isSecondFormValid('country')">
+                        country is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label for="socialHandle">Social Handle
+            <button class="btn btn-primary btn-sm m-1 common_input_box_add" type="button" (click)="addSocialHandleDet()">+</button>
+          </label>
+                    <div *ngFor="let social of social_handle; let i = index;">
+                        <div class="mb-1 flex-row">
+                            <input type="text" class="form-control mr-1 common_input_box" id="name" [value]="social.name" placeholder="Name" (keyup)="updateSocial($event.target.value, i, 'name')">
+
+                            <input type="text" class="form-control mr-1 common_input_box" id="url_handle" [value]="social.url_handle" placeholder="URL" (keyup)="updateSocial($event.target.value, i, 'url_handle')">
+
+                            <button class="btn btn-danger common_input_box_delete" type="button" (click)="removeSocialHandleDet(i)">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btnGroup">
+
+                <button type="button" class="btn btn-primary all_comm_btn" (click)="onSubmitFormTwo()">Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <!-- Step 3 -->
+    <mat-step [stepControl]="formThreeGrp">
+        <form [formGroup]="formThreeGrp" class="{{formThreeClass}}">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label>Add Clinic Logo<sup>*</sup></label>
+                </div>
+                <div class="col-sm-12">
+                    <app-file-upload></app-file-upload>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label>Clinic TNC<sup>*</sup></label>
+                </div>
+                <div class="col-sm-12">
+                    <label class="checkbox-inline">
+            <input type="checkbox" formControlName="clinic_terms_condition"> I agree to the terms and conditions
+          </label>
+                    <div class="invalid-feedback" *ngIf="isThirdFormValid('clinic_terms_condition')">
+                        Please agree to the terms and conditions
+                    </div>
+                </div>
+            </div>
+            <div class="btnGroup">
+                <button type="button" class="btn btn-outline-secondary back_comm_btn" matStepperPrevious>Back</button>
+
+                <button class="btn btn-primary all_comm_btn" (click)="signUp()">Sign Up</button>
+            </div>
+        </form>
+    </mat-step>
+</mat-horizontal-stepper>

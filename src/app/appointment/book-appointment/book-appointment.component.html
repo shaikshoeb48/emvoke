@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-sm-10">
+    <h4 mat-dialog-title>Book Appointment</h4>
+  </div>
+  <div class="col-sm-2" style="text-align: right;">
+    <button type="button" class="close" (click)="closeModal()" >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+
+
+
+<div class="dialog-content" id="bookAppointment">
+  <form [formGroup]="appointmentForm" class="{{formClass}}">
+    <!-- <h6 class="mt-4 mb-4 col-lg-12">Appointment</h6> -->
+    <div class="form-group row col-lg-12">
+      <div class="col-sm-4">
+        <label for="firstName">First Name<sup>*</sup></label>
+        <input type="text" class="form-control" id="firstName" formControlName="firstName" 
+        readonly="true">
+        <div class="invalid-feedback" *ngIf="isFirstFormValid('firstName')">
+          First Name is required
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <label for="dob">Date of Birth<sup>*</sup></label>
+        <input type="text" class="form-control" id="dob" formControlName="dob" readonly="true" #dob>
+      </div>
+      <div class="col-sm-4">
+        <label for="phone">Phone Number<sup>*</sup></label>
+        <div class="input-group">
+          <div class="input-group-prepend w-25">
+            <input type="text" class="form-control" id="countryCode" formControlName="countryCode" readonly="true">
+          </div>
+          <input type="text" class="form-control" id="phone" formControlName="phone" readonly="true">
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <span>Appointment Mode </span>
+      <label class="checkbox-inline"><input type="radio" value="Online" formControlName="appointment_type" (change)="getTimeSlots()"> Online</label>&nbsp;
+      <label class="checkbox-inline"><input type="radio" value="Offline" formControlName="appointment_type" 
+        (change)="getTimeSlots()"> Walkin</label>
+
+      <label class="checkbox-inline float-right mx-4" *ngIf="role === 'doctor' ">
+        <input type="checkbox" value="quick" formControlName="quick_book"
+         (change)="bookQuickApp($event.target.checked)">
+        Quick Book
+      </label>&nbsp;  
+    </div>
+    <div class="form-group row col-lg-12">
+      <div class="col-sm-6">
+        <label for="doctorName">Select Doctor<sup>*</sup></label>
+         <select id="doctorName" class="form-control" formControlName="doctorId" (change)="getTimeSlots()">
+            <option value="">Select</option>
+            <option value="{{ i }}" *ngFor="let doctor of doctorList; let i=index">
+              {{doctor.doctor_name}}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="isFirstFormValid('doctorId')">
+            Doctor Name is required
+        </div> 
+      </div>
+      <div class="col-sm-6">
+        <label for="appData">Date<sup>*</sup></label>
+        <input type="text" class="form-control" id="appDate" formControlName="appointment_date" (dateChange)="getTimeSlots()" placeholder="Appointment Date"
+          #appDate [matDatepicker]="picker1" (focus)="picker1.open()">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 (closed)="appDate.blur()"></mat-datepicker>
+        <div class="invalid-feedback" *ngIf="isFirstFormValid('appointment_date')">
+          Appointment Date is required
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <span>Time Slots </span>
+      <label class="checkbox-inline"><input type="radio" formControlName="slot_type" value="morning" (change)="getTimeSlots()"> Morning</label>&nbsp;
+      <label class="checkbox-inline"><input type="radio" formControlName="slot_type" value="evening" (change)="getTimeSlots()"> Evening</label>
+    </div>
+    <div class="col-lg-12" *ngIf="appointmentForm.value.doctorId && appointmentForm.value.appointment_date && !doctorHoliday">
+      <div class="card">
+        <div class="card-body" style="padding: 4px;">
+          <p>Time Slots for {{ weekday[findDay(appointmentForm.value.appointment_date)] }}</p>
+          <div class="badge badge-pill" *ngFor="let slotObj of slots; let i=index" (click)="onSelectSlot(i, slotObj.isBooked)" 
+            [ngClass]="slotObj.isBooked ? 'badge-secondary' : i === selectedSlotIndex  ? 'badge-success' : 'badge-primary'">
+            {{ slotObj.slot }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12" *ngIf="doctorHoliday">
+      <h6 class="text-center text-secondary"> Dr {{ doctorList[selectedDoctorIndex].doctor_name }} will not be available on this date.</h6>
+    </div>
+    <div class="btnGroup col-lg-12">
+      <button class="btn btn-primary" (click)="onSubmit()">Book Appointment</button>
+    </div>
+  </form>
+</div>

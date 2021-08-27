@@ -1,0 +1,202 @@
+
+<ng-container *ngIf="!billingAccountDataExist">
+  <div class="no_account_wrapper">
+    <h3 style="text-align: center;">
+      Please add billing account details
+    </h3>
+    <div class="no_account_button">
+      <button class="btn btn-primary" (click)="redirectToAccountDetails()">
+        Click
+      </button>
+    </div>
+
+  </div>
+</ng-container>
+
+<ng-container *ngIf="billingAccountDataExist">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+          <!-- Page Header -->
+          <div>
+              <h4>
+                Collections & Analytics
+              </h4>
+              <div class="row">
+                  <div class="col-md-6 mx-auto">
+                    <div echarts [options]="chartOption1" class="demo-chart"></div>
+                  </div>
+                  <div class="col-md-6 mx-auto">
+                    <div echarts [options]="chartOption2" class="demo-chart"></div>
+                  </div>
+                </div>
+          </div>
+          <div class="page-header">
+            <div class="row">
+              <div class="col-sm-12">
+                <h6 class="page-title">Offline Transactions</h6>
+                <!-- <ul class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Transactions</li>
+                </ul> -->
+              </div>
+            </div>
+          </div>
+          <!-- /Page Header -->
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-12" style="min-width: 196px !important;">
+                      <mat-form-field class="date-box">
+                        <mat-label>Choose a date</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="picker"
+                          [formControl]="transactionDate"
+                          (focus)="picker.open()"
+                          (dateChange)="getDataOnDateChange()"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-12 ">
+
+                        <ng-container *ngIf="!patientSearch">
+
+                            <input
+                              type="input"
+                              class="search-box"
+                              [(ngModel)]="searchText"
+                              placeholder="Search..."
+                            />
+                          </ng-container>
+                          <ng-container
+                            class="patient-dropdown patient-search-dropdown-wrapper"
+                            *ngIf="patientSearch"
+                          >
+                            <!-- <div class="col-sm-11 col-md-7 col-lg-9 col-11 patient_serach_div"> -->
+
+                            <input
+                              type="input"
+                              placeholder="Search Patients...."
+                              #search
+                              (keyup)="searchTerm$.next($event.target.value)"
+                              class="search-box"
+                              autofocus
+                            />
+                            <!-- <img class="patient_search_icon" src="../../assets/patient_search.svg" alt=""> -->
+                            <!--  -->
+                            <div class="dropdown-content">
+                              <ul class="list-group " *ngIf="searchResults && search.value">
+                                <li
+                                  class="list-group-item list-group-item-action"
+                                  *ngFor="let result of searchResults | slice: 0:9"
+                                >
+                                  <div
+                                    (click)="getPatientTransactionDetails(result)"
+                                    class="flex-row"
+                                  >
+                                    <span>{{ result.first_name }}</span>
+                                    <span>{{
+                                      result.contact_details[0].phone_number
+                                    }}</span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </ng-container>
+
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 input_box" >
+                        <input
+                        type="checkbox"
+                        id="patientIndividualSearch"
+                        [checked]="patientSearch"
+                        (change)="onPatientCompleteSearchChecked()"
+                      />
+                      <label for="patientIndividualSearch" style="padding: 0px 4px;">
+                        Search patient complete history</label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="table-responsive" *ngIf="transactions.length>0">
+
+                    <!-- <div class="patient-checkbox">
+
+                    </div> -->
+
+                    <table
+                      #transactionTable
+                      class="datatable table table-hover table-center mb-0"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Invoice Number</th>
+                          <th style="min-width:130px;">Patient Name</th>
+                          <th class="text-center" style="min-width:130px;">Doctor Name</th>
+                          <th class="text-center">Total Amount</th>
+                          <th class="text-center">Bill Status</th>
+                          <th class="text-center">Mode</th>
+                          <th class="text-center" style="min-width:150px;">Phone no</th>
+                          <th class="text-center" style="min-width: 120px;">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngIf="transactions">
+                          <tr
+                            *ngFor="
+                              let singleTransction of transactions
+                                | TransactionFilter
+                                  : searchText
+                                  : ['status', 'type', 'patientName','patientPhoneNo','doctorName','totalAmount','invoiceNumber']
+                                | paginate: { itemsPerPage: 20, currentPage: page }
+                            "
+                          >
+                            <td >{{ singleTransction.invoiceNumber }}</td>
+                            <td class="text-center">{{ singleTransction.patientName }}</td>
+                            <td class="text-center">
+                              {{ singleTransction.doctorName }}
+                            </td>
+                            <td class="text-center">
+                              {{ singleTransction.totalAmount }}
+                            </td>
+                            <td class="text-center">
+                              {{ singleTransction.status }}
+                              <!-- <span class="badge badge-pill bg-success inv-badge">{{
+                                singleTransction.status
+                              }}</span> -->
+                            </td>
+                            <td class="text-center">{{ singleTransction.type }}</td>
+                            <td class="text-center">
+                              {{ singleTransction.patientPhoneNo }}
+                            </td>
+                            <td class="text-right">{{ singleTransction.date }}</td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+
+                  </div>
+                  <div class="row" *ngIf="transactions.length == 0">
+                    <div class="col-sm-12">
+                        <hr>
+                        <h3 style="text-align:center;">No transactions found.</h3>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <pagination-controls (pageChange)="page = $event" class="pagination-style"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+</ng-container>
+
+

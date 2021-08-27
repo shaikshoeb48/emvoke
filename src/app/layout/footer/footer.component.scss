@@ -1,0 +1,18 @@
+/* Footer Styles */
+@media (min-width: 768px) {
+  .footer_fixed .nav-sm footer, .footer_fixed footer {
+      margin-left: 0;
+  }
+}
+footer {
+  background: #E8DAEF;
+  border-top: 1px solid #D7BDE2;
+  padding: 15px 20px;
+  display: block;
+}
+.footer_fixed footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}

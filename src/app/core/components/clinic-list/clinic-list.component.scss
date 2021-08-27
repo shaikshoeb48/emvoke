@@ -1,0 +1,52 @@
+.back_dot{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: #F3F2FF;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.back_dot_ico{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.select_clinic_box{
+    padding-top: 0px !important;
+}
+
+.list_title{
+    margin-bottom: 18px;
+}
+
+.clinic_list_row{
+    padding: 7px !important;
+    background-color: #F9FAFC;
+    margin-top: 8px;
+    border-radius: 3px;
+    border: 1px solid #F9FAFC;
+}
+
+.clinic_list_row:hover{
+    border: 1px solid #7C76FE;
+    border-radius: 3px;
+}
+
+
+.back_dot_white{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: white;
+    position: relative;
+}
+
+.back_dot_white_ico{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

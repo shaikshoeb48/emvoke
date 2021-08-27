@@ -1,0 +1,66 @@
+<div class="row main-content">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="upper-div">
+					<h5 class="float-left"><i class="fas fa-file-medical"></i><b> Vitals</b></h5>
+				</div>
+				<br><br>
+				<div class="row" *ngFor="let row_item of createRange(totalRows); let i = index">
+					<div class="col-md-3 column" *ngFor="let col_item of createRange(4); let j = index">
+						<div class="card shadow-sm mb-1 bg-white rounded" *ngIf="(j + 4*i) < numberOfVitals ">
+							<div class="card-body text-center">
+								<h6>{{ vitals[j+(4*i)].name }}</h6>
+								<div class="row">
+									<div class="col-7 no-padding-right">
+										<input class="form-control form-control-sm no-border" #vitalValue (change)="onChangeValue(j+(4*i), vitalValue.value)"
+												value="{{ vitals[j+(4*i)].value }}">
+									</div>
+									<div class="col-5 no-padding-left">
+										<select class="form-control form-control-sm no-border" [(ngModel)]="vitals[j+(4*i)].unit" #vitalUnit (change)="onChangeUnit(j+(4*i), vitalUnit.value)">
+									        <option *ngFor="let unit of vitals[j+(4*i)].units">{{ unit }}</option>
+									    </select>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- CUSTOM VITALS -->
+						<div class="card shadow-sm bg-white rounded"
+							*ngIf="(j + 4*i) >= numberOfVitals && (j + 4*i) < (numberOfVitals+numberOfCustomVitals)  && customVitals[j+(4*i)-numberOfVitals].name !== 'Add Vital' ">
+							<div class="card-body text-center">
+								<h6>{{ customVitals[j+(4*i)-numberOfVitals].name }}</h6>
+								<div class="row">
+									<div class="col-7 no-padding-right">
+										<input class="form-control form-control-sm no-border" #vitalValue (change)="onChangeCustomValue(j+(4*i), vitalValue.value)"
+												value="{{ customVitals[j+(4*i)-numberOfVitals].value }}">
+									</div>
+									<div class="col-5 no-padding-left">
+										<input class="form-control form-control-sm no-border" [value]="customVitals[j+(4*i)-numberOfVitals].unit" #vitalUnit (change)="onChangeCustomUnit(j+(4*i), vitalUnit.value)">
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- EXTRA ADD VITAL CARD -->
+						<div class="card shadow-sm bg-white rounded add_vital_card"
+						 *ngIf="(j + 4*i) >= numberOfVitals && (j + 4*i) < numberOfVitals+numberOfCustomVitals  && customVitals[j+(4*i)-numberOfVitals].name === 'Add Vital' "
+							(click)="onAddVital()"	>
+							<div class="card-body text-center">
+								<h6>{{ customVitals[j+(4*i)-numberOfVitals].name }}</h6>
+								<p><small>Click here</small></p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div>
+          <button class="btn btn-primary" mat-dialog-close >Close</button>
+					<button class="btn btn-primary float-right" (click) = "onSubmitVitals()" >Next</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

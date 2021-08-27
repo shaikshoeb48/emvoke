@@ -1,0 +1,73 @@
+.inner_wrapper{
+    padding-left: 0px;
+}
+
+.login_email_input{
+    border: none;
+    background-color: #EAEEFF !important;
+    color: #16118F;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 2px solid #7C76FE;
+}
+
+.login_email_input:focus , .login_email_input:active{
+    box-shadow: none !important;
+}
+
+
+.login_password_input{
+    border: none;
+    background-color: #EAEEFF !important;
+    color: #16118F;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 2px solid #7C76FE;
+}
+
+.login_password_input:focus , .login_password_input:active{
+    box-shadow: none !important;
+}
+
+.login_btn{
+    border: none;
+    border-radius: 0px;
+    width: 100px;
+    box-shadow: 0px 6px 18px rgb(194, 190, 255);
+}
+
+.signup_btn{
+    border: none;
+    border-radius: 0px;
+    width: 100px;
+    border: 1px solid #7C76FE;
+    color: #7C76FE;
+    
+}
+
+.signup_btn:hover{
+    background-color: #7C76FE;
+    color: white;
+}
+
+.login_tag_line{
+    font-size: 14px !important;
+}
+
+.email_headline{
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.password_headline{
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.site_main_line{
+    font-size: 22px;
+}
+
+.common_text{
+    font-size: 14px;
+}

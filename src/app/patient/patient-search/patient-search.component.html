@@ -1,0 +1,68 @@
+<div *ngIf="search" class="patient_search_body">
+  <div class="common_wrapper">
+    <div class="row justify-content-center">
+      <div class="col-sm-11 col-md-7 col-lg-9 col-11 patient_serach_div">
+        <input type="search" placeholder="Search Patients...." #search (keyup)="searchTerm$.next($event.target.value)"
+        class="patient_search_box" autofocus />
+        <img class="patient_search_icon" src="../../assets/patient_search.svg" alt="">
+        <!--  -->
+        <div class="searchList">
+          <ul class="list-group w-100" *ngIf="(searchResults && search.value) ; else noDataFound">
+            <li class="list-group-item list-group-item-action" *ngFor="let result of searchResults | slice:0:9">
+              <div (click)="getPatientDetails(result)" class="flex-row p_search_box">
+                <span>{{ result.first_name }}</span>
+                <span>{{ result.contact_details[0].phone_number }}</span>
+              </div>
+            </li>
+          </ul>
+          <!-- <ng-template #noDataFound>
+            <span class='text-muted text-center'>No Patient Found</span>
+          </ng-template> -->
+        </div>
+        <!--  -->
+      </div>
+      <div class="col-sm-11 col-11 col-md-4 col-lg-2">
+        <button class="create_patient_btn" routerLink="/patient/addpatient"><img class="create_patient_icon" src="../../assets/add_patient.svg" alt=""> Create Patient</button>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-11 col-12 col-md-12 col-lg-12 patient_banner_div">
+        <img class="patient_search_banner" src="../../assets/patient_record_banner.svg" alt="">
+      </div>
+    </div>
+  </div>
+  <!-- <mat-card-content class="flex-row">
+    <span class="w-100">
+      <input type="search" placeholder="Search Patients...." #search (keyup)="searchTerm$.next($event.target.value)"
+        class="w-50" autofocus />
+      <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+      <div class="searchList">
+        <ul class="list-group w-50" *ngIf="(searchResults && search.value) ; else noDataFound">
+          <li class="list-group-item list-group-item-action" *ngFor="let result of searchResults | slice:0:9">
+            <div (click)="getPatientDetails(result)" class="flex-row">
+              <span>{{ result.first_name }}</span>
+              <span>{{ result.contact_details[0].phone_number }}</span>
+            </div>
+          </li>
+        </ul>
+        <ng-template #noDataFound>
+          <span class='text-muted text-center'>No Patient Found</span>
+        </ng-template>
+      </div>
+    </span>
+  </mat-card-content>  -->
+</div>
+<!-- <div *ngIf="!search">
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="text-muted" (click)="goBack()">
+            &#60; Back</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+      <app-patient-details [patientDetails]="patientResult"></app-patient-details>
+    </div>
+</div> -->

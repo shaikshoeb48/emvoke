@@ -1,0 +1,111 @@
+<!-- div class="middle_section">
+    <div class="container">
+        <div class="row">   -->
+            <div class="col-sm-12 common_div_padding">
+                <div class="upper_box_wrapper">
+                    <div class="upper_box">
+                        <button class="collapsible" (click)="toggle()" *ngIf="currentClass">
+                            <span style="display: inline-block;">Diagnosis</span><br>
+                            <span class="badge badge-pill badge-primary mr-2" *ngFor="let diagnosis of selectedSymptoms" style="color: white">
+                                {{ diagnosis.term }}
+                            </span>
+                        </button>
+                        <div class="container " [ngClass]="currentClass">
+                            <div class="row upper_box_hr">
+                                <div class="col-sm-4 p-2 upper_box_heading_row"  (click)="toggle()" style="cursor: pointer;">
+                                    <label for=""><img width="32px" src="assets/up_mid.svg" alt=""></label>
+                                    <label for=""><p class="upper_box_heading">Diagnosis</p></label>
+                                </div>
+                                <div class="col-sm-8 upper_box_heading_row_search">
+                                    <label style="position: relative;" for="">
+                                        <img class="search_loader" id="loader_diagnosis_id" src="assets/loader.gif" alt="loader">
+                                        <input type="text" class="upper_box_search" 
+                                                #symptomValue placeholder="Search" (keyup)="searchSymptom(symptomValue.value)">
+                                        <i class="fa fa-search upper_box_search_icon"  aria-hidden="true"></i>
+                                    </label>
+                                    
+                                    <small class="add_symptom" *ngIf="noSearch" (click)="addSymptom(symptomValue.value)">+Add</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="added_pill" for="Dandruff" *ngFor="let symptom of selectedSymptoms; let i=index">
+                                        <p class="pill_text" (click)="setSymptom(i)">{{ symptom.term }}</p>
+                                        <img class="cross_icon" src="assets/cross.svg" (click)="removeSymptom(i)">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="symptoms.length === 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let symptom of displaySymptoms; let i=index" (click)="selectSymptom(i)">
+                                        <p class="pill_text">{{ symptom.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row not_added_pill_row" *ngIf="symptoms.length !== 0">
+                                <div class="col-sm-12">
+                                    <label class="not_added_pill" *ngFor="let symptom of symptoms; let i=index" (click)="selectSymptom(i)">
+                                        <p class="pill_text">{{ symptom.term }}</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center" *ngIf="noSearch">
+                                <h6>No search Found</h6>
+                            </div>
+                            <div class="row" style="padding-top: 10px; padding-bottom: 14px;">
+                                <div class="col-sm-12" style="text-align: right;">
+                                    <button class="btn btn-primary btn-sm" (click)="onSubmit()">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="right_nav" *ngIf="showRight && selectedSymptoms.length">
+                <div class="right_nav_wrapper">
+                    <div class="row">
+                        <p class="textarea_heading_dynamic text-center" *ngIf="currentSymptomIndex >= 0 && selectedSymptoms.length">
+                            {{ selectedSymptoms[currentSymptomIndex].term }}
+                        </p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Prescription Notes</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3"
+                                     value="{{ symptomsOption[currentSymptomIndex].notes }}"
+                                      (change)="addNotes($event.target.value)">
+                                        
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="textarea_heading">Doctor Notes</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea class="lower_text_area" rows="3" ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- </div>
+    </div>
+</div> -->

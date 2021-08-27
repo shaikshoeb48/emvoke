@@ -1,0 +1,621 @@
+<div class="modal-header" *ngIf="roleBasedForm">
+    <h5 class="modal-title " id="exampleModalCenterTitle">Clinic Profile</h5>
+    <button type="button" (click)="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<mat-dialog-content>
+    <div class="modal-body edit_profile_m_body" *ngIf="roleBasedForm">
+        <!-- testttttttttttttttttt -->
+        <div class="container" style="padding: 0px;">
+            <div class="row profile">
+                <div class="col-md-3 edit_profile_m_sidenav">
+                    <div class="profile-sidebar">
+                        <div class="profile-userpic ">
+                            <app-file-upload></app-file-upload>
+                        </div>
+
+                        <!----   <div class="profile-userpic">
+              <span class="edit_profile_dot"><img class="profile_cam_icon" src="assets\profile_cam_icon.svg"
+                  alt=""></span>
+                  
+            </div>    -->
+                        <div class="profile-usertitle row justify-content-center">
+                            <div class="profile-usertitle-name ">
+                                <button class="btn btn-primary profile_upload_btn" (click)="onClick()">Upload</button>
+                            </div>
+                            <!-- <div class="profile-usertitle-job ">
+                                <button class="profile_delete_btn"><img src="assets\profile_delete.svg" alt=""></button>
+                            </div> -->
+                        </div>
+                        <!-- END SIDEBAR BUTTONS -->
+                        <!-- SIDEBAR MENU -->
+                        <div class="profile-usermenu">
+                            <!--      <ul class="nav edit_profile_link_side">
+                <li class="active" >
+                  <a (click)="EnableAdditional()" >
+                    General Information </a>
+                </li>
+               <li >
+                  <a   (click)="EnableGeneral()"> 
+                    Additional Information </a>
+                </li> 
+              </ul> -->
+                        </div>
+
+                        <!-- END MENU -->
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="profile-content">
+                        <!--*ngIf="!formEnable"-->
+                        <!--  -->
+                        <div class="row sticky-top bg-white p-2" style="border-bottom: 1px solid #dfdfdf;">
+                            <div class="col-sm-6  " style="color: #000000;">
+                                Clinic Information
+                            </div>
+                            <div class="col-sm-6" style="text-align:right;">
+                                <!-- <button class="profile_upload_btn profile_upload_btn_color">Save</button> -->
+                                <button *ngIf="editEnable" class="profile_upload_btn" (click)="enableFields()">Edit</button>
+                                <button *ngIf="!editEnable" class="profile_upload_btn" (click)="disableFields()">Cancel</button>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="l_name">Email</label><br>
+                                <input disabled *ngIf="clinicDetails" (change)="updateClinicFields($event)" class="upload_p_common_input" type="text" name="email" [(ngModel)]="clinicDetails.email">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="l_name">Reception Email</label><br>
+                                <input disabled *ngIf="clinicDetails" class="upload_p_common_input" type="text" name="email" [(ngModel)]="clinicDetails.reception.email">
+                            </div>
+                           
+                        </div>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="f_name">Speciality</label><br>
+                                <input [disabled]="editEnable" (change)="updateClinicFields($event)" class="upload_p_common_input" type="text" name="speciality" *ngIf="clinicDetails" [(ngModel)]="clinicDetails.speciality">
+                            </div>
+                            
+                        </div>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="f_name">Clinic name</label><br>
+                                <input *ngIf="clinicDetails" [disabled]="editEnable" class="upload_p_common_input" type="text" name="name" (change)="updateClinicFields($event)" [(ngModel)]="clinicDetails.name">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="l_name">Address</label><br>
+                                <input [disabled]="editEnable" (change)="updateClinicFields($event)" class="upload_p_common_input" type="text" name="address" *ngIf="clinicDetails" [(ngModel)]="clinicDetails.address">
+                            </div>
+                            <!-- <div class="col-sm-6">
+                                <label class="f_name_c" for="f_name">Phone number</label><br>
+                                <input [disabled]="editEnable" (change)="updateClinicFields($event)" class="upload_p_common_input" type="text" name="phone_number" *ngIf="clinicDetails" [(ngModel)]="clinicDetails.phone_number">
+                            </div> -->
+                            
+                        </div>
+                        <hr>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-sm-12">
+                                <label for="medicalPraciceDet">Contact Details
+                  <button class="btn btn-primary btn-sm m-1" type="button" (click)="addClinicContact()">+</button>
+                </label>
+                                <div *ngFor="let details of clinicDetails?.contact_details; let i = index;">
+                                    <div class="flex-row mb-1">
+                                        <select [value]="details.phone_type" [disabled]="editEnable" class="upload_p_common_input1" id="phone_type" name="phone_type" #phone_Type (change)="updateClinicContactDet(phone_Type.value,i,'phone_type')">
+                      <!-- <option value="{{details.phone_type}}">{{details.phone_type | titlecase}}</option>
+                      <option value="{{type.value}}" *ngFor="let type of phoneTypes">
+                        {{type.name}}
+                      </option>  -->
+                      <option value="mobile">Mobile</option>
+                      <option value="telephone">Telephone</option>
+                                        </select>
+                                        <select id="cntyCode" value="{{details.country_code}}" [disabled]="editEnable" class="upload_p_common_input1" id="cntyCode" name="cntyCode" #CountryCode (change)="updateClinicContactDet(CountryCode.value,i,'country_code')">
+                        <!-- <option value="{{details.country_code}}">{{details.country_code}}</option>
+                        <option value="{{code.value}}" *ngFor="let code of CountryCodes">
+                          {{code.name}}
+                        </option>  -->
+                        <option value="+91">+91</option>
+                        <option value="+90">+90</option>  
+                        <option value="+99">+99</option>
+                      </select>
+
+                                        <input type="text" class="upload_p_common_input" (change)="updateClinicContactDet(phone_number.value,i,'phone_number')" name="phone_number" #phone_number value="{{details.phone_number}}" [disabled]="editEnable">
+
+
+                                        <button class="btn btn-danger" type="button" (click)="removeClinicContactDet(i)">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-sm-12" *ngIf="clinicDetails">
+                                <label for="socialHandle">Social Handles
+                                    <button class="btn btn-primary btn-sm m-1" type="button" (click)="addClinicSocialHandles()">+</button>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div *ngFor="let details of clinicDetails?.social_handle;let i = index;">
+                                    <div class="row" style="margin-bottom: 8px;">
+                                        <div class="col-sm-5">
+                                            <label class="f_name_c" for="l_name">Name</label><br>
+                                            <input type="text" *ngIf="details" class="upload_p_common_input" value="{{details.name}}" #name (change)="updateClinicSocialHandles(name.value,i,'name')" [disabled]="editEnable">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <label class="f_name_c" for="l_name">Url</label><br>
+                                            <input type="text" *ngIf="details" value="{{details.url_handle}}" class="upload_p_common_input" #url_handle (change)="updateClinicSocialHandles(url_handle.value,i,'url_handle')" [disabled]="editEnable">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button style="margin-top: 22px;" class="btn btn-danger" type="button" (click)="removeClinicSocialHandles(i)">-</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- testttttttttttttt -->
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" *ngIf="roleBasedForm">
+    <button type="button" (click)="updateClinicDetails()" [disabled]="editEnable" class="btn btn-primary">Save</button>
+
+</mat-dialog-actions>
+
+
+
+<!--------------****------------------Doctor profile starts-------------------------***------------------>
+
+
+<div class="modal-header" *ngIf="!roleBasedForm">
+    <h5 class="modal-title " id="exampleModalCenterTitle">Profile</h5>
+    <button type="button" (click)="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<mat-dialog-content>
+
+    <div class="modal-body edit_profile_m_body" *ngIf="!roleBasedForm">
+        <!-- testttttttttttttttttt -->
+        <div class="container" style="padding: 0px;">
+            <div class="row profile">
+                <div class="col-md-3 edit_profile_m_sidenav">
+                    <div class="profile-sidebar">
+                        <div class="profile-userpic">
+                            <app-file-upload></app-file-upload>
+                            <!--
+                                 <span class="edit_profile_dot"><img class="profile_cam_icon" src="profile_cam_icon.svg" alt=""></span>
+                             -->
+                        </div>
+                        <div class="profile-usertitle row justify-content-center">
+                            <div class="profile-usertitle-name">
+                                <button class="profile_upload_btn" (click)="onClick()">Upload</button>
+                            </div>
+                            <!-- <div class="profile-usertitle-job">
+                                <button class="profile_delete_btn"><img src="assets\profile_delete.svg" alt=""></button>
+                            </div> -->
+                        </div>
+                        <!-- END SIDEBAR BUTTONS -->
+                        <!-- SIDEBAR MENU -->
+                        <div class="profile-usermenu">
+                            <ul class="nav edit_profile_link_side">
+                                <li [ngClass]="FirstFormEnable ? 'active': ''">
+                                    <a (click)="EnableGeneral()">
+                    General Information </a>
+                                </li>
+                                <li [ngClass]="SecondFormEnable ? 'active': ''">
+                                    <a (click)="EnableEducational()">
+                    Educational Information </a>
+                                </li>
+                                <li [ngClass]="ThirdFormEnable ? 'active': ''">
+                                    <a (click)="EnableAdditional()">
+                    Additional Information </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END MENU -->
+                    </div>
+                </div>
+
+                <!--  General info starts here -->
+
+                <div class="col-md-9" *ngIf="FirstFormEnable">
+
+                    <div class="row sticky-top bg-white p-3" style="border-bottom: 1px solid #dfdfdf;">
+                        <div class="col-sm-6" style="color: #000000;">
+                            General Information
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+
+                            <button *ngIf="editEnable" class="profile_upload_btn" (click)="enableFields()">Edit</button>
+                            <button *ngIf="!editEnable" class="profile_upload_btn" (click)="disableFields()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <form [formGroup]="formOneGrp">
+
+                        <div class="row form-group" style="margin-top:15px">
+                            <div class="col-sm-6">
+                                <label for="email" class="f_name_c">Email</label><br>
+                                <input type="email" name="email" class="upload_p_common_input " disabled id="email" *ngIf="drDetails" [ngModelOptions]="{standalone: true}" [(ngModel)]="drDetails.email">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="gender" class="f_name_c">Gender</label><br>
+                                <select [disabled]="editEnable"  class="upload_p_common_input1" id="gender" name="gender" >
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group" style="margin-top:15px">
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="f_name">First Name</label><br>
+                                <input (change)="updateDrFields($event)" class="upload_p_common_input " type="text" name="first_name" *ngIf="drDetails" value="first_name" id="first_name" formControlName="first_name" [(ngModel)]="drDetails.first_name">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="middle_name f_name_c" for="middle_name">Middle Name</label><br>
+                                <input (change)="updateDrFields($event)" class="upload_p_common_input" type="text" name="middle_name" *ngIf="drDetails" value="middle_name" id="middle_name" formControlName="middle_name" [(ngModel)]="drDetails.middle_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="margin-top:20px">
+                            <div class="col-sm-6">
+                                <label class="f_name_c" for="l_name">Last Name</label><br>
+                                <input (change)="updateDrFields($event)" class="upload_p_common_input " type="text" name="last_name" *ngIf="drDetails" value="last_name" id="last_name" formControlName="last_name" [(ngModel)]="drDetails.last_name">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="dob" class="f_name_c">Date of Birth</label><br>
+                                <input type="text" class="upload_p_common_input " name="date_of_birth" id="date_of_birth" formControlName="date_of_birth" *ngIf="drDetails" [(ngModel)]="drDetails.date_of_birth" #input [matDatepicker]="picker" (dateChange)="updateDrFields('date_of_birth')"
+                                    (focus)="picker.open()">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </div>
+
+                        </div>
+                        <div class="row form-group " style="margin-top:20px">
+                            <div class="col-sm-6">
+                                <label for="yearofexp" class="f_name_c">Years of Experience</label>
+                                <input type="text" class="upload_p_common_input " (change)="updateDrFields($event)" id="years_of_experience" name="years_of_experience" formControlName="years_of_experience" *ngIf="drDetails" [(ngModel)]="drDetails.years_of_experience">
+                            </div>
+                            <div class="col-sm-6">
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="medicalPraciceDet">Contact Details
+                  <button class="btn btn-primary btn-sm m-1" type="button" (click)="addContact()">+</button>
+                </label>
+                                <div *ngFor="let details of drDetails?.contact_details; let i = index;">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <select [disabled]="editEnable" [value]="details.phone_type" class="upload_p_common_input1" id="phone_type" name="phone_type" #phone_Type (change)="updateContactDet(phone_Type.value,i,'phone_type')">
+                                                <option value="mobile">Mobile</option>
+                                                <option value="telephone">Telephone</option>
+                                            <!-- <option value="{{details.phone_type}}">{{details.phone_type}}</option>
+                                            <option value="{{type.value}}" *ngFor="let type of phoneTypes">
+                                                {{type.name}}
+                                            </option>  -->
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select id="cntyCode" [value]="details.country_code" [disabled]="editEnable" class="upload_p_common_input1" id="cntyCode" name="cntyCode" #CountryCode (change)="updateContactDet(CountryCode.value,i,'country_code')">
+                                                <option value="+91">+91</option>
+                                                <option value="+90">+90</option>  
+                                                <option value="+99">+99</option>
+                                                <!-- <option value="{{details.country_code}}">{{details.country_code}}</option>
+                                                <option value="{{code.value}}" *ngFor="let code of CountryCodes">
+                                                {{code.name}}
+                                                </option>  -->
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="upload_p_common_input" (change)="updateContactDet(phone_number.value,i,'phone_number')" name="phone_number" #phone_number value="{{details.phone_number}}" [disabled]="editEnable">
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-danger" type="button" (click)="removeContactDet(i)">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="from-group row" style="margin-top:20px">
+                            <div class="col-sm-12">
+                                <label class="bio f_name_c" for="bio">Bio</label><br>
+                                <textarea class="upload_p_common_input" type="text" *ngIf="drDetails" (change)="updateDrFields($event)" value="bio" name="bio" id="bio" formControlName="bio" [(ngModel)]="drDetails.bio">
+                </textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!--generel info ends here  -->
+
+
+                <!-- ** Additional info starts here ** -->
+
+                <div class="profile-content col-md-9" *ngIf="SecondFormEnable">
+
+                    <div class="row sticky-top bg-white p-3" style="border-bottom: 1px solid #dfdfdf;">
+                        <div class="col-sm-6" style="color: #000000;">
+                            Educational Information
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+
+                            <button *ngIf="editEnable" class="profile_upload_btn" (click)="enableFields()">Edit</button>
+                            <button *ngIf="!editEnable" class="profile_upload_btn" (click)="disableFields()">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <form [formGroup]="formOneGrp">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="educationDet">Education Details
+                                    <button class="btn btn-primary btn-sm m-1" type="button" (click)="addEducationDet()">+</button>
+                                </label>
+                            </div>
+                        </div>
+
+                            <div *ngFor="let details of drDetails.education_details; let i=index" style="padding: 5px;margin-bottom: 15px;">
+                                <!-- <div class="row"> -->
+                                    <div class="row" style="margin-bottom: 8px;">
+                                        <div class="col-sm-6">
+                                            <label class="f_name_c" for="l_name">College</label><br>
+                                            <input type="text" class="upload_p_common_input" (change)="updateEduDet(college.value,i,'college')" name="college" #college value="{{details.college}}" [disabled]="editEnable">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="f_name_c" for="l_name">University</label><br>
+                                            <input type="text" class="upload_p_common_input" (change)="updateEduDet(university.value,i,'university')" name="university" #university value="{{details.university}}" [disabled]="editEnable">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 8px;">
+                                        <div class="col-sm-6">
+                                            <label class="f_name_c" for="l_name">Degree</label><br>
+                                            <input type="text" class="upload_p_common_input" (change)="updateEduDet(degree.value,i,'degree')" name="degree" #degree value="{{details.degree}}" [disabled]="editEnable">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="f_name_c" for="l_name">Year Of Passing</label><br>
+                                            <input type="text" class="upload_p_common_input" (change)="updateEduDet(passing_year.value,i,'passing_year')" (change)="onChange($event,'years_of_experience')" name="passing_year" #passing_year value="{{details.passing_year}}" [disabled]="editEnable">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 8px;">
+                                        <div class="col-sm-6">
+                                            <label class="f_name_c" for="l_name">Specialization</label><br>
+                                            <input type="text" class="upload_p_common_input" (change)="updateEduDet(specialization.value,i,'specialization')" name="specialization" #specialization value="{{details.specialization}}" [disabled]="editEnable">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="f_name_c" for="l_name">Address</label><br>
+                                            <input type="text" class="upload_p_common_input" (change)="updateEduDet(address.value,i,'address')" name="address" #address value="{{details.address}}" [disabled]="editEnable">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 8px;">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-danger" (click)="removeEduDet(i)" type="button">-</button>
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                        <!-- </div>
+                        </div> -->
+                        <hr>
+
+
+                        <div class="row form-group " style="margin-top:20px;margin-bottom: 30px;">
+                            <div class="col-sm-6">
+                                <label for="speciality">Speciality</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="speciality" *ngIf="drDetails" [ngModelOptions]="{standalone: true}" name="speciality" [(ngModel)]="drDetails.speciality">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="specialization">Specialization</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="specialization" *ngIf="drDetails" [ngModelOptions]="{standalone: true}" name="specialization" [(ngModel)]="drDetails.specialization">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="medicalPraciceDet">Medical Practice Details
+                  <button class="btn btn-primary btn-sm m-1" type="button" (click)="addMedPracDet()">+</button>
+                </label>
+                                <div *ngFor="let details of drDetails.registration_details; let i = index;">
+                                    <div class="row" style="margin-bottom: 8px;">
+                                        <div class="col-sm-4">
+                                            <select id="council" class="upload_p_common_input1" id="council" name="council" #council (change)="updateRegDet(council.value,i,'council')">
+                                                <option value="{{details.council}}">{{details.council}}</option>
+                                                <option value="{{mcouncil.value}}" *ngFor="let mcouncil of mcouncils">
+                                                  {{mcouncil.name}}
+                                                </option>
+                                              </select>
+                                        </div>
+                                       <div class="col-sm-4">
+                                        <input type="text" class="upload_p_common_input1" id="number" name="number" (change)="updateRegDet(number.value,i,'number')" #number placeholder="Medical No." value="{{details.number}}">
+                                       </div>
+                                        <div class="col-sm-3">
+                                            <input class="upload_p_common_input1" type="" id="date" name="date" placeholder="dd/mm/yyyy" (dateChange)="updateRegDet(date.value,i,'date')" #date value="{{details.date}}" [matDatepicker]="mpicker" (focus)="mpicker.open()">
+                                            <mat-datepicker-toggle matSuffix [for]="mpicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #mpicker></mat-datepicker>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button class="btn btn-danger" type="button" (click)="removeRegDet(i)">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label for="">Experience
+                                            <button class="btn btn-primary btn-sm m-1" type="button">+</button>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="speciality">Hospital Name</label><br>
+                                        <input type="text" class="upload_p_common_input" disabled id="">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="specialization">From</label><br>
+                                        <input type="text" class="upload_p_common_input" disabled id="">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="speciality">To</label><br>
+                                        <input type="text" class="upload_p_common_input" disabled >
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="specialization">Designation</label><br>
+                                        <input type="text" class="upload_p_common_input" disabled >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-sm-6">
+                                <label for="speciality">Hospital Name</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="specialization">From</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="speciality">To</label><br>
+                                <input type="text" class="upload_p_common_input" disabled >
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="specialization">Designation</label><br>
+                                <input type="text" class="upload_p_common_input" disabled >
+                            </div>
+                        </div> -->
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="">Awards
+                                    <button class="btn btn-primary btn-sm m-1" type="button">+</button>
+                                  </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="speciality">Awards</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="specialization">Year</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="">Memberships
+                                    <button class="btn btn-primary btn-sm m-1" type="button">+</button>
+                                  </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="speciality">Memberships</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="">Registrations
+                                    <button class="btn btn-primary btn-sm m-1" type="button">+</button>
+                                  </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="speciality">Registrations</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="specialization">Year</label><br>
+                                <input type="text" class="upload_p_common_input" disabled id="">
+                            </div>
+                        </div>
+                        <hr>
+                    </form>
+                    <!-- </div>
+            </div> -->
+                </div>
+                <!-- Additional info ends here -->
+                <div class="profile-content col-md-9" *ngIf="ThirdFormEnable">
+                    <div class="row sticky-top bg-white p-3" style="border-bottom: 1px solid #dfdfdf;">
+                        <div class="col-sm-6" style="color: #000000;">
+                            Additional Information
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;">
+
+                            <button *ngIf="editEnable" class="profile_upload_btn" (click)="enableFields()">Edit</button>
+                            <button *ngIf="!editEnable" class="profile_upload_btn" (click)="disableFields()">Cancel</button>
+                        </div>
+                    </div>
+                    
+                        <!-- <div class="col-sm-12"> -->
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                                <label for="socialHandles">Social Handles
+                            <button class="btn btn-primary btn-sm m-1" type="button" (click)="addSocialHandles()">+</button>
+                            </label>
+                                    </div>
+                                </div>
+                                                <div *ngFor="let details of drDetails?.social_handles;let i = index;">
+                                                    <div class="row" style="margin-bottom: 8px;">
+                                                        <div class="col-sm-5 ">
+                                                            <label for="specialization">Name</label><br>
+                                                            <input type="text" class="upload_p_common_input" (change)="updateSocialHandles(name.value,i,'name')" id="name" name="name" #name value="{{details.name}}" [disabled]="editEnable">
+                                                        </div>
+                                                        <div class="col-sm-5 ">
+                                                            <label for="specialization">Url</label><br>
+                                                            <input type="text" class="upload_p_common_input" id="url_handle" (change)="updateSocialHandles(url_handle.value,i,'url_handle')" name="url_handle" #url_handle value="{{details.url_handle}}" [disabled]="editEnable">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <button style="margin-top: 28px;" class="btn btn-danger" type="button" (click)="removeSocialHandles(i)">-</button>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            
+                                    <!-- </div>
+                                </div> -->
+                            </form>
+                        
+                    <!-- </div> -->
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <!-- testttttttttttttt -->
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" *ngIf="!roleBasedForm" style="border-bottom: 1px solid #dfdfdf;">
+    <button type="button" (click)="updateDrDetails()" [disabled]="editEnable" class="btn btn-primary">Save</button>
+    <!--[disabled]="editEnable"-->
+</mat-dialog-actions>

@@ -1,0 +1,653 @@
+  
+  .dropdown{
+    max-height: 100px ;
+    width: 110% ;
+    background-color: #f6f6f6;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+    padding: 4px ;
+    border-radius: 2px ;
+    position: absolute;
+  }
+
+  .dropdown p{
+    cursor: pointer;
+  }
+
+  .row_link_medical_history{
+    color: #100C74;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: #FAF1E2;
+    height: 50px;
+}
+
+.dot {
+    height: 38px;
+    width: 38px;
+    background-color: #FEAB3F;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    margin-top: 6px;
+  }
+
+  .medical_history_icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 20px;
+}
+
+.medical_history_text{
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0px;
+    margin: 0px;
+    padding-top: 7px;
+    padding-bottom: 12px;
+    color: #FEAB3F;
+    margin-left: 4px;
+}
+
+.add_medical_history_text{
+    font-weight: 400;
+    font-size: 11px;
+    padding-top: 18px;
+    padding-bottom: 0px;
+    color: #A5A5A5;
+    margin-left: 4px;
+}
+
+  .profile {
+    margin: 20px 0;
+  }
+  
+  /* Profile sidebar */
+  .profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+
+  }
+  
+  .profile-userpic {
+      text-align: center;
+    /* float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important; */
+  }
+  
+  .profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  
+  .profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+  }
+  
+  .profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+  }
+      
+  .profile-usermenu {
+    margin-top: 30px;
+    width: 198px;
+  }
+  
+  .profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+  }
+  
+  .profile-usermenu ul li:last-child {
+    border-bottom: none;
+  }
+  
+  /* .profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+  } */
+  
+  .profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+  }
+  
+  .profile-usermenu ul li a:hover {
+    background-color: #F8F7FF;
+    color: #100C74;
+    width: 196px;
+  }
+  
+  .profile-usermenu ul li.active {
+    border-bottom: none;
+  }
+  
+  .profile-usermenu ul li.active a {
+    color: #100C74;
+    background-color: #F8F7FF;
+    border-left: 2px solid #100C74;
+    margin-left: -2px;
+    width: 198px;
+  }
+  
+  /* Profile Content */
+  .profile-content {
+    background: #fff;
+    min-height: 460px;
+  }
+
+
+  .edit_profile_dot {
+    height: 75px;
+    width: 75px;
+    background-color: #F8F7FF;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .profile_cam_icon{
+      width: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+  }
+
+  .edit_profile_m_body{
+      padding: 0px;
+  }
+
+  .edit_profile_m_sidenav{
+      border-right: 1px solid #CFCFCF;
+      padding: 2px;
+  }
+
+  .profile_upload_btn{
+    border: none;
+    background-color: #F8F7FF;
+    border-radius: 4px;
+    color: #100C74;
+    height: 28px;
+    font-size: 14px;
+    width: 78px;
+    margin-right: 6px;
+  }
+  .profile_delete_btn{
+    border: none;
+    background-color: #FEF5F6;
+    border-radius: 4px;
+    height: 28px;
+    width: 32px;
+  }
+
+  .edit_profile_link_side {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 180px;
+    background-color: #ffffff;
+  }
+  
+  .edit_profile_link_side li a {
+    display: block;
+    padding: 8px 10px;
+    text-decoration: none;
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  .edit_profile_link_side li a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: #555;
+    color: #100C74;
+  }
+
+.f_name_c{
+    margin: 0px;
+    font-size: 14px;
+    color: #7C7C7C;
+}
+
+.upload_p_common_input , .upload_p_contact_input{
+    width: 100%;
+    border: none;
+    background-color: #F8F8FC;
+    padding: 4px 8px 6px 8px;
+    border-radius: 4px;
+}
+
+// .upload_p_contact_input{
+//     width: 100%;
+//     border: none;
+//     border-bottom: 1px solid #907DFB;
+// }
+
+
+// -----------------------------
+
+
+.detail_section_top_1{
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 26px;
+  box-shadow: 0px 0px 30px rgb(248, 248, 248);
+}
+
+.detail_section_main_wrapper{
+  padding-left: 40px;
+  padding-right: 12px;
+}
+
+.profile_info{
+  padding: 0px !important;
+}
+
+.detail_section_top_1_1, .detail_section_top_1_2{
+  padding-top: 10px;
+}
+
+.detail_label{
+  color: #9EA9B8;
+  font-weight: 400 !important;
+  font-weight: 400!important;
+  font-size: 14px;
+}
+
+.doc_info{
+  color: #333748;
+  font-size: 14px;
+}
+
+.prescription_outer_card{
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 26px;
+  box-shadow: 0px 0px 30px rgb(248, 248, 248);
+  padding-bottom: 14px
+}
+
+.circle-ripple {
+  position: absolute;
+  top: 19px;
+  left: 18px;
+  background-color: #7C76FE;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  -webkit-animation: ripple 2s linear infinite;
+          animation: ripple 2s linear infinite;
+}
+
+
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 #F8F7FF;
+  }
+  100% {
+    box-shadow: 0 0 0 8px #F8F7FF;
+  }
+}
+
+.pre_under_text{
+  padding:0px;
+  margin: 0px;
+  font-size: 14px;
+  color: #505155;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.card_custom_color{
+  background-color: #F8F8FC !important;
+}
+
+.card-body{
+  padding: 10px 26px 10px 10px ;
+}
+
+.old_prescription_name{
+  font-size: 14px;
+  color: #100C74;
+  font-weight: 500;
+}
+
+.old_prescription_note{
+  font-size: 14px;
+  color: #505155;
+  font-weight: 400;
+}
+
+.all_data_tabs{
+  font-size: 14px;
+  color: #525254;
+}
+
+.all_data_box{
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 26px;
+  box-shadow: 0px 0px 30px rgb(248, 248, 248);
+  // padding-left: 10px;
+  // padding-right: 20px;
+}
+
+.all_data_common_pad{
+  padding-left: 12px;
+  padding-right: 14px;
+  padding-bottom: 16px;
+}
+
+.all_data_right{
+  // padding-right: 30px;  
+  // padding-left: 20px;
+  margin:0px;
+  padding: 0px;
+}
+
+
+@media only screen and (max-width: 768px){
+  .all_data_right{ 
+    padding-left: 0px;
+  }
+  .upload_p_common_input , .upload_p_contact_input{
+    margin-bottom: 12px;
+}
+}
+
+
+
+// .nav-sm .p_detail_profile {
+//   display: block;
+// }
+
+.p_detail_profile_pic {
+  // width: 35%;
+  // float: left;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.medical_history_text_appoint{
+  color: #505155;
+  font-weight: 600;
+}
+
+
+.dot_appoint{
+  height: 28px;
+  width: 28px;
+  background-color: #F8F7FF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+.per_appointment_card{
+  width: 100%;
+  min-height: 100px;
+  background-color: #F8F8FC;
+  border-radius: 4px;
+  margin-top: 10px;
+  padding: 8px;
+}
+
+
+.pre_app_time{
+  font-size: 14px;
+}
+
+.pre_app_btn{
+  border: none;
+  background-color: white;
+  color: #000000;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-left: 6px;
+}
+
+
+.dot_appoint_inner{
+  height: 10px;
+  width: 10px;
+  background-color: #7C76FE;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.p_detail_avatar_dot{
+  height: 70px;
+  width: 70px;
+  background-color: #F8F7FF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+
+
+.p_detail_avatar_inner_dot_non_logo{
+  height: 38px;
+  width: 38px;
+  display: inline-block;
+  position: absolute;
+  top: 52%;
+  left: 55%;
+  transform: translate(-50%,-50%);
+}
+
+.p_detail_profile_info {
+  text-align: center !important;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 0px 18px 0px;
+  width: 100%;
+  span {
+    font-size: 13px;
+    color: #100C74;
+    padding-bottom: 3px;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 14px;
+    color: #100C74;
+    margin: 0;
+    font-weight: 400;
+  }
+  label {
+    font-size: 14px;
+    color: #100C74;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+.check_ico{
+    width: 31.9px;
+    height: 33.2px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 28px;
+}
+
+.check i{
+    color: green;
+    font-size: 1.4rem;
+}
+
+.search_loader{
+    width: 22px;
+    margin-right: 10px;
+    margin-top: -4px;
+    position: absolute;
+    top: 18px;
+    left: -32px;
+  }
+
+
+
+
+
+
+
+
+
+  // latest design changes
+
+  .patient_profile_page{
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .pp_card{
+    width: 100%;
+    height: 120px;
+    background-color: white;
+    box-shadow: 0px 0px 20px #f6f5ff;
+    border-radius: 4px;
+  }
+
+  .pp_ico_box{
+    width: 50px;
+    height: 50px;
+    background-color: #70D5B0;
+    border-radius: 3px;
+    position: relative;
+    margin: 0px;
+    // margin-left: 18px;
+    margin-top: 14px;
+  }
+
+  .pp_ico_img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 34px;
+  }
+
+  .pp_name_wrapper{
+    padding-left: 16px;
+    padding-top: 10px;
+  }
+
+  .pp_name{
+    color: #333748;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0px;
+  }
+
+  .pp_gender{
+    margin: 0px;
+    margin-left: 6px;
+  }
+
+  .pp_book_btn{
+    border: none;
+    background-color: #7C76FE;
+    color: white;
+    padding: 6px 24px;
+    margin-top: 22px;
+    border-radius: 3px;
+  }
+
+  .pp_unber_detail img{
+    width: 18px;
+  }
+
+  .pp_unber_detail label{
+    margin: 0px;
+    margin-left: 10px;
+  }
+
+  .pp_unber_detail{
+    margin-right: 20px;
+    border-right: 1px solid #E8E8E8;
+    padding-right: 20px;
+  }
+
+  .pp_call_to_action_row{
+    margin-top: 20px;
+    margin-bottom: 24px;
+  }
+
+  .pp_all_btn_wrapper button{
+    border: 1px solid #d4d4d4;
+    background-color: white;
+    color: #505155;
+    margin-right: 10px;
+    padding: 5px 18px;
+    border-radius: 2px;
+  } 
+
+  .pp_full_area{
+    width: 100%;
+    height: 500px;
+    // background-color: white;
+    // box-shadow: 0px 0px 20px #f6f5ff;
+    border-radius: 4px;
+    // margin-top: 20px;
+  }
+
+  .pp_pre_appointment{
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px #f6f5ff;
+  }
+
+  .pp_prev_consult_card{
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px #f6f5ff;
+    width: 100%;
+    min-height: 200px;
+    margin-bottom: 14px;
+  }
